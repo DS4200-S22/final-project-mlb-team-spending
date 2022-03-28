@@ -82,8 +82,6 @@ d3.csv("data/MLB_Data_Cleaned.csv").then((data) => {
 
     // Add the line
     svg1.append("path")
-      //.attr("transform", `translate(500, 100)`) 
-      //.attr("transform", `translate(${margin.left}, 0)`) 
       .datum(data.filter((d) => { return d.Team == "ATL"; }))
       .attr("fill", "none")
       .attr("stroke", "steelblue")
@@ -96,16 +94,6 @@ d3.csv("data/MLB_Data_Cleaned.csv").then((data) => {
                     console.log(d.Success_Score)
                     return y1(d.Success_Score); })
             ) 
-
-
-    
-
-
-
-
-
-
-
   }
 
 
