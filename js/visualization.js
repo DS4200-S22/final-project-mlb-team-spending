@@ -109,28 +109,9 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
 
   // setting the color for each team
   // TODO FIX COLOR SCALE
-  // TODO var or const ?
   const color = d3.scaleOrdinal()
     .domain(res)
     .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999']);
-
-
-    /*
-  // This is almost working, but gets rid of axes for some reason
-  // TODO: NEED TO ADD AXES BACK, NEED TO FIGURE OUT THE SINGULAR DATA POINT BELOW AXIS
-  svg1.selectAll("path")
-        .data(sumstat)
-        .join("path")
-        .attr('fill', 'none')
-        .attr('stroke-width', 1.5)
-        .attr('stroke', d => color(d[0]))
-        .attr("d", d => { return d3.line()
-                                      .x(d => x1(new Date(d.Season, 0, 1)))
-                                      .y(d => y1(d.Success_Score))
-                                      (d[1])
-         });
-  */
-
 
 // Initialize line with first group of the list
 const line = svg1.append('g')
