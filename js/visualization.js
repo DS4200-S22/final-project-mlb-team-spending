@@ -1,9 +1,10 @@
-// Set margins and dimensions 
+
+// set margins and dimensions 
 const margin = { top: 50, right: 50, bottom: 50, left: 200 };
 const width = 900; //- margin.left - margin.right;
 const height = 650; //- margin.top - margin.bottom;
 
-// Append svg object to the body of the page to house Success Score Line Graph
+// append svg object to the body of the page to house Success Score Line Graph
 const svg1 = d3.select("#vis-container")
                 .append("svg")
                 .attr("width", width - margin.left - margin.right)
@@ -11,35 +12,33 @@ const svg1 = d3.select("#vis-container")
                 .attr("viewBox", [0, 0, width, height]);
 
 
-// Upload data
-d3.csv("data/MLB_Data_Cleaned.csv").then((data) => {
-  //Print first 10 rows of data 
+// upload data
+d3.csv("data/final_mlb_data.csv").then((data) => {
+  
+  // print first 10 rows of data to the console
   for (var i = 0; i < 10; i++) {
     console.log(data[i]);}
 
-
+  // initialize variables
   let x1,y1;
-
   let xKey1, yKey1;
   
-  //Success score over seasons line graph 
+  // success score over seasons line graph 
   {
     xKey1 = 'Season';
     yKey1 = 'Success_Score';
 
+    // find min and max years
     minX1 = d3.min(data, (d) => { return d[xKey1]; });
     maxX1 = d3.max(data, (d) => { return d[xKey1]; });
-    console.log(minX1)
-    console.log(maxX1)
     
-    
-    // Create X scale
+    // create x scale
     x1 = d3.scaleTime()
             .domain([new Date(minX1, 0, 1), new Date(maxX1, 0, 1)])
             .range([margin.left, width - margin.right]);
 
 
-     // Add x axis
+     // add x axis
      svg1.append("g")
      .attr("transform", `translate(0,${height - margin.bottom})`)
      .call(d3.axisBottom(x1))
@@ -55,18 +54,18 @@ d3.csv("data/MLB_Data_Cleaned.csv").then((data) => {
                    .attr("fill", "black")
                    .attr("text-anchor", "end")
                    .text(xKey1)
-                   //make sure graph has x-axis label
+                   //make sure graph has x-axis label **
                    );
   
-  // Finx max y 
+  // find max success score
   maxY1 = d3.max(data, (d) => { return d[yKey1]; });
 
-  // Create Y scale
+  // create y scale
   y1 = d3.scaleLinear()
               .domain([0, maxY1])
               .range([height - margin.bottom, margin.top]); 
 
-  // Add y axis 
+  // add y axis 
   svg1.append("g")
       .attr("transform", `translate(${margin.left}, 0)`) 
       .call(d3.axisLeft(y1)) 
@@ -79,20 +78,16 @@ d3.csv("data/MLB_Data_Cleaned.csv").then((data) => {
                     .text(yKey1)
     );
 
-
-    // Add the line
+    // add the lines
+    // currently adds one line for ATL
     svg1.append("path")
       .datum(data.filter((d) => { return d.Team == "ATL"; }))
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
       .attr("d", d3.line()
-                  .x((d) => { 
-                    console.log(d.Season);
-                    return x1(new Date(d.Season, 0, 1)); })
-                  .y((d) => { 
-                    console.log(d.Success_Score)
-                    return y1(d.Success_Score); })
+                  .x((d) => { return x1(new Date(d.Season, 0, 1)); })
+                  .y((d) => { return y1(d.Success_Score); })
             ) 
   }
 
