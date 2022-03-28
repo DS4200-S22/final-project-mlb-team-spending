@@ -3,8 +3,6 @@ const margin = { top: 50, right: 50, bottom: 50, left: 200 };
 const width = 900; //- margin.left - margin.right;
 const height = 650; //- margin.top - margin.bottom;
 
-let myCircles1;
-
 // Append svg object to the body of the page to house Success Score Line Graph
 const svg1 = d3.select("#vis-container")
                 .append("svg")
@@ -33,8 +31,9 @@ d3.csv("data/MLB_Data_Cleaned.csv").then((data) => {
     maxX1 = d3.max(data, (d) => { return d[xKey1]; });
     console.log(minX1)
     console.log(maxX1)
-    // Create X scale
     
+    
+    // Create X scale
     x1 = d3.scaleTime()
             .domain([new Date(minX1, 0, 1), new Date(maxX1, 0, 1)])
             .range([margin.left, width - margin.right]);
@@ -80,15 +79,31 @@ d3.csv("data/MLB_Data_Cleaned.csv").then((data) => {
                     .text(yKey1)
     );
 
-  var line = d3.line()
-                .x(function(d,i) {return x1(i);})
-                .y(function(d) {return y1(d.Success_Score);})
-                .curve(d3.curveMonotoneX);
 
-  svg1.append("path")
-                .datum(data) // 10. Binds data to the line 
-                .attr("class", "line") // Assign a class for styling 
-                .attr("d", line); // 11. Calls the line generator 
+    // Add the line
+    svg1.append("path")
+      //.attr("transform", `translate(500, 100)`) 
+      //.attr("transform", `translate(${margin.left}, 0)`) 
+      .datum(data.filter((d) => { return d.Team == "ATL"; }))
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+                  .x((d) => { 
+                    console.log(d.Season);
+                    return x1(new Date(d.Season, 0, 1)); })
+                  .y((d) => { 
+                    console.log(d.Success_Score)
+                    return y1(d.Success_Score); })
+            ) 
+
+
+    
+
+
+
+
+
 
 
   }
