@@ -20,7 +20,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
     console.log(data[i]);}
 
   // initialize variables
-  let x1,y1;
+  let x1, y1;
   let xKey1, yKey1;
   
   // success score over seasons line graph 
@@ -36,7 +36,6 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
     x1 = d3.scaleTime()
             .domain([new Date(minX1, 0, 1), new Date(maxX1, 0, 1)])
             .range([margin.left, width - margin.right]);
-
 
      // add x axis
      svg1.append("g")
@@ -77,20 +76,6 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
                     .attr("text-anchor", "end")
                     .text(yKey1)
     );
-
-    // add the lines
-    // currently adds one line for ATL
-    /*
-    svg1.append("path")
-      .datum(data.filter((d) => { return d.Team == "ATL"; }))
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-                  .x((d) => { return x1(new Date(d.Season, 0, 1)); })
-                  .y((d) => { return y1(d.Success_Score); })
-            ); 
-    */
 
   // group by the team name
   var sumstat = d3.group(data, d => d.Team);
@@ -149,6 +134,15 @@ function update(selectedGroup) {
     
     // run the updateChart function with this selected option
     update(selectedOption)})
+  }
+
+  // bracket visualization
+  {
+
+
+
+
+
 
   }
 
