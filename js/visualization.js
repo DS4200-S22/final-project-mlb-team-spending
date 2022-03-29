@@ -146,7 +146,7 @@ const circles = svg1.selectAll("circle")
                  .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
                  .attr("cy", (d) => { return y1(d.Success_Score); })
                  .attr("r", 5)
-                 .attr("fill", (d) => { return color("valueA"); })
+                 .style("fill", (d) => { return color("valueA"); })
                  // TODO color: can we make circles the same color as the line?
                  .on("mouseover", mouseover1) 
                  .on("mousemove", mousemove1)
@@ -178,7 +178,7 @@ function update(selectedGroup) {
         .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
          .attr("cy", (d) => { return y1(d.Success_Score); })
          .attr("r", 5)
-         .attr("fill", (d) => { return color(selectedGroup); });
+         .style("fill", (d) => { return color(selectedGroup); });
   }
 
   // run the update function when a new team is selected
