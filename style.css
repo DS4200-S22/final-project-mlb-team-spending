@@ -21,3 +21,14 @@ h1, h2, h3 {
   height: 100%;
 }
 
+/* Tooltip class styling goes here */
+.tooltip {
+	position: absolute;
+	text-align: center;
+	padding: 10px;
+	font: 10px sans-serif;
+	background: rgb(206, 216, 236);
+	border: 0px;
+	border-radius: 8px;
+  }
+

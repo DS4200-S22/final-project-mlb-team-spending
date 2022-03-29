@@ -3,6 +3,7 @@
 const margin = { top: 50, right: 50, bottom: 50, left: 200 };
 const width = 900; //- margin.left - margin.right;
 const height = 650; //- margin.top - margin.bottom;
+const yTooltipOffset = 15; 
 
 // append svg object to the body of the page to house Success Score Line Graph
 const svg1 = d3.select("#vis-container")
@@ -53,7 +54,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
                    .attr("fill", "black")
                    .attr("text-anchor", "end")
                    .text(xKey1)
-                   //make sure graph has x-axis label **
+                   // TODO: make sure graph has x-axis label
                    );
   
   // find max success score
@@ -77,6 +78,31 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
                     .text(yKey1)
     );
 
+  // add the div for tooltip
+  const tooltip1 = d3.select("body")
+                        .append("div")
+                        .attr("id", "tooltip1")
+                        .style("opacity", 0)
+                        .attr("class", "tooltip");
+  
+  // add values to tooltip on mouseover
+  const mouseover1 = function(event, d) {
+    console.log("Year: " + d.Season + ", Success Score: " + d.Success_Score)
+    tooltip1.html("Year: " + d.Season + "<br> Success Score: " + d.Success_Score + "<br")
+            .style("opacity", 1);
+  }
+
+  // position tooltip to follow mouse
+  const mousemove1 = function(event, d) {
+    tooltip1.style("left", (event.pageX) + "px")
+            .style("top", (event.pageY + yTooltipOffset) + "px");
+  }
+
+  // return tooltip to transparent when mouse leaves
+  const mouseleave1 = function(event, d) {
+    tooltip1.style("opacity", 0);
+  }
+
   // group by the team name
   var sumstat = d3.group(data, d => d.Team);
 
@@ -98,25 +124,39 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
     .domain(res)
     .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999']);
 
-// Initialize line with first group of the list
+// initialize line with first group of the list
 const line = svg1.append('g')
                  .append("path")
                  .datum(data.filter((d) => {return d.Team == "ATL"}))
                  .attr("d", d3.line()
                                 .x((d) => { return x1(new Date(d.Season, 0, 1)); })
                                 .y((d) => { return y1(d.Success_Score); }))
-  .attr("stroke", (d) => { return color("valueA"); })
-  .style("stroke-width", 1.5)
-  .style("fill", "none")
+                 .attr("stroke", (d) => { return color("valueA"); })
+                 .style("stroke-width", 5)
+                 .style("fill", "none");
+                 // TODO label the lines
 
-  // a function that updates the chart
+// initialize the first circles
+const circles = svg1.selectAll("circle")
+                 .data(data.filter((d) => {return d.Team == "ATL"}))
+                 .enter()
+                 .append("circle")
+                 .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
+                 .attr("cy", (d) => { return y1(d.Success_Score); })
+                 .attr("r", 5)
+                 // TODO color: can we make it the same color as the line?
+                 .on("mouseover", mouseover1) 
+                 .on("mousemove", mousemove1)
+                 .on("mouseleave", mouseleave1);
+
+  // function to update the chart
 function update(selectedGroup) {
+  
   // create new data with the selection
   const dataFilter = data.filter((d) => {
-    console.log(selectedGroup);
-    return d.Team == selectedGroup; } )
+    return d.Team == selectedGroup; } );
 
-    // Give these new data to update line
+    // updated line data
     line
         .datum(dataFilter)
         .transition()
@@ -124,30 +164,30 @@ function update(selectedGroup) {
         .attr("d", d3.line()
                       .x((d) => { return x1(new Date(d.Season, 0, 1)); })
                       .y((d) => { return y1(d.Success_Score); }))
-        .attr("stroke", (d) => { return color(selectedGroup); })
+        .attr("stroke", (d) => { return color(selectedGroup); });
+
+    // updated circles data
+    // TODO: data for circles updates, but location does not
+    circles
+        .data(dataFilter)
+        .transition()
+        .duration(1000)
+        .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
+         .attr("cy", (d) => { return y1(d.Success_Score); })
+         .attr("r", 5);
   }
 
-  // when the button is changed, run the updateChart function
+  // run the update function when a new team is selected
   d3.select("#selectButton").on("change", function(event,d) {
-    // recover the option that has been chosen
+    // determine the user's selected option
     const selectedOption = d3.select(this).property("value")
     
-    // run the updateChart function with this selected option
+    // run the update function with the user's selection
     update(selectedOption)})
+  
+  
   }
-
-  // bracket visualization
-  {
-
-
-
-
-
-
-  }
-
-
-   
 
 
 });
+
