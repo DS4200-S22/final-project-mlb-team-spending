@@ -19,5 +19,39 @@ h1, h2, h3 {
 .vis-holder {
   width: 100%;
   height: 100%;
+  font: 14px sans-serif; 
+  letter-spacing: 1px;
 }
+
+/* Tooltip class styling goes here */
+.tooltip {
+	position: absolute;
+	text-align: center;
+	padding: 10px;
+	font: 10px sans-serif;
+	background: rgb(218, 224, 238);
+	border: 0px;
+	border-radius: 8px;
+  }
+
+
+.node circle {
+	cursor: pointer;
+	fill: #fff;
+	stroke: steelblue;
+	stroke-width: 1.5px;
+}
+  
+.node text {
+	font: 10px sans-serif;
+}
+  
+path.link {
+	fill: none;
+	stroke: black;
+	stroke-width: 1.5px;
+}
+
+
+  
 
