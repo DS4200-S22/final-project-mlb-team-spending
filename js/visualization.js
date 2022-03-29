@@ -75,8 +75,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
                     .attr("y", margin.top)
                     .attr("fill", "black")
                     .attr("text-anchor", "end")
-                    .text(yKey1)
-    );
+                    .text(yKey1));
 
   // add the div for tooltip
   const tooltip1 = d3.select("body")
@@ -90,18 +89,18 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
     console.log("Year: " + d.Season + ", Success Score: " + d.Success_Score)
     tooltip1.html("Year: " + d.Season + "<br> Success Score: " + d.Success_Score + "<br")
             .style("opacity", 1);
-  }
+  };
 
   // position tooltip to follow mouse
   const mousemove1 = function(event, d) {
     tooltip1.style("left", (event.pageX) + "px")
             .style("top", (event.pageY + yTooltipOffset) + "px");
-  }
+  };
 
   // return tooltip to transparent when mouse leaves
   const mouseleave1 = function(event, d) {
     tooltip1.style("opacity", 0);
-  }
+  };
 
   // group by the team name
   var sumstat = d3.group(data, d => d.Team);
@@ -134,9 +133,9 @@ const line = svg1.append('g')
                  .attr("stroke", (d) => { return color("valueA"); })
                  .style("stroke-width", 5)
                  .style("fill", "none");
-                 // TODO label the lines
+                 // TODO label the lines with the team
 
-// initialize the first circles
+// initialize circles with first group of the list
 const circles = svg1.selectAll("circle")
                  .data(data.filter((d) => {return d.Team == "ATL"}))
                  .enter()
@@ -144,7 +143,7 @@ const circles = svg1.selectAll("circle")
                  .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
                  .attr("cy", (d) => { return y1(d.Success_Score); })
                  .attr("r", 5)
-                 // TODO color: can we make it the same color as the line?
+                 // TODO color: can we make circles the same color as the line?
                  .on("mouseover", mouseover1) 
                  .on("mousemove", mousemove1)
                  .on("mouseleave", mouseleave1);
@@ -184,8 +183,7 @@ function update(selectedGroup) {
     
     // run the update function with the user's selection
     update(selectedOption)})
-  
-  
+
   }
 
 
