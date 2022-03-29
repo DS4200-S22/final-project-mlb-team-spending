@@ -86,7 +86,6 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   
   // add values to tooltip on mouseover
   const mouseover1 = function(event, d) {
-    console.log("Year: " + d.Season + ", Success Score: " + d.Success_Score)
     tooltip1.html("Year: " + d.Season + "<br> Success Score: " + d.Success_Score + "<br")
             .style("opacity", 1);
   };
@@ -117,11 +116,15 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
     .text((d) => { return d; }) 
     .attr("value", (d) => { return d; }); 
 
-  // setting the color for each team
-  // TODO FIX COLOR SCALE
+  // setting the color for each team (hex codes from the teams)
   const color = d3.scaleOrdinal()
     .domain(res)
-    .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999']);
+    .range(['#CE1141','#DF4601', '#BD3039', '#0E3386', '#27251F', 
+            '#C6011F', '#E31937', '#0C2340', '#002D62', '#004687',
+            '#BA0021', '#005A9C', '#FFC52F', '#002B5C', '#FF5910',
+            '#003087', '#003831', '#E81828', '#FDB827', '#2F241D',
+            '#005C5C', '#FD5A1E', '#C41E3A', '#003278', '#134A8E', 
+            '#AB0003', '#33006F', '#00A3E0', '#A71930', '#092C5C']);
 
 // initialize line with first group of the list
 const line = svg1.append('g')
@@ -143,6 +146,7 @@ const circles = svg1.selectAll("circle")
                  .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
                  .attr("cy", (d) => { return y1(d.Success_Score); })
                  .attr("r", 5)
+                 .attr("fill", (d) => { return color("valueA"); })
                  // TODO color: can we make circles the same color as the line?
                  .on("mouseover", mouseover1) 
                  .on("mousemove", mousemove1)
@@ -173,7 +177,8 @@ function update(selectedGroup) {
         .duration(1000)
         .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
          .attr("cy", (d) => { return y1(d.Success_Score); })
-         .attr("r", 5);
+         .attr("r", 5)
+         .attr("fill", (d) => { return color(selectedGroup); });
   }
 
   // run the update function when a new team is selected
