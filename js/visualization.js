@@ -155,7 +155,7 @@ const circles = svg1.selectAll("circle")
 var success_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].Success_Score ;
 const label = svg1.append("text")
               // need the correct transform/translate
-              .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 15) + "," + y1(success_2018) + ")")
+              .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 10) + "," + y1(success_2018) + ")")
               //.attr("transform", "translate(" + (width+3) + "," + y(data[0].open) + ")")
               .attr("dy", ".35em")
               .attr("text-anchor", "start")
@@ -192,7 +192,7 @@ function update(selectedGroup) {
     // updated line label data
     success_2018 = dataFilter[dataFilter.length - 1].Success_Score ; 
     label
-        .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 15) + "," + y1(success_2018) + ")")
+        .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 10) + "," + y1(success_2018) + ")")
         .style("fill", (d) => { return color(selectedGroup); })
         .text(selectedGroup) ;
 
