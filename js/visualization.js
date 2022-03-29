@@ -126,7 +126,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
             '#005C5C', '#FD5A1E', '#C41E3A', '#003278', '#134A8E', 
             '#AB0003', '#33006F', '#00A3E0', '#A71930', '#092C5C']);
 
-// initialize line with first group of the list
+// initialize line with first team
 const line = svg1.append('g')
                  .append("path")
                  .datum(data.filter((d) => {return d.Team == "ATL"}))
@@ -138,7 +138,7 @@ const line = svg1.append('g')
                  .style("fill", "none");
                  // TODO label the lines with the team
 
-// initialize circles with first group of the list
+// initialize circles with first team
 const circles = svg1.selectAll("circle")
                  .data(data.filter((d) => {return d.Team == "ATL"}))
                  .enter()
@@ -147,10 +147,20 @@ const circles = svg1.selectAll("circle")
                  .attr("cy", (d) => { return y1(d.Success_Score); })
                  .attr("r", 5)
                  .style("fill", (d) => { return color("valueA"); })
-                 // TODO color: can we make circles the same color as the line?
                  .on("mouseover", mouseover1) 
                  .on("mousemove", mousemove1)
                  .on("mouseleave", mouseleave1);
+
+// initialize line label with first team
+var success_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].Success_Score ;
+const label = svg1.append("text")
+              // need the correct transform/translate
+              .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 15) + "," + y1(success_2018) + ")")
+              //.attr("transform", "translate(" + (width+3) + "," + y(data[0].open) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", (d) => { return color("valueA"); })
+              .text(res[0]);
 
   // function to update the chart
 function update(selectedGroup) {
@@ -170,15 +180,22 @@ function update(selectedGroup) {
         .attr("stroke", (d) => { return color(selectedGroup); });
 
     // updated circles data
-    // TODO: data for circles updates, but location does not
     circles
         .data(dataFilter)
         .transition()
         .duration(1000)
         .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
-         .attr("cy", (d) => { return y1(d.Success_Score); })
-         .attr("r", 5)
-         .style("fill", (d) => { return color(selectedGroup); });
+        .attr("cy", (d) => { return y1(d.Success_Score); })
+        .attr("r", 5)
+        .style("fill", (d) => { return color(selectedGroup); });
+
+    // updated line label data
+    success_2018 = dataFilter[dataFilter.length - 1].Success_Score ; 
+    label
+        .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 15) + "," + y1(success_2018) + ")")
+        .style("fill", (d) => { return color(selectedGroup); })
+        .text(selectedGroup) ;
+
   }
 
   // run the update function when a new team is selected
