@@ -1,0 +1,202 @@
+,Season,League,Series,Final_Score,Winning_Team,Losing_Team
+0,2018,AL,ALCS,4-1,Boston Red Sox,Houston Astros
+1,2018,NL,NLCS,4-3,Los Angeles Dodgers,Milwaukee Brewers
+2,2018,AL,ALDS1,3-1,Boston Red Sox,New York Yankees
+3,2018,AL,ALDS2,3-0,Houston Astros,Cleveland Indians
+4,2018,NL,NLDS2,3-1,Los Angeles Dodgers,Atlanta Braves
+5,2018,AL,ALWC,1-0,New York Yankees,Oakland Athletics
+6,2018,NL,NLWC,1-0,Colorado Rockies,Chicago Cubs
+7,2018,None,World Series,4-1,Boston Red Sox,Los Angeles Dodgers
+8,2018,NL,NLDS1,3-0,Milwaukee Brewers,Colorado Rockies
+9,2017,AL,ALWC,1-0,New York Yankees,Minnesota Twins
+10,2017,NL,NLWC,1-0,Arizona Diamondbacks,Colorado Rockies
+11,2017,NL,NLDS1,3-0,Los Angeles Dodgers,Arizona Diamondbacks
+12,2017,NL,NLDS2,3-2,Chicago Cubs,Washington Nationals
+13,2017,AL,ALDS2,3-1,Houston Astros,Boston Red Sox
+14,2017,None,World Series,4-3,Houston Astros,Los Angeles Dodgers
+15,2017,AL,ALCS,4-3,Houston Astros,New York Yankees
+16,2017,AL,ALDS1,3-2,New York Yankees,Cleveland Indians
+17,2017,NL,NLCS,4-1,Los Angeles Dodgers,Chicago Cubs
+18,2016,AL,ALDS2,3-0,Cleveland Indians,Boston Red Sox
+19,2016,NL,NLDS1,3-1,Chicago Cubs,San Francisco Giants
+20,2016,AL,ALDS1,3-0,Toronto Blue Jays,Texas Rangers
+21,2016,AL,ALWC,1-0,Toronto Blue Jays,Baltimore Orioles
+22,2016,NL,NLWC,1-0,San Francisco Giants,New York Mets
+23,2016,NL,NLCS,4-2,Chicago Cubs,Los Angeles Dodgers
+24,2016,AL,ALCS,4-1,Cleveland Indians,Toronto Blue Jays
+25,2016,None,World Series,4-3,Chicago Cubs,Cleveland Indians
+26,2016,NL,NLDS2,3-2,Los Angeles Dodgers,Washington Nationals
+27,2015,AL,ALWC,1-0,Houston Astros,New York Yankees
+28,2015,NL,NLWC,1-0,Chicago Cubs,Pittsburgh Pirates
+29,2015,NL,NLDS1,3-1,Chicago Cubs,St. Louis Cardinals
+30,2015,NL,NLDS2,3-2,New York Mets,Los Angeles Dodgers
+31,2015,AL,ALDS2,3-2,Toronto Blue Jays,Texas Rangers
+32,2015,AL,ALCS,4-2,Kansas City Royals,Toronto Blue Jays
+33,2015,NL,NLCS,4-0,New York Mets,Chicago Cubs
+34,2015,AL,ALDS1,3-2,Kansas City Royals,Houston Astros
+35,2015,None,World Series,4-1,Kansas City Royals,New York Mets
+36,2014,AL,ALDS2,3-0,Baltimore Orioles,Detroit Tigers
+37,2014,NL,NLDS2,3-1,St,Louis Cardinals
+38,2014,AL,ALWC,1-0,Kansas City Royals,Oakland Athletics
+39,2014,NL,NLWC,1-0,San Francisco Giants,Pittsburgh Pirates
+40,2014,NL,NLCS,4-1,San Francisco Giants,St. Louis Cardinals
+41,2014,NL,NLDS1,3-1,San Francisco Giants,Washington Nationals
+42,2014,AL,ALCS,4-0,Kansas City Royals,Baltimore Orioles
+43,2014,None,World Series,4-3,San Francisco Giants,Kansas City Royals
+44,2014,AL,ALDS1,3-0,Kansas City Royals,Los Angeles Angels of Anaheim
+45,2013,AL,ALWC,1-0,Tampa Bay Rays,Cleveland Indians
+46,2013,NL,NLWC,1-0,Pittsburgh Pirates,Cincinnati Reds
+47,2013,NL,NLDS1,3-2,St,Louis Cardinals
+48,2013,NL,NLDS2,3-1,Los Angeles Dodgers,Atlanta Braves
+49,2013,AL,ALDS2,3-2,Detroit Tigers,Oakland Athletics
+50,2013,AL,ALDS1,3-1,Boston Red Sox,Tampa Bay Rays
+51,2013,NL,NLCS,4-2,St,Louis Cardinals
+52,2013,AL,ALCS,4-2,Boston Red Sox,Detroit Tigers
+53,2013,None,World Series,4-2,Boston Red Sox,St. Louis Cardinals
+54,2012,AL,ALWC,1-0,Baltimore Orioles,Texas Rangers
+55,2012,NL,NLWC,1-0,St,Louis Cardinals
+56,2012,AL,ALDS1,3-2,New York Yankees,Baltimore Orioles
+57,2012,NL,NLDS2,3-2,San Francisco Giants,Cincinnati Reds
+58,2012,NL,NLDS1,3-2,St,Louis Cardinals
+59,2012,AL,ALDS2,3-2,Detroit Tigers,Oakland Athletics
+60,2012,NL,NLCS,4-3,San Francisco Giants,St. Louis Cardinals
+61,2012,AL,ALCS,4-0,Detroit Tigers,New York Yankees
+62,2012,None,World Series,4-0,San Francisco Giants,Detroit Tigers
+63,2011,None,World Series,4-3,St,Louis Cardinals
+64,2011,AL,ALCS,4-2,Texas Rangers,Detroit Tigers
+65,2011,NL,NLCS,4-2,St,Louis Cardinals
+66,2011,AL,ALDS1,3-2,Detroit Tigers,New York Yankees
+67,2011,AL,ALDS2,3-1,Texas Rangers,Tampa Bay Rays
+68,2011,NL,NLDS1,3-2,St,Louis Cardinals
+69,2011,NL,NLDS2,3-2,Milwaukee Brewers,Arizona Diamondbacks
+70,2010,NL,NLDS2,3-1,San Francisco Giants,Atlanta Braves
+71,2010,AL,ALDS1,3-2,Texas Rangers,Tampa Bay Rays
+72,2010,NL,NLDS1,3-0,Philadelphia Phillies,Cincinnati Reds
+73,2010,AL,ALDS2,3-0,New York Yankees,Minnesota Twins
+74,2010,AL,ALCS,4-2,Texas Rangers,New York Yankees
+75,2010,NL,NLCS,4-2,San Francisco Giants,Philadelphia Phillies
+76,2010,None,World Series,4-1,San Francisco Giants,Texas Rangers
+77,2009,AL,ALDS2,3-0,Los Angeles Angels of Anaheim,Boston Red Sox
+78,2009,AL,ALCS,4-2,New York Yankees,Los Angeles Angels of Anaheim
+79,2009,AL,ALDS1,3-0,New York Yankees,Minnesota Twins
+80,2009,None,World Series,4-2,New York Yankees,Philadelphia Phillies
+81,2009,NL,NLCS,4-1,Philadelphia Phillies,Los Angeles Dodgers
+82,2009,NL,NLDS1,3-0,Los Angeles Dodgers,St. Louis Cardinals
+83,2009,NL,NLDS2,3-1,Philadelphia Phillies,Colorado Rockies
+84,2008,AL,ALDS1,3-1,Boston Red Sox,Los Angeles Angels of Anaheim
+85,2008,NL,NLDS1,3-0,Los Angeles Dodgers,Chicago Cubs
+86,2008,NL,NLDS2,3-1,Philadelphia Phillies,Milwaukee Brewers
+87,2008,None,World Series,4-1,Philadelphia Phillies,Tampa Bay Rays
+88,2008,AL,ALCS,4-3,Tampa Bay Rays,Boston Red Sox
+89,2008,NL,NLCS,4-1,Philadelphia Phillies,Los Angeles Dodgers
+90,2008,AL,ALDS2,3-1,Tampa Bay Rays,Chicago White Sox
+91,2007,None,World Series,4-0,Boston Red Sox,Colorado Rockies
+92,2007,AL,ALCS,4-3,Boston Red Sox,Cleveland Indians
+93,2007,NL,NLCS,4-0,Colorado Rockies,Arizona Diamondbacks
+94,2007,AL,ALDS1,3-0,Boston Red Sox,Los Angeles Angels of Anaheim
+95,2007,AL,ALDS2,3-1,Cleveland Indians,New York Yankees
+96,2007,NL,NLDS1,3-0,Arizona Diamondbacks,Chicago Cubs
+97,2007,NL,NLDS2,3-0,Colorado Rockies,Philadelphia Phillies
+98,2006,NL,NLDS2,3-1,St,Louis Cardinals
+99,2006,AL,ALDS2,3-0,Oakland Athletics,Minnesota Twins
+100,2006,NL,NLDS1,3-0,New York Mets,Los Angeles Dodgers
+101,2006,None,World Series,4-1,St,Louis Cardinals
+102,2006,AL,ALCS,4-0,Detroit Tigers,Oakland Athletics
+103,2006,NL,NLCS,4-3,St,Louis Cardinals
+104,2006,AL,ALDS1,3-1,Detroit Tigers,New York Yankees
+105,2005,NL,NLDS2,3-1,Houston Astros,Atlanta Braves
+106,2005,None,World Series,4-0,Chicago White Sox,Houston Astros
+107,2005,NL,NLDS1,3-0,St,Louis Cardinals
+108,2005,AL,ALDS2,3-2,Los Angeles Angels of Anaheim,New York Yankees
+109,2005,AL,ALDS1,3-0,Chicago White Sox,Boston Red Sox
+110,2005,NL,NLCS,4-2,Houston Astros,St. Louis Cardinals
+111,2005,AL,ALCS,4-1,Chicago White Sox,Los Angeles Angels of Anaheim
+112,2004,None,World Series,4-0,Boston Red Sox,St. Louis Cardinals
+113,2004,AL,ALCS,4-3,Boston Red Sox,New York Yankees
+114,2004,AL,ALDS1,3-0,Boston Red Sox,Anaheim Angels
+115,2004,AL,ALDS2,3-1,New York Yankees,Minnesota Twins
+116,2004,NL,NLDS1,3-1,St,Louis Cardinals
+117,2004,NL,NLDS2,3-2,Houston Astros,Atlanta Braves
+118,2004,NL,NLCS,4-3,St,Louis Cardinals
+119,2003,NL,NLDS2,3-2,Chicago Cubs,Atlanta Braves
+120,2003,AL,ALDS2,3-2,Boston Red Sox,Oakland Athletics
+121,2003,NL,NLDS1,3-1,Florida Marlins,San Francisco Giants
+122,2003,AL,ALDS1,3-1,New York Yankees,Minnesota Twins
+123,2003,None,World Series,4-2,Florida Marlins,New York Yankees
+124,2003,AL,ALCS,4-3,New York Yankees,Boston Red Sox
+125,2003,NL,NLCS,4-3,Florida Marlins,Chicago Cubs
+126,2002,AL,ALDS2,3-2,Minnesota Twins,Oakland Athletics
+127,2002,None,World Series,4-3,Anaheim Angels,San Francisco Giants
+128,2002,NL,NLDS2,3-0,St,Louis Cardinals
+129,2002,AL,ALCS,4-1,Anaheim Angels,Minnesota Twins
+130,2002,NL,NLCS,4-1,San Francisco Giants,St. Louis Cardinals
+131,2002,AL,ALDS1,3-1,Anaheim Angels,New York Yankees
+132,2002,NL,NLDS1,3-2,San Francisco Giants,Atlanta Braves
+133,2001,None,World Series,4-3,Arizona Diamondbacks,New York Yankees
+134,2001,AL,ALCS,4-1,New York Yankees,Seattle Mariners
+135,2001,NL,NLCS,4-1,Arizona Diamondbacks,Atlanta Braves
+136,2001,AL,ALDS1,3-2,Seattle Mariners,Cleveland Indians
+137,2001,AL,ALDS2,3-2,New York Yankees,Oakland Athletics
+138,2001,NL,NLDS1,3-0,Atlanta Braves,Houston Astros
+139,2001,NL,NLDS2,3-2,Arizona Diamondbacks,St. Louis Cardinals
+140,2000,NL,NLDS2,3-1,New York Mets,San Francisco Giants
+141,2000,NL,NLDS1,3-0,St,Louis Cardinals
+142,2000,AL,ALDS2,3-0,Seattle Mariners,Chicago White Sox
+143,2000,AL,ALDS1,3-2,New York Yankees,Oakland Athletics
+144,2000,None,World Series,4-1,New York Yankees,New York Mets
+145,2000,AL,ALCS,4-2,New York Yankees,Seattle Mariners
+146,2000,NL,NLCS,4-1,New York Mets,St. Louis Cardinals
+147,1999,NL,NLDS2,3-1,New York Mets,Arizona Diamondbacks
+148,1999,None,World Series,4-0,New York Yankees,Atlanta Braves
+149,1999,AL,ALCS,4-1,New York Yankees,Boston Red Sox
+150,1999,NL,NLDS1,3-1,Atlanta Braves,Houston Astros
+151,1999,AL,ALDS2,3-0,New York Yankees,Texas Rangers
+152,1999,AL,ALDS1,3-2,Boston Red Sox,Cleveland Indians
+153,1999,NL,NLCS,4-2,Atlanta Braves,New York Mets
+154,1998,None,World Series,4-0,New York Yankees,San Diego Padres
+155,1998,AL,ALCS,4-2,New York Yankees,Cleveland Indians
+156,1998,AL,ALDS1,3-1,Cleveland Indians,Boston Red Sox
+157,1998,AL,ALDS2,3-0,New York Yankees,Texas Rangers
+158,1998,NL,NLDS1,3-0,Atlanta Braves,Chicago Cubs
+159,1998,NL,NLDS2,3-1,San Diego Padres,Houston Astros
+160,1998,NL,NLCS,4-2,San Diego Padres,Atlanta Braves
+161,1997,NL,NLDS1,3-0,Florida Marlins,San Francisco Giants
+162,1997,NL,NLDS2,3-0,Atlanta Braves,Houston Astros
+163,1997,AL,ALDS2,3-1,Baltimore Orioles,Seattle Mariners
+164,1997,None,World Series,4-3,Florida Marlins,Cleveland Indians
+165,1997,AL,ALCS,4-2,Cleveland Indians,Baltimore Orioles
+166,1997,AL,ALDS1,3-2,Cleveland Indians,New York Yankees
+167,1997,NL,NLCS,4-2,Florida Marlins,Atlanta Braves
+168,1996,NL,NLDS2,3-0,St,Louis Cardinals
+169,1996,None,World Series,4-2,New York Yankees,Atlanta Braves
+170,1996,AL,ALDS1,3-1,Baltimore Orioles,Cleveland Indians
+171,1996,AL,ALDS2,3-1,New York Yankees,Texas Rangers
+172,1996,NL,NLCS,4-3,Atlanta Braves,St. Louis Cardinals
+173,1996,AL,ALCS,4-1,New York Yankees,Baltimore Orioles
+174,1996,NL,NLDS1,3-0,Atlanta Braves,Los Angeles Dodgers
+175,1995,NL,NLDS2,3-0,Cincinnati Reds,Los Angeles Dodgers
+176,1995,AL,ALCS,4-2,Cleveland Indians,Seattle Mariners
+177,1995,None,World Series,4-2,Atlanta Braves,Cleveland Indians
+178,1995,NL,NLDS1,3-1,Atlanta Braves,Colorado Rockies
+179,1995,NL,NLCS,4-0,Atlanta Braves,Cincinnati Reds
+180,1995,AL,ALDS2,3-2,Seattle Mariners,New York Yankees
+181,1995,AL,ALDS1,3-0,Cleveland Indians,Boston Red Sox
+182,1994,None,,No Postseason played this year.,No Postseason played this year,
+183,1993,NL,NLCS,4-2,Philadelphia Phillies,Atlanta Braves
+184,1993,AL,ALCS,4-2,Toronto Blue Jays,Chicago White Sox
+185,1993,None,World Series,4-2,Toronto Blue Jays,Philadelphia Phillies
+186,1992,AL,ALCS,4-2,Toronto Blue Jays,Oakland Athletics
+187,1992,NL,NLCS,4-3,Atlanta Braves,Pittsburgh Pirates
+188,1992,None,World Series,4-2,Toronto Blue Jays,Atlanta Braves
+189,1991,NL,NLCS,4-3,Atlanta Braves,Pittsburgh Pirates
+190,1991,AL,ALCS,4-1,Minnesota Twins,Toronto Blue Jays
+191,1991,None,World Series,4-3,Minnesota Twins,Atlanta Braves
+192,1990,AL,ALCS,4-0,Oakland Athletics,Boston Red Sox
+193,1990,NL,NLCS,4-2,Cincinnati Reds,Pittsburgh Pirates
+194,1990,None,World Series,4-0,Cincinnati Reds,Oakland Athletics
+195,1989,None,World Series,4-0,Oakland Athletics,San Francisco Giants
+196,1989,NL,NLCS,4-1,San Francisco Giants,Chicago Cubs
+197,1989,AL,ALCS,4-1,Oakland Athletics,Toronto Blue Jays
+198,1988,None,World Series,4-1,Los Angeles Dodgers,Oakland Athletics
+199,1988,AL,ALCS,4-0,Oakland Athletics,Boston Red Sox
+200,1988,NL,NLCS,4-3,Los Angeles Dodgers,New York Mets
