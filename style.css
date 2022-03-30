@@ -32,3 +32,21 @@ h1, h2, h3 {
 	border-radius: 8px;
   }
 
+/* bracket circle nodes */
+  .node circle {
+	fill: rgb(0, 0, 0);
+	stroke: black;
+	stroke-width: 3px;
+  }
+
+/* bracket text */
+  .node text {
+	font: 12px sans-serif;
+  }
+  
+/* lines between nodes */
+  .link {
+	fill: none;
+	stroke: rgb(0, 0, 0);
+	stroke-width: 3px;
+  }
