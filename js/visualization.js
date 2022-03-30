@@ -38,6 +38,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   let x1, y1, x2, y2;
   let xKey1, yKey1, xKey2, yKey2;
   let circles, circles2;
+  let brush1, brush2;
   
   // success score over seasons line graph 
   {
@@ -400,7 +401,7 @@ const label2 = svg2.append("text")
     // run both update functions with the user's selection
     update(selectedOption2)
     update2(selectedOption2)
-  })  
+  })
 
 });
 
@@ -427,9 +428,7 @@ var treeData =
     ]
 } ;
 
-var i = 0,
-   duration = 750,
-   root;
+var i = 0, duration = 750, root;
  
 // declares a tree layout and assigns the size
 var treemap = d3.tree().size([height, width]);
@@ -438,6 +437,7 @@ var treemap = d3.tree().size([height, width]);
 root = d3.hierarchy(treeData, function(d) { return d.children; });
 root.x0 = height / 2;
 root.y0 = 0;
+console.log("rootx0: "+root.x0);
  
  
 update3(root);
@@ -473,8 +473,8 @@ function update3(source) {
  var nodeEnter = node.enter().append('g')
      .attr('class', 'node')
      .attr("transform", function(d) {
-       console.log(source.y0)
-       console.log(source.x0)
+       //console.log(source.y0)
+       //console.log(source.x0)
        return "translate(" + source.y0 + "," + source.x0 + ")";
    })
    .on('click', click);
@@ -498,7 +498,7 @@ function update3(source) {
          return d.children || d._children ? "end" : "start";
      })
      .text(function(d) {
-       console.log("data name: " + d.data.name )
+       //console.log("data name: " + d.data.name )
        return d.data.name; });
  
  // UPDATE
@@ -541,7 +541,7 @@ function update3(source) {
  
  // Update the links...
  var link = svg3.selectAll('path.link')
-     .data(links, function(d) { return d.id; });
+                .data(links, function(d) { return d.id; });
  
  // Enter any new links at the parent's previous position.
  var linkEnter = link.enter().insert('path', "g")
@@ -581,9 +581,10 @@ function update3(source) {
            C ${(s.y + d.y) / 2} ${s.x},
              ${(s.y + d.y) / 2} ${d.x},
              ${d.y} ${d.x}`
- 
+
    return path
- }
+   
+ };
  
  // Toggle children on click.
  function click(event, d) {
