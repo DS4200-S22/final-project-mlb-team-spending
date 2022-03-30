@@ -491,12 +491,9 @@ function update3(source) {
  // Add labels for the nodes
  nodeEnter.append('text')
      .attr("dy", ".35em")
-     .attr("x", function(d) {
-         return d.children || d._children ? -13 : 13;
-     })
-     .attr("text-anchor", function(d) {
-         return d.children || d._children ? "end" : "start";
-     })
+     .attr("x", function(d) { return d.children || d._children ? 5 : -10 ; })
+     .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
+     .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
      .text(function(d) {
        //console.log("data name: " + d.data.name )
        return d.data.name; });
@@ -558,15 +555,6 @@ function update3(source) {
  linkUpdate.transition()
      .duration(duration)
      .attr('d', function(d){ return diagonal(d, d.parent) });
- 
- // Remove any exiting links
- var linkExit = link.exit().transition()
-     .duration(duration)
-     .attr('d', function(d) {
-       var o = {x: source.x, y: source.y}
-       return diagonal(o, o)
-     })
-     .remove();
  
  // Store the old positions for transition.
  nodes.forEach(function(d){
