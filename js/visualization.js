@@ -5,18 +5,27 @@ const width = 900; //- margin.left - margin.right;
 const height = 650; //- margin.top - margin.bottom;
 const yTooltipOffset = 15; 
 
-// append svg object to the body of the page to house Success Score Line Graph
+// append svg object to house Success Score Line Graph
 const svg1 = d3.select("#vis-container")
                 .append("svg")
                 .attr("width", width - margin.left - margin.right)
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
 
-const svg2 = d3.select("#vis-container2")
+// append svg object to house OD Salary Line Graph
+const svg2 = d3.select("#vis-container")
                 .append("svg")
                 .attr("width", width - margin.left - margin.right)
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
+
+// append svg object to house bracket
+const svg3 = d3.select("#vis-container2")
+                .append("svg")
+                .attr("width", width + margin.right + margin.left)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate("+ margin.left + "," + margin.top + ")") ;
 
 // upload data
 d3.csv("data/final_mlb_data.csv").then((data) => {
@@ -28,6 +37,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   // initialize variables
   let x1, y1, x2, y2;
   let xKey1, yKey1, xKey2, yKey2;
+  let circles, circles2;
   
   // success score over seasons line graph 
   {
@@ -77,7 +87,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
       .attr("font-size", '20px') 
       .call((g) => g.append("text")
                     .attr("x", 0)
-                    .attr("y", margin.top)
+                    .attr("y", margin.top - 10)
                     .attr("fill", "black")
                     .attr("text-anchor", "end")
                     .text("Percent Wins"));
@@ -142,10 +152,9 @@ const line = svg1.append('g')
                  .attr("stroke", (d) => { return color("valueA"); })
                  .style("stroke-width", 5)
                  .style("fill", "none");
-                 // TODO label the lines with the team
 
 // initialize circles with first team
-let circles = svg1.selectAll("circle")
+circles = svg1.selectAll("circle")
                  .data(data.filter((d) => {return d.Team == "ATL"}))
                  .enter()
                  .append("circle")
@@ -204,21 +213,7 @@ function update(selectedGroup) {
         .style("fill", (d) => { return color(selectedGroup); })
         .text(selectedGroup) ;
   }
-
-  // run the update function when a new team is selected
-  d3.select("#selectButton").on("change", function(event,d) {
-    // determine the user's selected option
-    const selectedOption = d3.select(this).property("value")
-
-    // clear all existing circles to add new circles
-    circles.remove()
-    
-    // run the update function with the user's selection
-    update(selectedOption)})
-
-  }
-
-
+}
 
   // spending over seasons line graph
   {
@@ -255,7 +250,6 @@ function update(selectedGroup) {
 
     // find max OD salary
     maxY2 = d3.max(data, (d) => { return +d[yKey2]; });
-    //console.log("maxy2: " + maxY2);
 
     // create y scale
     y2 = d3.scaleLinear()
@@ -264,15 +258,15 @@ function update(selectedGroup) {
 
     // add y axis 
   svg2.append("g")
-  .attr("transform", `translate(${margin.left}, 0)`) 
-  .call(d3.axisLeft(y2)) 
-  .attr("font-size", '20px') 
-  .call((g) => g.append("text")
-                .attr("x", 0)
-                .attr("y", margin.top)
-                .attr("fill", "black")
-                .attr("text-anchor", "end")
-                .text(yKey2));
+          .attr("transform", `translate(${margin.left}, 0)`) 
+          .call(d3.axisLeft(y2)) 
+          .attr("font-size", '20px') 
+          .call((g) => g.append("text")
+                        .attr("x", 0)
+                        .attr("y", margin.top - 10)
+                        .attr("fill", "black")
+                        .attr("text-anchor", "end")
+                        .text(yKey2));
 
 
   // add the div for tooltip
@@ -282,10 +276,14 @@ function update(selectedGroup) {
                         .style("opacity", 0)
                         .attr("class", "tooltip");
 
+// function to format the salary in dollar form
+function currency(current_int) {
+  return "$" + d3.format(",.2f")(current_int);
+}
+
 // add values to tooltip on mouseover
 const mouseover2 = function(event, d) {
-  tooltip2.html("Year: " + d.Season + "<br> OD Salary: " + d.OD_Salary + "<br")
-  // TODO: format salary correctly (for tooltip and scale)
+  tooltip2.html("Year: " + d.Season + "<br> OD Salary: " + currency(+d.OD_Salary) + "<br")
           .style("opacity", 1);
 };
 
@@ -328,10 +326,9 @@ const line2 = svg2.append('g')
                  .attr("stroke", (d) => { return color2("valueA"); })
                  .style("stroke-width", 5)
                  .style("fill", "none");
-                 // TODO label the lines with the team
 
 // initialize circles with first team
-let circles2 = svg2.selectAll("circle")
+circles2 = svg2.selectAll("circle")
                    .data(data.filter((d) => {return d.Team == "ATL"}))
                    .enter()
                    .append("circle")
@@ -389,62 +386,53 @@ const label2 = svg2.append("text")
           .style("fill", (d) => { return color2(selectedGroup); })
           .text(selectedGroup) ;
     }
+  }
 
-  // run the update function when a new team is selected
+  // run the update function for both graphs when a new team is selected from dropdown
   d3.select("#selectButton").on("change", function(event,d) {
     // determine the user's selected option
     const selectedOption2 = d3.select(this).property("value")
 
     // clear all existing circles to add new circles
+    circles.remove()
     circles2.remove()
     
-    // run the update function with the user's selection
-    update2(selectedOption2)})  
+    // run both update functions with the user's selection
+    update(selectedOption2)
+    update2(selectedOption2)
+  })  
 
-
-
-
-  }
 });
 
-var treeData =
+// bracket visualization
+
+// hard-coded tree data
+var treeData = 
+{"name": "Red Sox",
+    "children": 
+    [{ "name": "Astros",
+          "children": 
+              [{ "name": "Indians" },
+               { "name": "Astros" }]},
+     { "name": "Red Sox",
+            "children": 
+                [{ "name": "Red Sox" },
+                 { "name": "Yankees", 
+                      "children" : 
+                          [{ "name": "Yankees"},
+                           { "name": "A's"}
+                          ] }
+                ] }
+    ]
+} ;
+
 {
-  "name": "Red Sox",
-  "children": [
-    { 
-      "name": "Astros",
-      "children": [
-        { "name": "Indians" },
-        { "name": "Astros" }
-      ]
-    },
-    {  "name": "Red Sox",
-    "children": [
-      { "name": "Red Sox" },
-      { "name": "Yankees", 
-        "children" : [
-          { "name": "Yankees"},
-          { "name": "A's"}
-        ] }
-    ] }
-  ]
-};
-
-// append the svg object to the body of the page
-// appends a 'group' element to 'svg'
-// moves the 'group' element to the top left margin
-const svg3 = d3.select("#vis-container3").append("svg")
-  .attr("width", width + margin.right + margin.left)
-  .attr("height", height + margin.top + margin.bottom)
-.append("g")
-  .attr("transform", "translate("
-        + margin.left + "," + margin.top + ")");
 
 
 
-var i = 0,
-  duration = 750,
-  root;
+
+
+var i = 0, duration = 750, root;
 
 // declares a tree layout and assigns the size
 var treemap = d3.tree().size([height, width]);
@@ -455,7 +443,7 @@ root.x0 = height / 2;
 root.y0 = 0;
 
 
-update(root);
+update3(root);
 
 // Collapse the node and all it's children
 function collapse(d) {
@@ -466,7 +454,7 @@ if(d.children) {
 }
 }
 
-function update(source) {
+function update3(source) {
 
 // Assigns the x and y position for the nodes
 var treeData = treemap(root);
@@ -611,6 +599,25 @@ function click(event, d) {
       d.children = d._children;
       d._children = null;
     }
-  update(d);
+  update3(d);
 }
 }
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
