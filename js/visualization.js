@@ -12,6 +12,11 @@ const svg1 = d3.select("#vis-container")
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
 
+const svg2 = d3.select("#vis-container2")
+                .append("svg")
+                .attr("width", width - margin.left - margin.right)
+                .attr("height", height - margin.top - margin.bottom)
+                .attr("viewBox", [0, 0, width, height]);
 
 // upload data
 d3.csv("data/final_mlb_data.csv").then((data) => {
@@ -21,8 +26,8 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
     console.log(data[i]);}
 
   // initialize variables
-  let x1, y1;
-  let xKey1, yKey1;
+  let x1, y1, x2, y2;
+  let xKey1, yKey1, xKey2, yKey2;
   
   // success score over seasons line graph 
   {
@@ -75,7 +80,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
                     .attr("y", margin.top)
                     .attr("fill", "black")
                     .attr("text-anchor", "end")
-                    .text(yKey1));
+                    .text("Percent Wins"));
 
   // add the div for tooltip
   const tooltip1 = d3.select("body")
@@ -86,7 +91,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   
   // add values to tooltip on mouseover
   const mouseover1 = function(event, d) {
-    tooltip1.html("Year: " + d.Season + "<br> Success Score: " + d.Success_Score + "<br")
+    tooltip1.html("Year: " + d.Season + "<br> Percent Wins: " + d.Success_Score + "%" + "<br")
             .style("opacity", 1);
   };
 
@@ -115,6 +120,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
     .append('option')
     .text((d) => { return d; }) 
     .attr("value", (d) => { return d; }); 
+    // TODO location of selectButton?
 
   // setting the color for each team (hex codes from the teams)
   const color = d3.scaleOrdinal()
@@ -139,7 +145,7 @@ const line = svg1.append('g')
                  // TODO label the lines with the team
 
 // initialize circles with first team
-const circles = svg1.selectAll("circle")
+let circles = svg1.selectAll("circle")
                  .data(data.filter((d) => {return d.Team == "ATL"}))
                  .enter()
                  .append("circle")
@@ -154,9 +160,7 @@ const circles = svg1.selectAll("circle")
 // initialize line label with first team
 var success_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].Success_Score ;
 const label = svg1.append("text")
-              // need the correct transform/translate
               .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 10) + "," + y1(success_2018) + ")")
-              //.attr("transform", "translate(" + (width+3) + "," + y(data[0].open) + ")")
               .attr("dy", ".35em")
               .attr("text-anchor", "start")
               .style("fill", (d) => { return color("valueA"); })
@@ -172,22 +176,26 @@ function update(selectedGroup) {
     // updated line data
     line
         .datum(dataFilter)
-        .transition()
-        .duration(1000)
+        //.transition()
+        //.duration(1000)
         .attr("d", d3.line()
                       .x((d) => { return x1(new Date(d.Season, 0, 1)); })
                       .y((d) => { return y1(d.Success_Score); }))
         .attr("stroke", (d) => { return color(selectedGroup); });
 
     // updated circles data
-    circles
-        .data(dataFilter)
-        .transition()
-        .duration(1000)
-        .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
-        .attr("cy", (d) => { return y1(d.Success_Score); })
-        .attr("r", 5)
-        .style("fill", (d) => { return color(selectedGroup); });
+    circles = svg1.selectAll("circle")
+                  .data(dataFilter)
+                  .enter()
+                  .append("circle")
+                  .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
+                  .attr("cy", (d) => { return y1(d.Success_Score); })
+                  .attr("r", 5)
+                  .style("fill", (d) => { return color(selectedGroup); })
+                  .on("mouseover", mouseover1) 
+                  .on("mousemove", mousemove1)
+                  .on("mouseleave", mouseleave1);
+    // TODO add in transitions for line, circle, label ?
 
     // updated line label data
     success_2018 = dataFilter[dataFilter.length - 1].Success_Score ; 
@@ -195,16 +203,206 @@ function update(selectedGroup) {
         .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 10) + "," + y1(success_2018) + ")")
         .style("fill", (d) => { return color(selectedGroup); })
         .text(selectedGroup) ;
-
   }
 
   // run the update function when a new team is selected
   d3.select("#selectButton").on("change", function(event,d) {
     // determine the user's selected option
     const selectedOption = d3.select(this).property("value")
+
+    // clear all existing circles to add new circles
+    circles.remove()
     
     // run the update function with the user's selection
     update(selectedOption)})
+
+  }
+
+
+
+  // spending over seasons line graph
+  {
+    xKey2 = 'Season';
+    yKey2 = 'OD_Salary';
+
+    // finding the min and max years
+    minX2 = d3.min(data, (d) => { return d[xKey2]; });
+    maxX2 = d3.max(data, (d) => { return d[xKey2]; });
+
+    // create x scale
+    x2 = d3.scaleTime()
+            .domain([new Date(minX2, 0, 1), new Date(maxX2, 0, 1)])
+            .range([margin.left, width - margin.right]) ;
+
+    // add x axis
+    svg2.append("g")
+     .attr("transform", `translate(0,${height - margin.bottom})`)
+     .call(d3.axisBottom(x2))
+     .selectAll("text")  
+     .style("text-anchor", "end")
+     .attr("dx", "-.8em")
+     .attr("dy", ".15em")
+     .attr("transform", "rotate(-65)")
+     .attr("font-size", '20px')
+     .call((g) => g.append("text")
+                   .attr("x", width - margin.right)
+                   .attr("y", margin.bottom - 4)
+                   .attr("fill", "black")
+                   .attr("text-anchor", "end")
+                   .text(xKey2)
+                   // TODO: make sure graph has x-axis label
+                   );
+
+    // find max OD salary
+    maxY2 = d3.max(data, (d) => { return +d[yKey2]; });
+    //console.log("maxy2: " + maxY2);
+
+    // create y scale
+    y2 = d3.scaleLinear()
+              .domain([0, maxY2])
+              .range([height - margin.bottom, margin.top]);
+
+    // add y axis 
+  svg2.append("g")
+  .attr("transform", `translate(${margin.left}, 0)`) 
+  .call(d3.axisLeft(y2)) 
+  .attr("font-size", '20px') 
+  .call((g) => g.append("text")
+                .attr("x", 0)
+                .attr("y", margin.top)
+                .attr("fill", "black")
+                .attr("text-anchor", "end")
+                .text(yKey2));
+
+
+  // add the div for tooltip
+  const tooltip2 = d3.select("body")
+                        .append("div")
+                        .attr("id", "tooltip2")
+                        .style("opacity", 0)
+                        .attr("class", "tooltip");
+
+// add values to tooltip on mouseover
+const mouseover2 = function(event, d) {
+  tooltip2.html("Year: " + d.Season + "<br> OD Salary: " + d.OD_Salary + "<br")
+  // TODO: format salary correctly (for tooltip and scale)
+          .style("opacity", 1);
+};
+
+// position tooltip to follow mouse
+const mousemove2 = function(event, d) {
+  tooltip2.style("left", (event.pageX) + "px")
+          .style("top", (event.pageY + yTooltipOffset) + "px");
+};
+
+// return tooltip to transparent when mouse leaves
+const mouseleave2 = function(event, d) {
+  tooltip2.style("opacity", 0);
+};
+
+// group by the team name
+var sumstat2 = d3.group(data, d => d.Team);
+
+// list of group names
+var res2 = Array.from(sumstat2.keys());
+
+  // setting the color for each team (hex codes from the teams)
+  const color2 = d3.scaleOrdinal()
+    .domain(res2)
+    .range(['#CE1141','#DF4601', '#BD3039', '#0E3386', '#27251F', 
+            '#C6011F', '#E31937', '#0C2340', '#002D62', '#004687',
+            '#BA0021', '#005A9C', '#FFC52F', '#002B5C', '#FF5910',
+            '#003087', '#003831', '#E81828', '#FDB827', '#2F241D',
+            '#005C5C', '#FD5A1E', '#C41E3A', '#003278', '#134A8E', 
+            '#AB0003', '#33006F', '#00A3E0', '#A71930', '#092C5C']);
+
+// initialize line with first team
+const line2 = svg2.append('g')
+                 .append("path")
+                 .datum(data.filter((d) => {return d.Team == "ATL"}))
+                 .attr("d", d3.line()
+                                .x((d) => { 
+                                  return x2(new Date(d.Season, 0, 1)); })
+                                .y((d) => { 
+                                  return y2(d.OD_Salary); }))
+                 .attr("stroke", (d) => { return color2("valueA"); })
+                 .style("stroke-width", 5)
+                 .style("fill", "none");
+                 // TODO label the lines with the team
+
+// initialize circles with first team
+let circles2 = svg2.selectAll("circle")
+                   .data(data.filter((d) => {return d.Team == "ATL"}))
+                   .enter()
+                   .append("circle")
+                   .attr("cx", (d) => { return x2(new Date(d.Season, 0, 1)); })
+                   .attr("cy", (d) => { return y2(d.OD_Salary); })
+                   .attr("r", 5)
+                   .style("fill", (d) => { return color2("valueA"); })
+                   .on("mouseover", mouseover2) 
+                   .on("mousemove", mousemove2)
+                   .on("mouseleave", mouseleave2);
+
+
+// initialize line label with first team
+var od_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].OD_Salary ;
+const label2 = svg2.append("text")
+              .attr("transform", "translate(" + (x2(new Date(2018, 0, 1)) + 10) + "," + y2(od_2018) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", (d) => { return color2("valueA"); })
+              .text(res2[0]);
+
+// function to update the chart
+  function update2(selectedGroup) {
+  
+    // create new data with the selection
+    const dataFilter = data.filter((d) => {
+      return d.Team == selectedGroup; } );
+  
+      // updated line data
+      line2
+          .datum(dataFilter)
+          .attr("d", d3.line()
+                        .x((d) => { return x2(new Date(d.Season, 0, 1)); })
+                        .y((d) => { return y2(d.OD_Salary); }))
+          .attr("stroke", (d) => { return color2(selectedGroup); });
+  
+      // updated circles data
+      circles2 = svg2.selectAll("circle")
+                    .data(dataFilter)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", (d) => { return x2(new Date(d.Season, 0, 1)); })
+                    .attr("cy", (d) => { return y2(d.OD_Salary); })
+                    .attr("r", 5)
+                    .style("fill", (d) => { return color2(selectedGroup); })
+                    .on("mouseover", mouseover2) 
+                    .on("mousemove", mousemove2)
+                    .on("mouseleave", mouseleave2);
+      // TODO add in transitions for line, circle, label ?
+  
+      // updated line label data
+      od_2018 = dataFilter[dataFilter.length - 1].OD_Salary ; 
+      label2
+          .attr("transform", "translate(" + (x2(new Date(2018, 0, 1)) + 10) + "," + y2(od_2018) + ")")
+          .style("fill", (d) => { return color2(selectedGroup); })
+          .text(selectedGroup) ;
+    }
+
+  // run the update function when a new team is selected
+  d3.select("#selectButton").on("change", function(event,d) {
+    // determine the user's selected option
+    const selectedOption2 = d3.select(this).property("value")
+
+    // clear all existing circles to add new circles
+    circles2.remove()
+    
+    // run the update function with the user's selection
+    update2(selectedOption2)})  
+
+
+
 
   }
 

@@ -1,4 +1,4 @@
-Season,Team,W,L,OD,Current,AVG Salary,Median,Success_Score,LeagueID,DivisionID,Rank,Division_Win,Wildcard_Win,League_Win,WorldSeries_Win,Name
+Season,Team,W,L,OD_Salary,Current,AVG Salary,Median,Success_Score,LeagueID,DivisionID,Rank,Division_Win,Wildcard_Win,League_Win,WorldSeries_Win,Name
 1988,ATL,54,106,9967167.0,9967167.0,383353,140000,33.75,NL,W,6,N,,N,N,Atlanta Braves
 1988,BAL,54,107,9995404.0,9995404.0,416475,162500,33.54,AL,E,7,N,,N,N,Baltimore Orioles
 1988,BOS,89,73,15544592.0,15544592.0,597869,405000,54.94,AL,E,1,Y,,N,N,Boston Red Sox
