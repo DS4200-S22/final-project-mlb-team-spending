@@ -405,8 +405,7 @@ const label2 = svg2.append("text")
 
 
   }
-
-
+});
 
 var treeData =
 {
@@ -440,6 +439,8 @@ const svg3 = d3.select("#vis-container3").append("svg")
 .append("g")
   .attr("transform", "translate("
         + margin.left + "," + margin.top + ")");
+
+
 
 var i = 0,
   duration = 750,
@@ -514,6 +515,8 @@ nodeEnter.append('text')
     .text(function(d) { 
       console.log("data name: " + d.data.name )
       return d.data.name; });
+
+
 
 // UPDATE
 var nodeUpdate = nodeEnter.merge(node);
@@ -611,9 +614,3 @@ function click(event, d) {
   update(d);
 }
 }
-
-
-
-
-
-});
