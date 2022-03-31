@@ -406,27 +406,81 @@ const label2 = svg2.append("text")
 });
 
 
-// bracket visualization
-{
-// hard-coded tree data
-var treeData = 
-{"name": "Red Sox",
-    "children": 
-    [{ "name": "Astros",
+// DATA FOR BRACKET
+d3.csv("data/postseason_data.csv").then((data) => {
+
+    // print first 10 rows of data to the console
+  for (var i = 0; i < 10; i++) {
+    console.log(data[i]);}
+
+  // given a year, assign the AL bracket
+  function assignALBracket(year) {
+    // filter by the year the user has selected
+      yearFilter = data.filter((d) => {return d.Season == year;});
+
+    // get the AL team who played in the world series
+      seriesFilter = yearFilter.filter((d) => {return d.Series_Played == 'WorldSeries';});
+      win_in_al = seriesFilter[0].AL_Win ; 
+
+      // winning ws team
+      ws_winner = seriesFilter[0].Winning_Team ; 
+      ws_loser = seriesFilter[0].Losing_Team ;
+
+      al_ws_team = (win_in_al == true) ? ws_winner : ws_loser ;
+
+    // filter the year based on the AL league
+      leagueFilter = yearFilter.filter((d) => {return d.League == "AL";});
+
+    // get the wildcard teams
+      wildcard = leagueFilter.filter((d) => {return d.Series_Played == 'Wildcard';});
+        // winning wildcard team
+          wc_winner = wildcard[0].Winning_Team ;
+        // losing wildcard team
+          wc_loser = wildcard[0].Losing_Team ;
+
+    // get the division1 teams
+      division1 = leagueFilter.filter((d) => {return d.Series_Played == 'Division1';});
+        // winning d1 team
+            d1_winner = division1[0].Winning_Team ;
+        // losing d1 team
+            d1_loser = division1[0].Losing_Team ;
+        // non-wildcard team
+            d1_notwc = (wc_winner == d1_winner) ? d1_loser : d1_winner ;
+
+    // get the division2 teams
+        division2 = leagueFilter.filter((d) => {return d.Series_Played == 'Division2';});
+          // winning d2 team
+              d2_winner = division2[0].Winning_Team ;
+          // losing d2 team
+              d2_loser = division2[0].Losing_Team ;
+                
+
+    // build the bracket with this data
+    var bracket = 
+      {"name": al_ws_team,
           "children": 
-              [{ "name": "Indians" },
-               { "name": "Astros" }]},
-     { "name": "Red Sox",
+          [{ "name": d2_winner,
+                  "children": 
+                  [{ "name": d2_winner},
+                   { "name": d2_loser}]},
+           { "name": d1_winner,
             "children": 
-                [{ "name": "Red Sox" },
-                 { "name": "Yankees", 
+                [{ "name": d1_notwc}, 
+                 { "name": wc_winner, 
                       "children" : 
-                          [{ "name": "Yankees"},
-                           { "name": "A's"}
-                          ] }
-                ] }
-    ]
-} ;
+                          [{ "name": wc_winner},
+                           { "name": wc_loser}
+                          ]
+                 }] 
+           }]
+      } ;
+
+    return bracket ;  };
+
+console.log(assignALBracket(2018));
+
+var treeData = assignALBracket(2018);
+
 
 var i = 0, duration = 750, root;
  
@@ -585,12 +639,19 @@ function update3(source) {
    update3(d);
  }
 }
-}
 
 
 
 
 
+
+
+
+
+
+
+
+});
 
 
 
