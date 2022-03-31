@@ -20,20 +20,30 @@ const svg2 = d3.select("#vis-container")
                 .attr("viewBox", [0, 0, width, height]);
 
 // append svg object to house bracket
+/*const svg3 = d3.select("#vis-container2")
+                .append("svg")
+                .attr("width", width + margin.right + margin.left)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate("+ margin.left + "," + margin.top + ")") ; */
 const svg3 = d3.select("#vis-container2")
                 .append("svg")
-                .attr("width", width + margin.right + margin.left)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate("+ margin.left + "," + margin.top + ")") ;
+                .attr("width", width - margin.left - margin.right)
+                .attr("height", height - margin.top - margin.bottom)
+                .attr("viewBox", [0, 0, width, height]);                
 
 // append svg object to house bracket
-const svg4 = d3.select("#vis-container2")
+/*const svg4 = d3.select("#vis-container2")
                 .append("svg")
                 .attr("width", width + margin.right + margin.left)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
-                .attr("transform", "translate("+ margin.left + "," + margin.top + ")") ;
+                .attr("transform", "translate("+ margin.left + "," + margin.top + ")") ; */
+const svg4 = d3.select("#vis-container2")
+                .append("svg")
+                .attr("width", width - margin.left - margin.right)
+                .attr("height", height - margin.top - margin.bottom)
+                .attr("viewBox", [0, 0, width, height]);   
 
 // upload data
 d3.csv("data/final_mlb_data.csv").then((data) => {
@@ -143,7 +153,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   // setting the color for each team (hex codes from the teams)
   const color = d3.scaleOrdinal()
     .domain(res)
-    .range(['#CE1141','#DF4601', '#BD3039', '#0E3386', '#27251F', 
+    .range(['#CE1141','#DF4601', '#BD3039', '#0E3386', '#27201F', 
             '#C6011F', '#E31937', '#0C2340', '#002D62', '#004687',
             '#BA0021', '#005A9C', '#FFC52F', '#002B5C', '#FF5910',
             '#003087', '#003831', '#E81828', '#FDB827', '#2F241D',
@@ -315,7 +325,7 @@ var res2= Array.from(sumstat2.keys());
   // setting the color for each team (hex codes from the teams)
   const color2 = d3.scaleOrdinal()
     .domain(res2)
-    .range(['#CE1141','#DF4601', '#BD3039', '#0E3386', '#27251F', 
+    .range(['#CE1141','#DF4601', '#BD3039', '#0E3386', '#27201F', 
             '#C6011F', '#E31937', '#0C2340', '#002D62', '#004687',
             '#BA0021', '#005A9C', '#FFC52F', '#002B5C', '#FF5910',
             '#003087', '#003831', '#E81828', '#FDB827', '#2F241D',
@@ -526,7 +536,8 @@ function drawTreeAL(treeData) {
    var nodeEnter = node.enter().append('g')
        .attr('class', 'node')
        .attr("transform", function(d) {
-         return "translate(" + (width*0.5 - source.y0) + "," + source.x0 + ")"; // CHANGED FOR AL BRACKET
+          console.log("source.y0: "+ source.y0);
+          return "translate(" + (width*0.95 - source.y0) + "," + source.x0 + ")"; // CHANGED FOR AL BRACKET
      })
      .on('click', click);
    
@@ -541,7 +552,7 @@ function drawTreeAL(treeData) {
    // Add labels for the nodes
    nodeEnter.append('text')
        .attr("dy", ".35em")
-       .attr("x", function(d) { return d.children || d._children ? 5 : -10 ; })
+       .attr("x", function(d) { return d.children || d._children ? 40 : -10 ; })
        .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
        .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
        .text(function(d) {
@@ -554,7 +565,7 @@ function drawTreeAL(treeData) {
    nodeUpdate.transition()
      .duration(duration)
      .attr("transform", function(d) {
-         return "translate(" + (width*0.5 - d.y) + "," + d.x + ")";  // CHANGED FOR AL GRAPH WIDTH * 0.5
+         return "translate(" + (width*0.95 - d.y) + "," + d.x + ")";  // CHANGED FOR AL GRAPH
       });
    
    // Update the node attributes and style
@@ -614,10 +625,10 @@ function drawTreeAL(treeData) {
    // Creates a bracket path from parent to the child nodes
    function diagonal(s, d) {
   
-     path = (`M ${(width*0.5 - s.y)} ${s.x}
-             C ${((width*0.5 - s.y) + (width*0.5 - d.y)) / 2} ${s.x},
-               ${((width*0.5 - s.y) + (width*0.5 - d.y)) / 2} ${d.x},
-               ${width*0.5 - d.y} ${d.x}`).replace('C', 'L')
+     path = (`M ${(width*0.95 - s.y)} ${s.x}
+             C ${((width*0.95 - s.y) + (width*0.95 - d.y)) / 2} ${s.x},
+               ${((width*0.95 - s.y) + (width*0.95 - d.y)) / 2} ${d.x},
+               ${width*0.95 - d.y} ${d.x}`).replace('C', 'L')
      
      return path
    };
@@ -728,7 +739,7 @@ function update4(source) {
  var nodeEnter = node.enter().append('g')
      .attr('class', 'node')
      .attr("transform", function(d) {
-       return "translate(" + source.y0 + "," + source.x0 + ")";
+       return "translate(" + (40 + source.y0) + "," + source.x0 + ")"; //(width*0.95 - source.y0)
    })
    .on('click', click);
  
@@ -743,7 +754,7 @@ function update4(source) {
  // Add labels for the nodes
  nodeEnter.append('text')
      .attr("dy", ".35em")
-     .attr("x", function(d) { return d.children || d._children ? 5 : -10 ; })
+     .attr("x", function(d) { return d.children || d._children ? 60 : -10 ; })
      .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
      .text(function(d) {
@@ -756,7 +767,7 @@ function update4(source) {
  nodeUpdate.transition()
    .duration(duration)
    .attr("transform", function(d) {
-       return "translate(" + d.y + "," + d.x + ")";
+       return "translate(" + (40 + d.y) + "," + d.x + ")";
     });
  
  // Update the node attributes and style
@@ -816,10 +827,10 @@ function update4(source) {
  // Creates a bracket path from parent to the child nodes
  function diagonal(s, d) {
 
-   path = (`M ${s.y} ${s.x}
-           C ${(s.y + d.y) / 2} ${s.x},
-             ${(s.y + d.y) / 2} ${d.x},
-             ${d.y} ${d.x}`).replace('C', 'L')
+   path = (`M ${(40 + s.y)} ${s.x}
+           C ${((40 + s.y) + (40 + d.y)) / 2} ${s.x},
+             ${((40 + s.y) + (40 + d.y)) / 2} ${d.x},
+             ${(40 + d.y)} ${d.x}`).replace('C', 'L')
    
    return path
  };
