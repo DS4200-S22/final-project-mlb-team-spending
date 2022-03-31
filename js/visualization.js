@@ -476,15 +476,7 @@ d3.csv("data/postseason_data.csv").then((data) => {
 
 
 // setting up the button
-
-/*
-// group by the season
-var sumstat = d3.group(data, d => d.Season);
-// list of group names
-var res = Array.from(sumstat.keys());
-*/
 var res = [2018, 2017, 2016, 2015, 2014, 2013, 2012] ; 
-
 
 // add the options to the button
 d3.select("#selectButton2")
@@ -497,31 +489,21 @@ d3.select("#selectButton2")
 
 // initialize bracket with first year
 var treeData = assignALBracket(2018);
-drawTree(treeData)
+drawTreeAL(treeData)
 
-function drawTree(treeData) {
+function drawTreeAL(treeData) {
   var i = 0, duration = 750, root;
  
   // declares a tree layout and assigns the size
-  var treemap = d3.tree().size([height, width]);
+  var treemap = d3.tree().size([height, width]); // CHANGE WIDTH TO FIT BOTH BRACKETS ?
    
   // Assigns parent, children, height, depth
   root = d3.hierarchy(treeData, function(d) { return d.children; });
   root.x0 = height / 2;
   root.y0 = 0;
-  console.log("rootx0: "+root.x0);
-   
-   
+
   update3(root);
-   
-  // Collapse the node and all it's children
-  function collapse(d) {
-   if(d.children) {
-     d._children = d.children
-     d._children.forEach(collapse)
-     d.children = null
-   }
-  }
+  
    
   function update3(source) {
    
@@ -533,7 +515,7 @@ function drawTree(treeData) {
        links = treeData.descendants().slice(1);
    
    // Normalize for fixed-depth.
-   nodes.forEach(function(d){ d.y = d.depth * 180});
+   nodes.forEach(function(d){ d.y = d.depth * 180}); // the distance between parent and child
    
    // ****************** Nodes section ***************************
    // Update the nodes...
@@ -544,9 +526,7 @@ function drawTree(treeData) {
    var nodeEnter = node.enter().append('g')
        .attr('class', 'node')
        .attr("transform", function(d) {
-         //console.log(source.y0)
-         //console.log(source.x0)
-         return "translate(" + source.y0 + "," + source.x0 + ")";
+         return "translate(" + (width*0.5 - source.y0) + "," + source.x0 + ")"; // CHANGED FOR AL BRACKET
      })
      .on('click', click);
    
@@ -555,7 +535,6 @@ function drawTree(treeData) {
        .attr('class', 'node')
        .attr('r', 1e-6)
        .style("fill", function(d) {
-           //console.log(d._children)
            return d._children ? "lightsteelblue" : "#fff";
        });
    
@@ -566,7 +545,6 @@ function drawTree(treeData) {
        .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
        .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
        .text(function(d) {
-         //console.log("data name: " + d.data.name )
          return d.data.name; });
    
    // UPDATE
@@ -576,7 +554,7 @@ function drawTree(treeData) {
    nodeUpdate.transition()
      .duration(duration)
      .attr("transform", function(d) {
-         return "translate(" + d.y + "," + d.x + ")";
+         return "translate(" + (width*0.5 - d.y) + "," + d.x + ")";  // CHANGED FOR AL GRAPH WIDTH * 0.5
       });
    
    // Update the node attributes and style
@@ -636,10 +614,10 @@ function drawTree(treeData) {
    // Creates a bracket path from parent to the child nodes
    function diagonal(s, d) {
   
-     path = (`M ${s.y} ${s.x}
-             C ${(s.y + d.y) / 2} ${s.x},
-               ${(s.y + d.y) / 2} ${d.x},
-               ${d.y} ${d.x}`).replace('C', 'L')
+     path = (`M ${(width*0.5 - s.y)} ${s.x}
+             C ${((width*0.5 - s.y) + (width*0.5 - d.y)) / 2} ${s.x},
+               ${((width*0.5 - s.y) + (width*0.5 - d.y)) / 2} ${d.x},
+               ${width*0.5 - d.y} ${d.x}`).replace('C', 'L')
      
      return path
    };
@@ -658,9 +636,7 @@ function drawTree(treeData) {
   }
 }
 
-
-
-// given a year, assign the AL bracket
+// given a year, assign the NL bracket
 function assignNLBracket(year) {
   // filter by the year the user has selected
     yearFilter = data.filter((d) => {return d.Season == +year;});
@@ -727,19 +703,8 @@ var treemap = d3.tree().size([height, width]);
 root = d3.hierarchy(treeDataNL, function(d) { return d.children; });
 root.x0 = height / 2;
 root.y0 = 0;
-console.log("rootx0: "+root.x0);
- 
  
 update4(root);
- 
-// Collapse the node and all it's children
-function collapse(d) {
- if(d.children) {
-   d._children = d.children
-   d._children.forEach(collapse)
-   d.children = null
- }
-}
  
 function update4(source) {
  
@@ -763,8 +728,6 @@ function update4(source) {
  var nodeEnter = node.enter().append('g')
      .attr('class', 'node')
      .attr("transform", function(d) {
-       //console.log(source.y0)
-       //console.log(source.x0)
        return "translate(" + source.y0 + "," + source.x0 + ")";
    })
    .on('click', click);
@@ -774,7 +737,6 @@ function update4(source) {
      .attr('class', 'node')
      .attr('r', 1e-6)
      .style("fill", function(d) {
-         //console.log(d._children)
          return d._children ? "lightsteelblue" : "#fff";
      });
  
@@ -785,7 +747,6 @@ function update4(source) {
      .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
      .text(function(d) {
-       //console.log("data name: " + d.data.name )
        return d.data.name; });
  
  // UPDATE
@@ -878,7 +839,6 @@ function update4(source) {
 }
 
 // button functionality
-
 // function to update the chart
 function update(selectedYear) {
 
@@ -888,7 +848,7 @@ function update(selectedYear) {
   treeDataNL = assignNLBracket(selectedYear) ; 
 
   // draw new tree
-  drawTree(treeData) ; 
+  drawTreeAL(treeData) ; 
   // draw new tree
   drawTreeNL(treeDataNL) ;
 }
