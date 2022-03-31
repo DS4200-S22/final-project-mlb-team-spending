@@ -131,7 +131,6 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
     .append('option')
     .text((d) => { return d; }) 
     .attr("value", (d) => { return d; }); 
-    // TODO location of selectButton?
 
   // setting the color for each team (hex codes from the teams)
   const color = d3.scaleOrdinal()
@@ -406,7 +405,7 @@ const label2 = svg2.append("text")
 });
 
 
-// DATA FOR BRACKET
+// bracket visualization
 d3.csv("data/postseason_data.csv").then((data) => {
 
     // print first 10 rows of data to the console
@@ -416,40 +415,29 @@ d3.csv("data/postseason_data.csv").then((data) => {
   // given a year, assign the AL bracket
   function assignALBracket(year) {
     // filter by the year the user has selected
-      yearFilter = data.filter((d) => {return d.Season == year;});
-
-    // get the AL team who played in the world series
-      seriesFilter = yearFilter.filter((d) => {return d.Series_Played == 'WorldSeries';});
-      win_in_al = seriesFilter[0].AL_Win ; 
-
-      // winning ws team
-      ws_winner = seriesFilter[0].Winning_Team ; 
-      ws_loser = seriesFilter[0].Losing_Team ;
-
-      al_ws_team = (win_in_al == true) ? ws_winner : ws_loser ;
+      yearFilter = data.filter((d) => {return d.Season == +year;});
 
     // filter the year based on the AL league
       leagueFilter = yearFilter.filter((d) => {return d.League == "AL";});
 
+    // get championship winner
+      championship = leagueFilter.filter((d) => {return d.Series_Played == 'Championship'})
+          c_winner = championship[0].Winning_Team ; 
+
     // get the wildcard teams
       wildcard = leagueFilter.filter((d) => {return d.Series_Played == 'Wildcard';});
-        // winning wildcard team
           wc_winner = wildcard[0].Winning_Team ;
-        // losing wildcard team
           wc_loser = wildcard[0].Losing_Team ;
 
     // get the division1 teams
       division1 = leagueFilter.filter((d) => {return d.Series_Played == 'Division1';});
-        // winning d1 team
             d1_winner = division1[0].Winning_Team ;
-        // losing d1 team
             d1_loser = division1[0].Losing_Team ;
-        // non-wildcard team
+            // not wildcard team
             d1_notwc = (wc_winner == d1_winner) ? d1_loser : d1_winner ;
 
     // get the division2 teams
         division2 = leagueFilter.filter((d) => {return d.Series_Played == 'Division2';});
-          // winning d2 team
               d2_winner = division2[0].Winning_Team ;
           // losing d2 team
               d2_loser = division2[0].Losing_Team ;
@@ -457,7 +445,7 @@ d3.csv("data/postseason_data.csv").then((data) => {
 
     // build the bracket with this data
     var bracket = 
-      {"name": al_ws_team,
+      {"name": c_winner,
           "children": 
           [{ "name": d2_winner,
                   "children": 
@@ -477,177 +465,211 @@ d3.csv("data/postseason_data.csv").then((data) => {
 
     return bracket ;  };
 
-console.log(assignALBracket(2018));
 
+
+// setting up the button
+// group by the season
+var sumstat = d3.group(data, d => d.Season);
+
+// list of group names
+var res = Array.from(sumstat.keys());
+
+// add the options to the button
+d3.select("#selectButton2")
+  .selectAll('myOptions')
+  .data(res)
+  .enter()
+  .append('option')
+  .text((d) => { return d3.format("4")(d); }) 
+  .attr("value", (d) => { return d; });
+
+// initialize bracket with first year
 var treeData = assignALBracket(2018);
+drawTree(treeData)
 
-
-var i = 0, duration = 750, root;
+function drawTree(treeData) {
+  var i = 0, duration = 750, root;
  
-// declares a tree layout and assigns the size
-var treemap = d3.tree().size([height, width]);
- 
-// Assigns parent, children, height, depth
-root = d3.hierarchy(treeData, function(d) { return d.children; });
-root.x0 = height / 2;
-root.y0 = 0;
-console.log("rootx0: "+root.x0);
- 
- 
-update3(root);
- 
-// Collapse the node and all it's children
-function collapse(d) {
- if(d.children) {
-   d._children = d.children
-   d._children.forEach(collapse)
-   d.children = null
- }
-}
- 
-function update3(source) {
- 
- // Assigns the x and y position for the nodes
- var treeData = treemap(root);
- 
- // Compute the new tree layout.
- var nodes = treeData.descendants(),
-     links = treeData.descendants().slice(1);
- 
- // Normalize for fixed-depth.
- nodes.forEach(function(d){ d.y = d.depth * 180});
- 
- // ****************** Nodes section ***************************
- 
- // Update the nodes...
- var node = svg3.selectAll('g.node')
-     .data(nodes, function(d) {return d.id || (d.id = ++i); });
- 
- // Enter any new modes at the parent's previous position.
- var nodeEnter = node.enter().append('g')
-     .attr('class', 'node')
-     .attr("transform", function(d) {
-       //console.log(source.y0)
-       //console.log(source.x0)
-       return "translate(" + source.y0 + "," + source.x0 + ")";
-   })
-   .on('click', click);
- 
- // Add Circle for the nodes
- nodeEnter.append('circle')
-     .attr('class', 'node')
-     .attr('r', 1e-6)
-     .style("fill", function(d) {
-         //console.log(d._children)
-         return d._children ? "lightsteelblue" : "#fff";
-     });
- 
- // Add labels for the nodes
- nodeEnter.append('text')
-     .attr("dy", ".35em")
-     .attr("x", function(d) { return d.children || d._children ? 5 : -10 ; })
-     .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
-     .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-     .text(function(d) {
-       //console.log("data name: " + d.data.name )
-       return d.data.name; });
- 
- // UPDATE
- var nodeUpdate = nodeEnter.merge(node);
- 
- // Transition to the proper position for the node
- nodeUpdate.transition()
-   .duration(duration)
-   .attr("transform", function(d) {
-       return "translate(" + d.y + "," + d.x + ")";
-    });
- 
- // Update the node attributes and style
- nodeUpdate.select('circle.node')
-   .attr('r', 10)
-   .style("fill", function(d) {
-       return d._children ? "lightsteelblue" : "#fff";
-   })
-   .attr('cursor', 'pointer');
- 
- 
- // Remove any exiting nodes
- var nodeExit = node.exit().transition()
-     .duration(duration)
-     .attr("transform", function(d) {
-         return "translate(" + source.y + "," + source.x + ")";
-     })
-     .remove();
- 
- // On exit reduce the node circles size to 0
- nodeExit.select('circle')
-   .attr('r', 1e-6);
- 
- // On exit reduce the opacity of text labels
- nodeExit.select('text')
-   .style('fill-opacity', 1e-6);
- 
- // ****************** links section **************************
- 
- 
- // Update the links...
- var link = svg3.selectAll('path.link')
-                .data(links, function(d) { return d.id; });
- 
- // Enter any new links at the parent's previous position.
- var linkEnter = link.enter().insert('path', "g")
-     .attr("class", "link")
-     .attr('d', function(d){
-       var o = {x: source.x0, y: source.y0}
-       return diagonal(o, o)
-     });
- 
- // UPDATE
- var linkUpdate = linkEnter.merge(link);
- 
- // Transition back to the parent element position
- linkUpdate.transition()
-     .duration(duration)
-     .attr('d', function(d){ return diagonal(d, d.parent) });
- 
- // Store the old positions for transition.
- nodes.forEach(function(d){
-   d.x0 = d.x;
-   d.y0 = d.y;
- });
- 
- // Creates a bracket path from parent to the child nodes
- function diagonal(s, d) {
-
-   path = (`M ${s.y} ${s.x}
-           C ${(s.y + d.y) / 2} ${s.x},
-             ${(s.y + d.y) / 2} ${d.x},
-             ${d.y} ${d.x}`).replace('C', 'L')
+  // declares a tree layout and assigns the size
+  var treemap = d3.tree().size([height, width]);
    
-   return path
- };
-
- // Toggle children on click.
- function click(event, d) {
-   if (d.children) {
-       d._children = d.children;
-       d.children = null;
-     } else {
-       d.children = d._children;
-       d._children = null;
-     }
-   update3(d);
- }
+  // Assigns parent, children, height, depth
+  root = d3.hierarchy(treeData, function(d) { return d.children; });
+  root.x0 = height / 2;
+  root.y0 = 0;
+  console.log("rootx0: "+root.x0);
+   
+   
+  update3(root);
+   
+  // Collapse the node and all it's children
+  function collapse(d) {
+   if(d.children) {
+     d._children = d.children
+     d._children.forEach(collapse)
+     d.children = null
+   }
+  }
+   
+  function update3(source) {
+   
+   // Assigns the x and y position for the nodes
+   var treeData = treemap(root);
+   
+   // Compute the new tree layout.
+   var nodes = treeData.descendants(),
+       links = treeData.descendants().slice(1);
+   
+   // Normalize for fixed-depth.
+   nodes.forEach(function(d){ d.y = d.depth * 180});
+   
+   // ****************** Nodes section ***************************
+   
+   // Update the nodes...
+   var node = svg3.selectAll('g.node')
+       .data(nodes, function(d) {return d.id || (d.id = ++i); });
+   
+   // Enter any new modes at the parent's previous position.
+   var nodeEnter = node.enter().append('g')
+       .attr('class', 'node')
+       .attr("transform", function(d) {
+         //console.log(source.y0)
+         //console.log(source.x0)
+         return "translate(" + source.y0 + "," + source.x0 + ")";
+     })
+     .on('click', click);
+   
+   // Add Circle for the nodes
+   nodeEnter.append('circle')
+       .attr('class', 'node')
+       .attr('r', 1e-6)
+       .style("fill", function(d) {
+           //console.log(d._children)
+           return d._children ? "lightsteelblue" : "#fff";
+       });
+   
+   // Add labels for the nodes
+   nodeEnter.append('text')
+       .attr("dy", ".35em")
+       .attr("x", function(d) { return d.children || d._children ? 5 : -10 ; })
+       .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
+       .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+       .text(function(d) {
+         //console.log("data name: " + d.data.name )
+         return d.data.name; });
+   
+   // UPDATE
+   var nodeUpdate = nodeEnter.merge(node);
+   
+   // Transition to the proper position for the node
+   nodeUpdate.transition()
+     .duration(duration)
+     .attr("transform", function(d) {
+         return "translate(" + d.y + "," + d.x + ")";
+      });
+   
+   // Update the node attributes and style
+   nodeUpdate.select('circle.node')
+     .attr('r', 10)
+     .style("fill", function(d) {
+         return d._children ? "lightsteelblue" : "#fff";
+     })
+     .attr('cursor', 'pointer');
+   
+   
+   // Remove any exiting nodes
+   var nodeExit = node.exit().transition()
+       .duration(duration)
+       .attr("transform", function(d) {
+           return "translate(" + source.y + "," + source.x + ")";
+       })
+       .remove();
+   
+   // On exit reduce the node circles size to 0
+   nodeExit.select('circle')
+     .attr('r', 1e-6);
+   
+   // On exit reduce the opacity of text labels
+   nodeExit.select('text')
+     .style('fill-opacity', 1e-6);
+   
+   // ****************** links section **************************
+   
+   
+   // Update the links...
+   var link = svg3.selectAll('path.link')
+                  .data(links, function(d) { return d.id; });
+   
+   // Enter any new links at the parent's previous position.
+   var linkEnter = link.enter().insert('path', "g")
+       .attr("class", "link")
+       .attr('d', function(d){
+         var o = {x: source.x0, y: source.y0}
+         return diagonal(o, o)
+       });
+   
+   // UPDATE
+   var linkUpdate = linkEnter.merge(link);
+   
+   // Transition back to the parent element position
+   linkUpdate.transition()
+       .duration(duration)
+       .attr('d', function(d){ return diagonal(d, d.parent) });
+   
+   // Store the old positions for transition.
+   nodes.forEach(function(d){
+     d.x0 = d.x;
+     d.y0 = d.y;
+   });
+   
+   // Creates a bracket path from parent to the child nodes
+   function diagonal(s, d) {
+  
+     path = (`M ${s.y} ${s.x}
+             C ${(s.y + d.y) / 2} ${s.x},
+               ${(s.y + d.y) / 2} ${d.x},
+               ${d.y} ${d.x}`).replace('C', 'L')
+     
+     return path
+   };
+  
+   // Toggle children on click.
+   function click(event, d) {
+     if (d.children) {
+         d._children = d.children;
+         d.children = null;
+       } else {
+         d.children = d._children;
+         d._children = null;
+       }
+     update3(d);
+   }
+  }
 }
 
+// button functionality
+// function to update the chart
+function update(selectedYear) {
 
+  // create new tree with selected year
+  treeData = assignALBracket(selectedYear) ; 
 
+  // draw new tree
+  drawTree(treeData) ; 
+}
 
+// run the update function for both graphs when a new team is selected from dropdown
+d3.select("#selectButton2").on("change", function(event,d) {
+  // determine the user's selected option
+  const selectedOption = d3.select(this).property("value") ; 
 
-
-
-
-
+  // clear all elements from the svg
+  svg3.selectAll('g.node').remove();
+  svg3.selectAll('path.link').remove();
+  
+  // run both update functions with the user's selection
+  update(selectedOption) ; 
+})
 
 
 
