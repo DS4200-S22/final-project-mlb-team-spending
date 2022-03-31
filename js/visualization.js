@@ -739,7 +739,7 @@ function update4(source) {
  var nodeEnter = node.enter().append('g')
      .attr('class', 'node')
      .attr("transform", function(d) {
-       return "translate(" + (40 + source.y0) + "," + source.x0 + ")"; //(width*0.95 - source.y0)
+       return "translate(" + (60 + source.y0) + "," + source.x0 + ")";
    })
    .on('click', click);
  
@@ -767,7 +767,7 @@ function update4(source) {
  nodeUpdate.transition()
    .duration(duration)
    .attr("transform", function(d) {
-       return "translate(" + (40 + d.y) + "," + d.x + ")";
+       return "translate(" + (60 + d.y) + "," + d.x + ")";
     });
  
  // Update the node attributes and style
@@ -827,10 +827,10 @@ function update4(source) {
  // Creates a bracket path from parent to the child nodes
  function diagonal(s, d) {
 
-   path = (`M ${(40 + s.y)} ${s.x}
-           C ${((40 + s.y) + (40 + d.y)) / 2} ${s.x},
-             ${((40 + s.y) + (40 + d.y)) / 2} ${d.x},
-             ${(40 + d.y)} ${d.x}`).replace('C', 'L')
+   path = (`M ${(60 + s.y)} ${s.x}
+           C ${((60 + s.y) + (60 + d.y)) / 2} ${s.x},
+             ${((60 + s.y) + (60 + d.y)) / 2} ${d.x},
+             ${(60 + d.y)} ${d.x}`).replace('C', 'L')
    
    return path
  };
