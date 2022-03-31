@@ -468,11 +468,16 @@ d3.csv("data/postseason_data.csv").then((data) => {
 
 
 // setting up the button
+
+/*
 // group by the season
 var sumstat = d3.group(data, d => d.Season);
 
 // list of group names
 var res = Array.from(sumstat.keys());
+*/
+var res = [2018, 2017, 2016, 2015, 2014, 2013, 2012] ; 
+
 
 // add the options to the button
 d3.select("#selectButton2")
