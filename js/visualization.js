@@ -27,6 +27,14 @@ const svg3 = d3.select("#vis-container2")
                 .append("g")
                 .attr("transform", "translate("+ margin.left + "," + margin.top + ")") ;
 
+// append svg object to house bracket
+const svg4 = d3.select("#vis-container2")
+                .append("svg")
+                .attr("width", width + margin.right + margin.left)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate("+ margin.left + "," + margin.top + ")") ;
+
 // upload data
 d3.csv("data/final_mlb_data.csv").then((data) => {
   
@@ -302,7 +310,7 @@ const mouseleave2 = function(event, d) {
 var sumstat2 = d3.group(data, d => d.Team);
 
 // list of group names
-var res2 = Array.from(sumstat2.keys());
+var res2= Array.from(sumstat2.keys());
 
   // setting the color for each team (hex codes from the teams)
   const color2 = d3.scaleOrdinal()
@@ -412,7 +420,7 @@ d3.csv("data/postseason_data.csv").then((data) => {
   for (var i = 0; i < 10; i++) {
     console.log(data[i]);}
 
-  // given a year, assign the AL bracket
+ { // given a year, assign the AL bracket
   function assignALBracket(year) {
     // filter by the year the user has selected
       yearFilter = data.filter((d) => {return d.Season == +year;});
@@ -472,7 +480,6 @@ d3.csv("data/postseason_data.csv").then((data) => {
 /*
 // group by the season
 var sumstat = d3.group(data, d => d.Season);
-
 // list of group names
 var res = Array.from(sumstat.keys());
 */
@@ -529,7 +536,6 @@ function drawTree(treeData) {
    nodes.forEach(function(d){ d.y = d.depth * 180});
    
    // ****************** Nodes section ***************************
-   
    // Update the nodes...
    var node = svg3.selectAll('g.node')
        .data(nodes, function(d) {return d.id || (d.id = ++i); });
@@ -652,15 +658,239 @@ function drawTree(treeData) {
   }
 }
 
+
+
+// given a year, assign the AL bracket
+function assignNLBracket(year) {
+  // filter by the year the user has selected
+    yearFilter = data.filter((d) => {return d.Season == +year;});
+
+  // filter the year based on the NL league
+    leagueFilterNL = yearFilter.filter((d) => {return d.League == "NL";});
+
+  // get championship winner
+    championship = leagueFilterNL.filter((d) => {return d.Series_Played == 'Championship'})
+        c_winner = championship[0].Winning_Team ; 
+
+  // get the wildcard teams
+    wildcard = leagueFilterNL.filter((d) => {return d.Series_Played == 'Wildcard';});
+        wc_winner = wildcard[0].Winning_Team ;
+        wc_loser = wildcard[0].Losing_Team ;
+
+  // get the division1 teams
+    division1 = leagueFilterNL.filter((d) => {return d.Series_Played == 'Division1';});
+          d1_winner = division1[0].Winning_Team ;
+          d1_loser = division1[0].Losing_Team ;
+          // not wildcard team
+          d1_notwc = (wc_winner == d1_winner) ? d1_loser : d1_winner ;
+
+  // get the division2 teams
+      division2 = leagueFilterNL.filter((d) => {return d.Series_Played == 'Division2';});
+            d2_winner = division2[0].Winning_Team ;
+        // losing d2 team
+            d2_loser = division2[0].Losing_Team ;
+              
+
+  // build the bracket with this data
+  var bracketNL = 
+    {"name": c_winner,
+        "children": 
+        [{ "name": d2_winner,
+                "children": 
+                [{ "name": d2_winner},
+                 { "name": d2_loser}]},
+         { "name": d1_winner,
+          "children": 
+              [{ "name": d1_notwc}, 
+               { "name": wc_winner, 
+                    "children" : 
+                        [{ "name": wc_winner},
+                         { "name": wc_loser}
+                        ]
+               }] 
+         }]
+    } ;
+
+  return bracketNL ;  };
+
+// initialize bracket with first year
+var treeDataNL = assignNLBracket(2018);
+drawTreeNL(treeDataNL)
+
+function drawTreeNL(treeDataNL) {
+var i = 0, duration = 750, root;
+
+// declares a tree layout and assigns the size
+var treemap = d3.tree().size([height, width]);
+ 
+// Assigns parent, children, height, depth
+root = d3.hierarchy(treeDataNL, function(d) { return d.children; });
+root.x0 = height / 2;
+root.y0 = 0;
+console.log("rootx0: "+root.x0);
+ 
+ 
+update4(root);
+ 
+// Collapse the node and all it's children
+function collapse(d) {
+ if(d.children) {
+   d._children = d.children
+   d._children.forEach(collapse)
+   d.children = null
+ }
+}
+ 
+function update4(source) {
+ 
+ // Assigns the x and y position for the nodes
+ var treeDataNL = treemap(root);
+ 
+ // Compute the new tree layout.
+ var nodes = treeDataNL.descendants(),
+     links = treeDataNL.descendants().slice(1);
+ 
+ // Normalize for fixed-depth.
+ nodes.forEach(function(d){ d.y = d.depth * 180});
+ 
+ // ****************** Nodes section ***************************
+ 
+ // Update the nodes...
+ var node = svg4.selectAll('g.node')
+     .data(nodes, function(d) {return d.id || (d.id = ++i); });
+ 
+ // Enter any new modes at the parent's previous position.
+ var nodeEnter = node.enter().append('g')
+     .attr('class', 'node')
+     .attr("transform", function(d) {
+       //console.log(source.y0)
+       //console.log(source.x0)
+       return "translate(" + source.y0 + "," + source.x0 + ")";
+   })
+   .on('click', click);
+ 
+ // Add Circle for the nodes
+ nodeEnter.append('circle')
+     .attr('class', 'node')
+     .attr('r', 1e-6)
+     .style("fill", function(d) {
+         //console.log(d._children)
+         return d._children ? "lightsteelblue" : "#fff";
+     });
+ 
+ // Add labels for the nodes
+ nodeEnter.append('text')
+     .attr("dy", ".35em")
+     .attr("x", function(d) { return d.children || d._children ? 5 : -10 ; })
+     .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
+     .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+     .text(function(d) {
+       //console.log("data name: " + d.data.name )
+       return d.data.name; });
+ 
+ // UPDATE
+ var nodeUpdate = nodeEnter.merge(node);
+ 
+ // Transition to the proper position for the node
+ nodeUpdate.transition()
+   .duration(duration)
+   .attr("transform", function(d) {
+       return "translate(" + d.y + "," + d.x + ")";
+    });
+ 
+ // Update the node attributes and style
+ nodeUpdate.select('circle.node')
+   .attr('r', 10)
+   .style("fill", function(d) {
+       return d._children ? "lightsteelblue" : "#fff";
+   })
+   .attr('cursor', 'pointer');
+ 
+ 
+ // Remove any exiting nodes
+ var nodeExit = node.exit().transition()
+     .duration(duration)
+     .attr("transform", function(d) {
+         return "translate(" + source.y + "," + source.x + ")";
+     })
+     .remove();
+ 
+ // On exit reduce the node circles size to 0
+ nodeExit.select('circle')
+   .attr('r', 1e-6);
+ 
+ // On exit reduce the opacity of text labels
+ nodeExit.select('text')
+   .style('fill-opacity', 1e-6);
+ 
+ // ****************** links section **************************
+ 
+ 
+ // Update the links...
+ var link = svg4.selectAll('path.link')
+                .data(links, function(d) { return d.id; });
+ 
+ // Enter any new links at the parent's previous position.
+ var linkEnter = link.enter().insert('path', "g")
+     .attr("class", "link")
+     .attr('d', function(d){
+       var o = {x: source.x0, y: source.y0}
+       return diagonal(o, o)
+     });
+ 
+ // UPDATE
+ var linkUpdate = linkEnter.merge(link);
+ 
+ // Transition back to the parent element position
+ linkUpdate.transition()
+     .duration(duration)
+     .attr('d', function(d){ return diagonal(d, d.parent) });
+ 
+ // Store the old positions for transition.
+ nodes.forEach(function(d){
+   d.x0 = d.x;
+   d.y0 = d.y;
+ });
+ 
+ // Creates a bracket path from parent to the child nodes
+ function diagonal(s, d) {
+
+   path = (`M ${s.y} ${s.x}
+           C ${(s.y + d.y) / 2} ${s.x},
+             ${(s.y + d.y) / 2} ${d.x},
+             ${d.y} ${d.x}`).replace('C', 'L')
+   
+   return path
+ };
+
+ // Toggle children on click.
+ function click(event, d) {
+   if (d.children) {
+       d._children = d.children;
+       d.children = null;
+     } else {
+       d.children = d._children;
+       d._children = null;
+     }
+   update4(d);
+ }
+}
+}
+
 // button functionality
+
 // function to update the chart
 function update(selectedYear) {
 
   // create new tree with selected year
   treeData = assignALBracket(selectedYear) ; 
+  // create new tree with selected year
+  treeDataNL = assignNLBracket(selectedYear) ; 
 
   // draw new tree
   drawTree(treeData) ; 
+  // draw new tree
+  drawTreeNL(treeDataNL) ;
 }
 
 // run the update function for both graphs when a new team is selected from dropdown
@@ -671,16 +901,16 @@ d3.select("#selectButton2").on("change", function(event,d) {
   // clear all elements from the svg
   svg3.selectAll('g.node').remove();
   svg3.selectAll('path.link').remove();
+  // clear all elements from the svg
+  svg4.selectAll('g.node').remove();
+  svg4.selectAll('path.link').remove();
   
   // run both update functions with the user's selection
   update(selectedOption) ; 
 })
 
 
-
+}
 });
-
-
-
 
 
