@@ -397,9 +397,34 @@ const avg_line = svg2.append('g')
                                 .y((d) => { return y2(d.average); }))
                  .attr("stroke", "black")
                  .style("stroke-width", 1.5)
-                 .style("fill", "none");
+                 .style("fill", "none")
+                 .attr("id", "avgline");
+        
+// initialize line label for average line
+const avg_label = svg2.append("text")
+              .attr("transform", "translate(" + (x2(new Date(2018, 0, 1)) + 10) + "," + y2(get_average('2018')) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", "black")
+              .text("avg.")
+              .attr("id", "avgline_label");;
+              
+let salary_button = document.querySelector('#salaryButton');
 
-
+// add event listener to toggle the average salary line
+salary_button.addEventListener('click', () => {
+     // determine if current line is visible
+      var active   = avgline.active ? false : true,
+      newOpacity = active ? 0 : 1;
+                    
+      // hide or show the elements
+      d3.select("#avgline").style("opacity", newOpacity);
+      d3.select("#avgline_label").style("opacity", newOpacity);
+      
+      // update whether or not the elements are active
+      avgline.active = active;
+}) ;
+  
                  
 // function to update the chart
   function update2(selectedGroup) {
