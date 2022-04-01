@@ -40,7 +40,6 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   let x1, y1, x2, y2;
   let xKey1, yKey1, xKey2, yKey2;
   let circles, circles2;
-  let brush1, brush2;
   
   // success score over seasons line graph 
   {
