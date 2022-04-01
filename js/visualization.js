@@ -284,7 +284,7 @@ function currency(current_int) {
 
 // add values to tooltip on mouseover
 const mouseover2 = function(event, d) {
-  tooltip2.html("Year: " + d.Season + "<br> OD Salary: " + currency(+d.OD_Salary) + "<br")
+  tooltip2.html("Year: " + d.Season + "<br> OD Salary: " + currency(+d.OD_Salary) + "<br> Average Salary: " + currency(get_average(d.Season)) + "<br")
           .style("opacity", 1);
 };
 
