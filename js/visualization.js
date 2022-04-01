@@ -19,26 +19,14 @@ const svg2 = d3.select("#vis-container")
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
 
-// append svg object to house bracket
-/*const svg3 = d3.select("#vis-container2")
-                .append("svg")
-                .attr("width", width + margin.right + margin.left)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate("+ margin.left + "," + margin.top + ")") ; */
+// append svg object to house AL bracket
 const svg3 = d3.select("#vis-container2")
                 .append("svg")
                 .attr("width", width - margin.left - margin.right)
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);                
 
-// append svg object to house bracket
-/*const svg4 = d3.select("#vis-container2")
-                .append("svg")
-                .attr("width", width + margin.right + margin.left)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate("+ margin.left + "," + margin.top + ")") ; */
+// append svg object to house NL bracket
 const svg4 = d3.select("#vis-container2")
                 .append("svg")
                 .attr("width", width - margin.left - margin.right)
@@ -47,10 +35,6 @@ const svg4 = d3.select("#vis-container2")
 
 // upload data
 d3.csv("data/final_mlb_data.csv").then((data) => {
-  
-  // print first 10 rows of data to the console
-  for (var i = 0; i < 10; i++) {
-    console.log(data[i]);}
 
   // initialize variables
   let x1, y1, x2, y2;
@@ -322,8 +306,8 @@ var sumstat2 = d3.group(data, d => d.Team);
 // list of group names
 var res2= Array.from(sumstat2.keys());
 
-  // setting the color for each team (hex codes from the teams)
-  const color2 = d3.scaleOrdinal()
+// setting the color for each team (hex codes from the teams)
+const color2 = d3.scaleOrdinal()
     .domain(res2)
     .range(['#CE1141','#DF4601', '#BD3039', '#0E3386', '#27201F', 
             '#C6011F', '#E31937', '#0C2340', '#002D62', '#004687',
@@ -367,7 +351,56 @@ const label2 = svg2.append("text")
               .attr("text-anchor", "start")
               .style("fill", (d) => { return color2("valueA"); })
               .text(res2[0]);
+          
+// average OD salary per year line    
+// group by the team name
+var year_groups = d3.group(data, d => d.Season);
+var all_years = Array.from(year_groups.keys());
 
+function get_average(year_str) {
+    var yearfilter = year_groups.get(year_str);
+    totalsalary = 0;
+
+    for (var i = 0; i < yearfilter.length; i++) {
+      // add total salary up
+      totalsalary = totalsalary + (+yearfilter[i].OD_Salary) ;
+    }
+    return +(totalsalary / yearfilter.length) ; }; 
+
+
+// create a dataset of years and averages
+var all_year_average = [] ;
+var year_average = {} ;
+
+for (var i = 0; i < all_years.length; i++) { // for every year...
+  // select that year
+  year = all_years[i];
+
+  // create a dictionary for that year
+  year_average["year"] = year ; 
+  year_average["average"] = get_average(year) ;
+
+  // add that dictionary to all_year_average
+  all_year_average.push(year_average) ; 
+
+  // clear year_average
+  year_average = {} ; 
+} ;
+console.log(all_year_average) ; 
+
+// set the average line
+const avg_line = svg2.append('g')
+                 .append("path")
+                 .datum(all_year_average)
+                 .attr("d", d3.line()
+                                .x((d) => { return x2(new Date(+d.year, 0, 1)); })
+                                .y((d) => { return y2(d.average); }))
+                 .attr("stroke", "black")
+                 .style("stroke-width", 1.5)
+                 .style("fill", "none");
+
+
+                 
 // function to update the chart
   function update2(selectedGroup) {
   
@@ -404,6 +437,7 @@ const label2 = svg2.append("text")
           .style("fill", (d) => { return color2(selectedGroup); })
           .text(selectedGroup) ;
     }
+
   }
 
   // run the update function for both graphs when a new team is selected from dropdown
@@ -425,10 +459,6 @@ const label2 = svg2.append("text")
 
 // bracket visualization
 d3.csv("data/postseason_data.csv").then((data) => {
-
-    // print first 10 rows of data to the console
-  for (var i = 0; i < 10; i++) {
-    console.log(data[i]);}
 
  { // given a year, assign the AL bracket
   function assignALBracket(year) {
@@ -536,7 +566,6 @@ function drawTreeAL(treeData) {
    var nodeEnter = node.enter().append('g')
        .attr('class', 'node')
        .attr("transform", function(d) {
-          console.log("source.y0: "+ source.y0);
           return "translate(" + (width*0.95 - source.y0) + "," + source.x0 + ")"; // CHANGED FOR AL BRACKET
      })
      .on('click', click);
