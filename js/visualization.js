@@ -714,7 +714,7 @@ function drawTreeAL(treeData) {
          return d.data.name; });
    
    // UPDATE
-   var nodeUpdate = nodeEnter.merge(node);
+   var nodeUpdate = nodeEnter;
    
    // Transition to the proper position for the node
    nodeUpdate.transition()
@@ -749,21 +749,14 @@ function drawTreeAL(treeData) {
        });
    
    // UPDATE
-   var linkUpdate = linkEnter.merge(link);
+   var linkUpdate = linkEnter;
    
    // Transition back to the parent element position
    linkUpdate.transition()
        .duration(duration)
        .attr('d', function(d){ return diagonal(d, d.parent) });
    
-  /*
- // Remove since we are maing the visualization static
-   // Store the old positions for transition.
-   nodes.forEach(function(d){
-     d.x0 = d.x;
-     d.y0 = d.y;
-   });
-   */
+  
    // Creates a bracket path from parent to the child nodes
    function diagonal(s, d) {
   
@@ -903,7 +896,7 @@ function update4(source) {
        return d.data.name; });
  
  // UPDATE
- var nodeUpdate = nodeEnter.merge(node);
+ var nodeUpdate = nodeEnter;
  
  // Transition to the proper position for the node
  nodeUpdate.transition()
@@ -939,20 +932,12 @@ function update4(source) {
      });
  
  // UPDATE
- var linkUpdate = linkEnter.merge(link);
+ var linkUpdate = linkEnter;
  
  // Transition back to the parent element position
  linkUpdate.transition()
      .duration(duration)
      .attr('d', function(d){ return diagonal(d, d.parent) });
- /*
- // Remove since we are maing the visualization static
- // Store the old positions for transition.
- nodes.forEach(function(d){
-   d.x0 = d.x;
-   d.y0 = d.y;
- });
- */
  
  // Creates a bracket path from parent to the child nodes
  function diagonal(s, d) {
