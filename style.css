@@ -21,6 +21,13 @@ h1, h2, h3 {
   height: 100%;
 }
 
+.border {
+	stroke: black;
+	stroke-width: 3px;
+	opacity: 1;
+  }
+  
+
 /* Tooltip class styling goes here */
 .tooltip {
 	position: absolute;

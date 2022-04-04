@@ -12,12 +12,18 @@ const svg1 = d3.select("#vis-container")
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
 
+// Initialize brush for Line Graph 1 and points. We will need these to be global. 
+let brush1; 
+
 // append svg object to house OD Salary Line Graph
 const svg2 = d3.select("#vis-container")
                 .append("svg")
                 .attr("width", width - margin.left - margin.right)
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
+
+// Initialize brush for Line Graph 2 and points. We will need these to be global. 
+let brush2; 
 
 // append svg object to house AL bracket
 const svg3 = d3.select("#vis-container2")
@@ -213,7 +219,16 @@ function update(selectedGroup) {
         .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 10) + "," + y1(success_2018) + ")")
         .style("fill", (d) => { return color(selectedGroup); })
         .text(selectedGroup) ;
-  }
+
+    //Define a brush1
+    const brush1 = d3.brush();
+
+    //Add brush1 to svg1
+    svg1.append("g")
+        .attr("class", "brush")
+        .call(brush1.extent( [ [0,0], [width,height] ] )
+                    .on("start brush", updateChart1));
+    }
 }
 
   // spending over seasons line graph
@@ -462,7 +477,94 @@ salary_button.addEventListener('click', () => {
           .text(selectedGroup) ;
     }
 
+    //Define a brush2 
+    const brush2 = d3.brush();
+
+    //Add brush2 to svg2
+    svg2.append("g").attr("class", "brush")
+        .call(brush2.extent( [ [0,0], [width,height] ] )
+                    .on("start brush", updateChart2));
+
   }
+
+  
+//Brushing Code---------------------------------------------------------------------------------------------
+
+  // Call to removes existing brushes
+  function clear() {
+    svg1.append('g')
+        .on("start brush", updateChart1)
+        .call(brush1.move, null);
+    svg2.append('g')
+        .on("start brush", updateChart2)
+        .call(brush2.move, null);
+}
+
+// Call when Scatterplot1 is brushed
+function updateChart1(brushEvent) {
+
+  let extent = brushEvent.selection;
+
+  myCircles1.classed("border", (d) => {
+    return isBrushed(extent, x1(d[xKey1]), y1(d[yKey1]));
+  });
+
+
+
+  myCircles2.classed("border", (d) => {
+    return isBrushed(extent, x1(d[xKey1]), y1(d[yKey1]));
+  });
+
+}
+
+// Call when Scatterplot2 is brushed
+function updateChart2(brushEvent) {
+
+  //TODO: Find coordinates of brushed region
+  let extent = brushEvent.selection;
+
+  //TODO: Start an empty set that you can store names of selected species in
+  var selected_species = new Set()
+
+  //TODO: Give bold outline to all points within the brush region in Scatterplot2 & collected names of brushed species
+  
+  myCircles2.classed("border", (d) => {
+    let brushed = isBrushed(extent, x2(d[xKey2]), y2(d[yKey2]))
+    if (brushed) {
+      selected_species.add(d[xKey3])
+    }
+    return brushed
+    ;
+
+    clear();
+  });
+
+
+  //TODO: Give bold outline to all points in Scatterplot1 corresponding to points within the brush region in Scatterplot2
+  myCircles1.classed("border", (d) => {
+    return isBrushed(extent, x2(d[xKey2]), y2(d[yKey2]));
+  });
+
+  //TODO: Give bold outline to all bars in bar chart with corresponding to species selected by Scatterplot2 brush
+  bar3.classed("border", (d) => {
+    return selected_species.has(d[xKey3]);
+  })
+
+
+
+}
+
+  //Finds dots within the brushed region
+  function isBrushed(brush_coords, cx, cy) {
+    if (brush_coords === null) return;
+
+    var x0 = brush_coords[0][0],
+      x1 = brush_coords[1][0],
+      y0 = brush_coords[0][1],
+      y1 = brush_coords[1][1];
+    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1; // This return TRUE or FALSE depending on if the points is in the selected area
+  }
+
 
   // run the update function for both graphs when a new team is selected from dropdown
   d3.select("#selectButton").on("change", function(event,d) {
@@ -629,22 +731,7 @@ function drawTreeAL(treeData) {
      })
      .attr('cursor', 'pointer');
    
-   
-   // Remove any exiting nodes
-   var nodeExit = node.exit().transition()
-       .duration(duration)
-       .attr("transform", function(d) {
-           return "translate(" + source.y + "," + source.x + ")";
-       })
-       .remove();
-   
-   // On exit reduce the node circles size to 0
-   nodeExit.select('circle')
-     .attr('r', 1e-6);
-   
-   // On exit reduce the opacity of text labels
-   nodeExit.select('text')
-     .style('fill-opacity', 1e-6);
+  
    
    // ****************** links section **************************
    
@@ -669,12 +756,14 @@ function drawTreeAL(treeData) {
        .duration(duration)
        .attr('d', function(d){ return diagonal(d, d.parent) });
    
+  /*
+ // Remove since we are maing the visualization static
    // Store the old positions for transition.
    nodes.forEach(function(d){
      d.x0 = d.x;
      d.y0 = d.y;
    });
-   
+   */
    // Creates a bracket path from parent to the child nodes
    function diagonal(s, d) {
   
@@ -832,21 +921,7 @@ function update4(source) {
    .attr('cursor', 'pointer');
  
  
- // Remove any exiting nodes
- var nodeExit = node.exit().transition()
-     .duration(duration)
-     .attr("transform", function(d) {
-         return "translate(" + source.y + "," + source.x + ")";
-     })
-     .remove();
  
- // On exit reduce the node circles size to 0
- nodeExit.select('circle')
-   .attr('r', 1e-6);
- 
- // On exit reduce the opacity of text labels
- nodeExit.select('text')
-   .style('fill-opacity', 1e-6);
  
  // ****************** links section **************************
  
@@ -870,12 +945,14 @@ function update4(source) {
  linkUpdate.transition()
      .duration(duration)
      .attr('d', function(d){ return diagonal(d, d.parent) });
- 
+ /*
+ // Remove since we are maing the visualization static
  // Store the old positions for transition.
  nodes.forEach(function(d){
    d.x0 = d.x;
    d.y0 = d.y;
  });
+ */
  
  // Creates a bracket path from parent to the child nodes
  function diagonal(s, d) {
