@@ -125,10 +125,9 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   };
 
   // group by the team name
-  var sumstat = d3.group(data, d => d.Team);
 
   // list of group names
-  var res = Array.from(sumstat.keys());
+  let res = Array.from(sumstat.keys());
 
   // add the options to the button
   d3.select("#selectButton")
@@ -174,7 +173,7 @@ circles = svg1.selectAll("circle")
                  .on("mouseleave", mouseleave1);
 
 // initialize line label with first team
-var success_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].Success_Score ;
+let success_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].Success_Score ;
 const label = svg1.append("text")
               .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 10) + "," + y1(success_2018) + ")")
               .attr("dy", ".35em")
@@ -315,10 +314,10 @@ const mouseleave2 = function(event, d) {
 };
 
 // group by the team name
-var sumstat2 = d3.group(data, d => d.Team);
+let sumstat2 = d3.group(data, d => d.Team);
 
 // list of group names
-var res2= Array.from(sumstat2.keys());
+let res2= Array.from(sumstat2.keys());
 
 // setting the color for each team (hex codes from the teams)
 const color2 = d3.scaleOrdinal()
@@ -358,7 +357,7 @@ circles2 = svg2.selectAll("circle")
 
 
 // initialize line label with first team
-var od_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].OD_Salary ;
+let od_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].OD_Salary ;
 const label2 = svg2.append("text")
               .attr("transform", "translate(" + (x2(new Date(2018, 0, 1)) + 10) + "," + y2(od_2018) + ")")
               .attr("dy", ".35em")
@@ -368,14 +367,14 @@ const label2 = svg2.append("text")
           
 // average OD salary per year line    
 // group by the team name
-var year_groups = d3.group(data, d => d.Season);
-var all_years = Array.from(year_groups.keys());
+let year_groups = d3.group(data, d => d.Season);
+let all_years = Array.from(year_groups.keys());
 
 function get_average(year_str) {
-    var yearfilter = year_groups.get(year_str);
+    let yearfilter = year_groups.get(year_str);
     totalsalary = 0;
 
-    for (var i = 0; i < yearfilter.length; i++) {
+    for (let i = 0; i < yearfilter.length; i++) {
       // add total salary up
       totalsalary = totalsalary + (+yearfilter[i].OD_Salary) ;
     }
@@ -383,10 +382,10 @@ function get_average(year_str) {
 
 
 // create a dataset of years and averages
-var all_year_average = [] ;
-var year_average = {} ;
+let all_year_average = [] ;
+let year_average = {} ;
 
-for (var i = 0; i < all_years.length; i++) { // for every year...
+for (let i = 0; i < all_years.length; i++) { // for every year...
   // select that year
   year = all_years[i];
 
@@ -428,7 +427,7 @@ let salary_button = document.querySelector('#salaryButton');
 // add event listener to toggle the average salary line
 salary_button.addEventListener('click', () => {
      // determine if current line is visible
-      var active   = avgline.active ? false : true,
+      let active   = avgline.active ? false : true,
       newOpacity = active ? 0 : 1;
                     
       // hide or show the elements
@@ -524,7 +523,7 @@ function updateChart2(brushEvent) {
   let extent = brushEvent.selection;
 
   //TODO: Start an empty set that you can store names of selected species in
-  var selected_species = new Set()
+  let selected_species = new Set()
 
   //TODO: Give bold outline to all points within the brush region in Scatterplot2 & collected names of brushed species
   
@@ -558,7 +557,7 @@ function updateChart2(brushEvent) {
   function isBrushed(brush_coords, cx, cy) {
     if (brush_coords === null) return;
 
-    var x0 = brush_coords[0][0],
+    let x0 = brush_coords[0][0],
       x1 = brush_coords[1][0],
       y0 = brush_coords[0][1],
       y1 = brush_coords[1][1];
@@ -618,7 +617,7 @@ d3.csv("data/postseason_data.csv").then((data) => {
                 
 
     // build the bracket with this data
-    var bracket = 
+    let bracket = 
       {"name": c_winner,
           "children": 
           [{ "name": d2_winner,
@@ -642,7 +641,7 @@ d3.csv("data/postseason_data.csv").then((data) => {
 
 
 // setting up the button
-var res = [2018, 2017, 2016, 2015, 2014, 2013, 2012] ; 
+let res = [2018, 2017, 2016, 2015, 2014, 2013, 2012] ; 
 
 // add the options to the button
 d3.select("#selectButton2")
@@ -654,14 +653,14 @@ d3.select("#selectButton2")
   .attr("value", (d) => { return d; });
 
 // initialize bracket with first year
-var treeData = assignALBracket(2018);
+let treeData = assignALBracket(2018);
 drawTreeAL(treeData)
 
 function drawTreeAL(treeData) {
-  var i = 0, duration = 750, root;
+  let i = 0, duration = 750, root;
  
   // declares a tree layout and assigns the size
-  var treemap = d3.tree().size([height, width]); // CHANGE WIDTH TO FIT BOTH BRACKETS ?
+  let treemap = d3.tree().size([height, width]); // CHANGE WIDTH TO FIT BOTH BRACKETS ?
    
   // Assigns parent, children, height, depth
   root = d3.hierarchy(treeData, function(d) { return d.children; });
@@ -674,10 +673,10 @@ function drawTreeAL(treeData) {
   function update3(source) {
    
    // Assigns the x and y position for the nodes
-   var treeData = treemap(root);
+   let treeData = treemap(root);
    
    // Compute the new tree layout.
-   var nodes = treeData.descendants(),
+   let nodes = treeData.descendants(),
        links = treeData.descendants().slice(1);
    
    // Normalize for fixed-depth.
@@ -685,11 +684,11 @@ function drawTreeAL(treeData) {
    
    // ****************** Nodes section ***************************
    // Update the nodes...
-   var node = svg3.selectAll('g.node')
+   let node = svg3.selectAll('g.node')
        .data(nodes, function(d) {return d.id || (d.id = ++i); });
    
    // Enter any new modes at the parent's previous position.
-   var nodeEnter = node.enter().append('g')
+   let nodeEnter = node.enter().append('g')
        .attr('class', 'node')
        .attr("transform", function(d) {
           return "translate(" + (width*0.95 - source.y0) + "," + source.x0 + ")"; // CHANGED FOR AL BRACKET
@@ -714,7 +713,7 @@ function drawTreeAL(treeData) {
          return d.data.name; });
    
    // UPDATE
-   var nodeUpdate = nodeEnter;
+   let nodeUpdate = nodeEnter;
    
    // Transition to the proper position for the node
    nodeUpdate.transition()
@@ -737,19 +736,19 @@ function drawTreeAL(treeData) {
    
    
    // Update the links...
-   var link = svg3.selectAll('path.link')
+   let link = svg3.selectAll('path.link')
                   .data(links, function(d) { return d.id; });
    
    // Enter any new links at the parent's previous position.
-   var linkEnter = link.enter().insert('path', "g")
+   let linkEnter = link.enter().insert('path', "g")
        .attr("class", "link")
        .attr('d', function(d){
-         var o = {x: source.x0, y: source.y0}
+         let o = {x: source.x0, y: source.y0}
          return diagonal(o, o)
        });
    
    // UPDATE
-   var linkUpdate = linkEnter;
+   let linkUpdate = linkEnter;
    
    // Transition back to the parent element position
    linkUpdate.transition()
@@ -814,7 +813,7 @@ function assignNLBracket(year) {
               
 
   // build the bracket with this data
-  var bracketNL = 
+  let bracketNL = 
     {"name": c_winner,
         "children": 
         [{ "name": d2_winner,
@@ -836,14 +835,14 @@ function assignNLBracket(year) {
   return bracketNL ;  };
 
 // initialize bracket with first year
-var treeDataNL = assignNLBracket(2018);
+let treeDataNL = assignNLBracket(2018);
 drawTreeNL(treeDataNL)
 
 function drawTreeNL(treeDataNL) {
-var i = 0, duration = 750, root;
+let i = 0, duration = 750, root;
 
 // declares a tree layout and assigns the size
-var treemap = d3.tree().size([height, width]);
+let treemap = d3.tree().size([height, width]);
  
 // Assigns parent, children, height, depth
 root = d3.hierarchy(treeDataNL, function(d) { return d.children; });
@@ -855,10 +854,10 @@ update4(root);
 function update4(source) {
  
  // Assigns the x and y position for the nodes
- var treeDataNL = treemap(root);
+ let treeDataNL = treemap(root);
  
  // Compute the new tree layout.
- var nodes = treeDataNL.descendants(),
+ let nodes = treeDataNL.descendants(),
      links = treeDataNL.descendants().slice(1);
  
  // Normalize for fixed-depth.
@@ -867,11 +866,11 @@ function update4(source) {
  // ****************** Nodes section ***************************
  
  // Update the nodes...
- var node = svg4.selectAll('g.node')
+ let node = svg4.selectAll('g.node')
      .data(nodes, function(d) {return d.id || (d.id = ++i); });
  
  // Enter any new modes at the parent's previous position.
- var nodeEnter = node.enter().append('g')
+ let nodeEnter = node.enter().append('g')
      .attr('class', 'node')
      .attr("transform", function(d) {
        return "translate(" + (60 + source.y0) + "," + source.x0 + ")";
@@ -896,7 +895,7 @@ function update4(source) {
        return d.data.name; });
  
  // UPDATE
- var nodeUpdate = nodeEnter;
+ let nodeUpdate = nodeEnter;
  
  // Transition to the proper position for the node
  nodeUpdate.transition()
@@ -920,19 +919,19 @@ function update4(source) {
  
  
  // Update the links...
- var link = svg4.selectAll('path.link')
+ let link = svg4.selectAll('path.link')
                 .data(links, function(d) { return d.id; });
  
  // Enter any new links at the parent's previous position.
- var linkEnter = link.enter().insert('path', "g")
+ let linkEnter = link.enter().insert('path', "g")
      .attr("class", "link")
      .attr('d', function(d){
-       var o = {x: source.x0, y: source.y0}
+       let o = {x: source.x0, y: source.y0}
        return diagonal(o, o)
      });
  
  // UPDATE
- var linkUpdate = linkEnter;
+ let linkUpdate = linkEnter;
  
  // Transition back to the parent element position
  linkUpdate.transition()
