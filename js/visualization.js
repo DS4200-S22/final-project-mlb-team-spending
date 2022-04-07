@@ -125,6 +125,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   };
 
   // group by the team name
+  let sumstat = d3.group(data, d => d.Team);
 
   // list of group names
   let res = Array.from(sumstat.keys());
