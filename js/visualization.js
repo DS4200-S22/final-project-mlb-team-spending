@@ -173,6 +173,15 @@ circles = svg1.selectAll("circle")
                  .on("mousemove", mousemove1)
                  .on("mouseleave", mouseleave1);
 
+//Define a brush1
+const brush1 = d3.brush();
+
+//Add brush1 to svg1
+svg1.append("g")
+    .attr("class", "brush")
+    .call(brush1.extent( [ [0,0], [width,height] ] )
+                .on("start brush", updateChart1));
+
 // initialize line label with first team
 let success_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].Success_Score ;
 const label = svg1.append("text")
@@ -219,17 +228,10 @@ function update(selectedGroup) {
         .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 10) + "," + y1(success_2018) + ")")
         .style("fill", (d) => { return color(selectedGroup); })
         .text(selectedGroup) ;
-
-    //Define a brush1
-    const brush1 = d3.brush();
-
-    //Add brush1 to svg1
-    svg1.append("g")
-        .attr("class", "brush")
-        .call(brush1.extent( [ [0,0], [width,height] ] )
-                    .on("start brush", updateChart1));
     }
-}
+
+     
+     }
 
   // spending over seasons line graph
   {
@@ -356,6 +358,14 @@ circles2 = svg2.selectAll("circle")
                    .on("mousemove", mousemove2)
                    .on("mouseleave", mouseleave2);
 
+  //Define a brush2 
+  const brush2 = d3.brush();
+
+  //Add brush2 to svg2
+  svg2.append("g").attr("class", "brush")
+      .call(brush2.extent( [ [0,0], [width,height] ] )
+                  .on("start brush", updateChart2));
+
 
 // initialize line label with first team
 let od_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].OD_Salary ;
@@ -399,8 +409,7 @@ for (let i = 0; i < all_years.length; i++) { // for every year...
 
   // clear year_average
   year_average = {} ; 
-} ;
-console.log(all_year_average) ; 
+} ; 
 
 // set the average line
 const avg_line = svg2.append('g')
@@ -477,13 +486,7 @@ salary_button.addEventListener('click', () => {
           .text(selectedGroup) ;
     }
 
-    //Define a brush2 
-    const brush2 = d3.brush();
-
-    //Add brush2 to svg2
-    svg2.append("g").attr("class", "brush")
-        .call(brush2.extent( [ [0,0], [width,height] ] )
-                    .on("start brush", updateChart2));
+  
 
   }
 
@@ -505,15 +508,18 @@ function updateChart1(brushEvent) {
 
   let extent = brushEvent.selection;
 
-  myCircles1.classed("border", (d) => {
-    return isBrushed(extent, x1(d[xKey1]), y1(d[yKey1]));
+  circles.classed("border", (d) => {
+    console.log('brush 1 x: ' + x1(d.Season))
+    console.log('brush 1 y: ' + y1(d[yKey1]))
+    return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
+
+  });
+  
+  circles2.classed("border", (d) => {
+    return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
   });
 
-
-
-  myCircles2.classed("border", (d) => {
-    return isBrushed(extent, x1(d[xKey1]), y1(d[yKey1]));
-  });
+  clear();
 
 }
 
@@ -522,33 +528,19 @@ function updateChart2(brushEvent) {
 
   //TODO: Find coordinates of brushed region
   let extent = brushEvent.selection;
-
-  //TODO: Start an empty set that you can store names of selected species in
-  let selected_species = new Set()
-
   //TODO: Give bold outline to all points within the brush region in Scatterplot2 & collected names of brushed species
   
-  myCircles2.classed("border", (d) => {
-    let brushed = isBrushed(extent, x2(d[xKey2]), y2(d[yKey2]))
-    if (brushed) {
-      selected_species.add(d[xKey3])
-    }
-    return brushed
-    ;
+  circles2.classed("border", (d) => {
+    return isBrushed(extent, x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary)); 
+   });
+
+   circles.classed("border", (d) => {
+    return isBrushed(extent,  x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary));
+
+  });
 
     clear();
-  });
 
-
-  //TODO: Give bold outline to all points in Scatterplot1 corresponding to points within the brush region in Scatterplot2
-  myCircles1.classed("border", (d) => {
-    return isBrushed(extent, x2(d[xKey2]), y2(d[yKey2]));
-  });
-
-  //TODO: Give bold outline to all bars in bar chart with corresponding to species selected by Scatterplot2 brush
-  bar3.classed("border", (d) => {
-    return selected_species.has(d[xKey3]);
-  })
 
 
 
