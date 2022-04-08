@@ -1,201 +1,64 @@
-,Season,League,Series_Played,Final_Score,Winning_Team,Losing_Team,AL_Win
-0,2018.0,NL,Wildcard,1-0,Colorado Rockies,Chicago Cubs,False
-1,2018.0,AL,Wildcard,1-0,New York Yankees,Oakland Athletics,True
-2,2018.0,NL,Division2,3-1,Los Angeles Dodgers,Atlanta Braves,False
-3,2018.0,NL,Division1,3-0,Milwaukee Brewers,Colorado Rockies,False
-4,2018.0,AL,Division2,3-0,Houston Astros,Cleveland Indians,True
-5,2018.0,AL,Division1,3-1,Boston Red Sox,New York Yankees,True
-6,2018.0,NL,Championship,4-3,Los Angeles Dodgers,Milwaukee Brewers,False
-7,2018.0,AL,Championship,4-1,Boston Red Sox,Houston Astros,True
-8,2018.0,None,WorldSeries,4-1,Boston Red Sox,Los Angeles Dodgers,True
-9,2017.0,AL,Division2,3-1,Houston Astros,Boston Red Sox,True
-10,2017.0,NL,Wildcard,1-0,Arizona Diamondbacks,Colorado Rockies,False
-11,2017.0,NL,Division2,3-2,Chicago Cubs,Washington Nationals,False
-12,2017.0,NL,Division1,3-0,Los Angeles Dodgers,Arizona Diamondbacks,False
-13,2017.0,AL,Wildcard,1-0,New York Yankees,Minnesota Twins,True
-14,2017.0,AL,Division1,3-2,New York Yankees,Cleveland Indians,True
-15,2017.0,NL,Championship,4-1,Los Angeles Dodgers,Chicago Cubs,False
-16,2017.0,AL,Championship,4-3,Houston Astros,New York Yankees,True
-17,2017.0,None,WorldSeries,4-3,Houston Astros,Los Angeles Dodgers,True
-18,2016.0,NL,Division1,3-1,Chicago Cubs,San Francisco Giants,False
-19,2016.0,NL,Wildcard,1-0,San Francisco Giants,New York Mets,False
-20,2016.0,AL,Wildcard,1-0,Toronto Blue Jays,Baltimore Orioles,True
-21,2016.0,NL,Division2,3-2,Los Angeles Dodgers,Washington Nationals,False
-22,2016.0,AL,Championship,4-1,Cleveland Indians,Toronto Blue Jays,True
-23,2016.0,AL,Division2,3-0,Cleveland Indians,Boston Red Sox,True
-24,2016.0,NL,Championship,4-2,Chicago Cubs,Los Angeles Dodgers,False
-25,2016.0,None,WorldSeries,4-3,Chicago Cubs,Cleveland Indians,False
-26,2016.0,AL,Division1,3-0,Toronto Blue Jays,Texas Rangers,True
-27,2015.0,None,WorldSeries,4-1,Kansas City Royals,New York Mets,True
-28,2015.0,AL,Championship,4-2,Kansas City Royals,Toronto Blue Jays,True
-29,2015.0,NL,Championship,4-0,New York Mets,Chicago Cubs,False
-30,2015.0,AL,Division1,3-2,Kansas City Royals,Houston Astros,True
-31,2015.0,AL,Division2,3-2,Toronto Blue Jays,Texas Rangers,True
-32,2015.0,NL,Division1,3-1,Chicago Cubs,St. Louis Cardinals,False
-33,2015.0,NL,Division2,3-2,New York Mets,Los Angeles Dodgers,False
-34,2015.0,AL,Wildcard,1-0,Houston Astros,New York Yankees,True
-35,2015.0,NL,Wildcard,1-0,Chicago Cubs,Pittsburgh Pirates,False
-36,2014.0,NL,Division1,3-1,San Francisco Giants,Washington Nationals,False
-37,2014.0,AL,Wildcard,1-0,Kansas City Royals,Oakland Athletics,True
-38,2014.0,NL,Division2,3-1,St. Louis Cardinals,Los Angeles Dodgers,False
-39,2014.0,NL,Wildcard,1-0,San Francisco Giants,Pittsburgh Pirates,False
-40,2014.0,AL,Division2,3-0,Baltimore Orioles,Detroit Tigers,True
-41,2014.0,NL,Championship,4-1,San Francisco Giants,St. Louis Cardinals,False
-42,2014.0,AL,Championship,4-0,Kansas City Royals,Baltimore Orioles,True
-43,2014.0,None,WorldSeries,4-3,San Francisco Giants,Kansas City Royals,False
-44,2014.0,AL,Division1,3-0,Kansas City Royals,Los Angeles Angels of Anaheim,True
-45,2013.0,AL,Division2,3-2,Detroit Tigers,Oakland Athletics,True
-46,2013.0,AL,Wildcard,1-0,Tampa Bay Rays,Cleveland Indians,True
-47,2013.0,NL,Division2,3-1,Los Angeles Dodgers,Atlanta Braves,False
-48,2013.0,NL,Division1,3-2,St. Louis Cardinals,Pittsburgh Pirates,False
-49,2013.0,NL,Wildcard,1-0,Pittsburgh Pirates,Cincinnati Reds,False
-50,2013.0,AL,Division1,3-1,Boston Red Sox,Tampa Bay Rays,True
-51,2013.0,NL,Championship,4-2,St. Louis Cardinals,Los Angeles Dodgers,False
-52,2013.0,AL,Championship,4-2,Boston Red Sox,Detroit Tigers,True
-53,2013.0,None,WorldSeries,4-2,Boston Red Sox,St. Louis Cardinals,True
-54,2012.0,None,WorldSeries,4-0,San Francisco Giants,Detroit Tigers,False
-55,2012.0,AL,Championship,4-0,Detroit Tigers,New York Yankees,True
-56,2012.0,NL,Championship,4-3,San Francisco Giants,St. Louis Cardinals,False
-57,2012.0,AL,Division1,3-2,New York Yankees,Baltimore Orioles,True
-58,2012.0,AL,Division2,3-2,Detroit Tigers,Oakland Athletics,True
-59,2012.0,NL,Division1,3-2,St. Louis Cardinals,Washington Nationals,False
-60,2012.0,NL,Division2,3-2,San Francisco Giants,Cincinnati Reds,False
-61,2012.0,AL,Wildcard,1-0,Baltimore Orioles,Texas Rangers,True
-62,2012.0,NL,Wildcard,1-0,St. Louis Cardinals,Atlanta Braves,False
-63,2011.0,NL,Division2,3-2,Milwaukee Brewers,Arizona Diamondbacks,False
-64,2011.0,NL,Division1,3-2,St. Louis Cardinals,Philadelphia Phillies,False
-65,2011.0,AL,Division2,3-1,Texas Rangers,Tampa Bay Rays,True
-66,2011.0,NL,Championship,4-2,St. Louis Cardinals,Milwaukee Brewers,False
-67,2011.0,AL,Division1,3-2,Detroit Tigers,New York Yankees,True
-68,2011.0,None,WorldSeries,4-3,St. Louis Cardinals,Texas Rangers,False
-69,2011.0,AL,Championship,4-2,Texas Rangers,Detroit Tigers,True
-70,2010.0,None,WorldSeries,4-1,San Francisco Giants,Texas Rangers,False
-71,2010.0,AL,Championship,4-2,Texas Rangers,New York Yankees,True
-72,2010.0,NL,Championship,4-2,San Francisco Giants,Philadelphia Phillies,False
-73,2010.0,AL,Division1,3-2,Texas Rangers,Tampa Bay Rays,True
-74,2010.0,AL,Division2,3-0,New York Yankees,Minnesota Twins,True
-75,2010.0,NL,Division1,3-0,Philadelphia Phillies,Cincinnati Reds,False
-76,2010.0,NL,Division2,3-1,San Francisco Giants,Atlanta Braves,False
-77,2009.0,AL,Division2,3-0,Los Angeles Angels of Anaheim,Boston Red Sox,False
-78,2009.0,NL,Division2,3-1,Philadelphia Phillies,Colorado Rockies,False
-79,2009.0,NL,Division1,3-0,Los Angeles Dodgers,St. Louis Cardinals,False
-80,2009.0,AL,Division1,3-0,New York Yankees,Minnesota Twins,True
-81,2009.0,NL,Championship,4-1,Philadelphia Phillies,Los Angeles Dodgers,False
-82,2009.0,AL,Championship,4-2,New York Yankees,Los Angeles Angels of Anaheim,True
-83,2009.0,None,WorldSeries,4-2,New York Yankees,Philadelphia Phillies,True
-84,2008.0,None,WorldSeries,4-1,Philadelphia Phillies,Tampa Bay Rays,False
-85,2008.0,AL,Championship,4-3,Tampa Bay Rays,Boston Red Sox,True
-86,2008.0,NL,Championship,4-1,Philadelphia Phillies,Los Angeles Dodgers,False
-87,2008.0,AL,Division1,3-1,Boston Red Sox,Los Angeles Angels of Anaheim,True
-88,2008.0,AL,Division2,3-1,Tampa Bay Rays,Chicago White Sox,True
-89,2008.0,NL,Division1,3-0,Los Angeles Dodgers,Chicago Cubs,False
-90,2008.0,NL,Division2,3-1,Philadelphia Phillies,Milwaukee Brewers,False
-91,2007.0,AL,Division2,3-1,Cleveland Indians,New York Yankees,True
-92,2007.0,NL,Division2,3-0,Colorado Rockies,Philadelphia Phillies,False
-93,2007.0,NL,Division1,3-0,Arizona Diamondbacks,Chicago Cubs,False
-94,2007.0,None,WorldSeries,4-0,Boston Red Sox,Colorado Rockies,True
-95,2007.0,AL,Division1,3-0,Boston Red Sox,Los Angeles Angels of Anaheim,True
-96,2007.0,AL,Championship,4-3,Boston Red Sox,Cleveland Indians,True
-97,2007.0,NL,Championship,4-0,Colorado Rockies,Arizona Diamondbacks,False
-98,2006.0,None,WorldSeries,4-1,St. Louis Cardinals,Detroit Tigers,False
-99,2006.0,AL,Championship,4-0,Detroit Tigers,Oakland Athletics,True
-100,2006.0,NL,Championship,4-3,St. Louis Cardinals,New York Mets,False
-101,2006.0,AL,Division1,3-1,Detroit Tigers,New York Yankees,True
-102,2006.0,AL,Division2,3-0,Oakland Athletics,Minnesota Twins,True
-103,2006.0,NL,Division1,3-0,New York Mets,Los Angeles Dodgers,False
-104,2006.0,NL,Division2,3-1,St. Louis Cardinals,San Diego Padres,False
-105,2005.0,AL,Division2,3-2,Los Angeles Angels of Anaheim,New York Yankees,False
-106,2005.0,NL,Division2,3-1,Houston Astros,Atlanta Braves,True
-107,2005.0,NL,Division1,3-0,St. Louis Cardinals,San Diego Padres,False
-108,2005.0,None,WorldSeries,4-0,Chicago White Sox,Houston Astros,True
-109,2005.0,AL,Division1,3-0,Chicago White Sox,Boston Red Sox,True
-110,2005.0,NL,Championship,4-2,Houston Astros,St. Louis Cardinals,True
-111,2005.0,AL,Championship,4-1,Chicago White Sox,Los Angeles Angels of Anaheim,True
-112,2004.0,NL,Division2,3-2,Houston Astros,Atlanta Braves,True
-113,2004.0,NL,Division1,3-1,St. Louis Cardinals,Los Angeles Dodgers,False
-114,2004.0,AL,Division2,3-1,New York Yankees,Minnesota Twins,True
-115,2004.0,AL,Division1,3-0,Boston Red Sox,Anaheim Angels,True
-116,2004.0,NL,Championship,4-3,St. Louis Cardinals,Houston Astros,False
-117,2004.0,None,WorldSeries,4-0,Boston Red Sox,St. Louis Cardinals,True
-118,2004.0,AL,Championship,4-3,Boston Red Sox,New York Yankees,True
-119,2003.0,None,WorldSeries,4-2,Florida Marlins,New York Yankees,False
-120,2003.0,AL,Championship,4-3,New York Yankees,Boston Red Sox,True
-121,2003.0,NL,Championship,4-3,Florida Marlins,Chicago Cubs,False
-122,2003.0,AL,Division1,3-1,New York Yankees,Minnesota Twins,True
-123,2003.0,AL,Division2,3-2,Boston Red Sox,Oakland Athletics,True
-124,2003.0,NL,Division1,3-1,Florida Marlins,San Francisco Giants,False
-125,2003.0,NL,Division2,3-2,Chicago Cubs,Atlanta Braves,False
-126,2002.0,AL,Division2,3-2,Minnesota Twins,Oakland Athletics,True
-127,2002.0,NL,Division2,3-0,St. Louis Cardinals,Arizona Diamondbacks,False
-128,2002.0,NL,Division1,3-2,San Francisco Giants,Atlanta Braves,False
-129,2002.0,AL,Division1,3-1,Anaheim Angels,New York Yankees,False
-130,2002.0,NL,Championship,4-1,San Francisco Giants,St. Louis Cardinals,False
-131,2002.0,AL,Championship,4-1,Anaheim Angels,Minnesota Twins,False
-132,2002.0,None,WorldSeries,4-3,Anaheim Angels,San Francisco Giants,False
-133,2001.0,None,WorldSeries,4-3,Arizona Diamondbacks,New York Yankees,False
-134,2001.0,AL,Championship,4-1,New York Yankees,Seattle Mariners,True
-135,2001.0,NL,Championship,4-1,Arizona Diamondbacks,Atlanta Braves,False
-136,2001.0,AL,Division1,3-2,Seattle Mariners,Cleveland Indians,True
-137,2001.0,AL,Division2,3-2,New York Yankees,Oakland Athletics,True
-138,2001.0,NL,Division1,3-0,Atlanta Braves,Houston Astros,False
-139,2001.0,NL,Division2,3-2,Arizona Diamondbacks,St. Louis Cardinals,False
-140,2000.0,AL,Division2,3-0,Seattle Mariners,Chicago White Sox,True
-141,2000.0,NL,Division2,3-1,New York Mets,San Francisco Giants,False
-142,2000.0,NL,Division1,3-0,St. Louis Cardinals,Atlanta Braves,False
-143,2000.0,None,WorldSeries,4-1,New York Yankees,New York Mets,True
-144,2000.0,AL,Division1,3-2,New York Yankees,Oakland Athletics,True
-145,2000.0,AL,Championship,4-2,New York Yankees,Seattle Mariners,True
-146,2000.0,NL,Championship,4-1,New York Mets,St. Louis Cardinals,False
-147,1999.0,None,WorldSeries,4-0,New York Yankees,Atlanta Braves,True
-148,1999.0,AL,Championship,4-1,New York Yankees,Boston Red Sox,True
-149,1999.0,NL,Championship,4-2,Atlanta Braves,New York Mets,False
-150,1999.0,AL,Division1,3-2,Boston Red Sox,Cleveland Indians,True
-151,1999.0,AL,Division2,3-0,New York Yankees,Texas Rangers,True
-152,1999.0,NL,Division1,3-1,Atlanta Braves,Houston Astros,False
-153,1999.0,NL,Division2,3-1,New York Mets,Arizona Diamondbacks,False
-154,1998.0,AL,Division2,3-0,New York Yankees,Texas Rangers,True
-155,1998.0,NL,Division2,3-1,San Diego Padres,Houston Astros,False
-156,1998.0,NL,Division1,3-0,Atlanta Braves,Chicago Cubs,False
-157,1998.0,None,WorldSeries,4-0,New York Yankees,San Diego Padres,True
-158,1998.0,AL,Division1,3-1,Cleveland Indians,Boston Red Sox,True
-159,1998.0,NL,Championship,4-2,San Diego Padres,Atlanta Braves,False
-160,1998.0,AL,Championship,4-2,New York Yankees,Cleveland Indians,True
-161,1997.0,NL,Division2,3-0,Atlanta Braves,Houston Astros,False
-162,1997.0,NL,Division1,3-0,Florida Marlins,San Francisco Giants,False
-163,1997.0,AL,Division2,3-1,Baltimore Orioles,Seattle Mariners,True
-164,1997.0,AL,Division1,3-2,Cleveland Indians,New York Yankees,True
-165,1997.0,NL,Championship,4-2,Florida Marlins,Atlanta Braves,False
-166,1997.0,None,WorldSeries,4-3,Florida Marlins,Cleveland Indians,False
-167,1997.0,AL,Championship,4-2,Cleveland Indians,Baltimore Orioles,True
-168,1996.0,None,WorldSeries,4-2,New York Yankees,Atlanta Braves,True
-169,1996.0,AL,Championship,4-1,New York Yankees,Baltimore Orioles,True
-170,1996.0,NL,Championship,4-3,Atlanta Braves,St. Louis Cardinals,False
-171,1996.0,AL,Division1,3-1,Baltimore Orioles,Cleveland Indians,True
-172,1996.0,AL,Division2,3-1,New York Yankees,Texas Rangers,True
-173,1996.0,NL,Division1,3-0,Atlanta Braves,Los Angeles Dodgers,False
-174,1996.0,NL,Division2,3-0,St. Louis Cardinals,San Diego Padres,False
-175,1995.0,NL,Division2,3-0,Cincinnati Reds,Los Angeles Dodgers,False
-176,1995.0,NL,Division1,3-1,Atlanta Braves,Colorado Rockies,False
-177,1995.0,AL,Division2,3-2,Seattle Mariners,New York Yankees,True
-178,1995.0,AL,Division1,3-0,Cleveland Indians,Boston Red Sox,True
-179,1995.0,NL,Championship,4-0,Atlanta Braves,Cincinnati Reds,False
-180,1995.0,AL,Championship,4-2,Cleveland Indians,Seattle Mariners,True
-181,1995.0,None,WorldSeries,4-2,Atlanta Braves,Cleveland Indians,False
-182,1993.0,None,WorldSeries,4-2,Toronto Blue Jays,Chicago White Sox,True
-183,1993.0,AL,Championship,4-2,Philadelphia Phillies,Atlanta Braves,False
-184,1993.0,NL,Championship,4-2,Toronto Blue Jays,Atlanta Braves,True
-185,1992.0,None,WorldSeries,4-2,Toronto Blue Jays,Oakland Athletics,True
-186,1992.0,AL,Championship,4-2,Atlanta Braves,Pittsburgh Pirates,False
-187,1992.0,NL,Championship,4-3,Minnesota Twins,Atlanta Braves,True
-188,1991.0,NL,Championship,4-3,Cincinnati Reds,Oakland Athletics,False
-189,1991.0,AL,Championship,4-1,Atlanta Braves,Pittsburgh Pirates,False
-190,1991.0,None,WorldSeries,4-3,Minnesota Twins,Toronto Blue Jays,True
-191,1990.0,None,WorldSeries,4-0,Oakland Athletics,Boston Red Sox,True
-192,1990.0,AL,Championship,4-0,Cincinnati Reds,Pittsburgh Pirates,False
-193,1990.0,NL,Championship,4-2,Oakland Athletics,San Francisco Giants,True
-194,1989.0,None,WorldSeries,4-0,Oakland Athletics,Toronto Blue Jays,True
-195,1989.0,AL,Championship,4-1,San Francisco Giants,Chicago Cubs,False
-196,1989.0,NL,Championship,4-1,Los Angeles Dodgers,Oakland Athletics,False
-197,1988.0,None,WorldSeries,4-1,Oakland Athletics,Boston Red Sox,True
-198,1988.0,AL,Championship,4-0,Los Angeles Dodgers,New York Mets,False
-199,1988.0,NL,Championship,4-3,Minnesota Twins,St. Louis Cardinals,True
+,Season,League,Series_Played,Final_Score,Winning_Team,Winning_Team_Abbr,Losing_Team,Losing_Team_Abbr
+0,2018.0,NL,Wildcard,1-0,Colorado Rockies,COL,Chicago Cubs,CHC
+1,2018.0,AL,Wildcard,1-0,New York Yankees,NYY,Oakland Athletics,OAK
+2,2018.0,NL,Division2,3-1,Los Angeles Dodgers,LAD,Atlanta Braves,ATL
+3,2018.0,NL,Division1,3-0,Milwaukee Brewers,MIL,Colorado Rockies,COL
+4,2018.0,AL,Division2,3-0,Houston Astros,HOU,Cleveland Indians,CLE
+5,2018.0,AL,Division1,3-1,Boston Red Sox,BOS,New York Yankees,NYY
+6,2018.0,NL,Championship,4-3,Los Angeles Dodgers,LAD,Milwaukee Brewers,MIL
+7,2018.0,AL,Championship,4-1,Boston Red Sox,BOS,Houston Astros,HOU
+8,2018.0,None,WorldSeries,4-1,Boston Red Sox,BOS,Los Angeles Dodgers,LAD
+9,2017.0,AL,Division2,3-1,Houston Astros,HOU,Boston Red Sox,BOS
+10,2017.0,NL,Wildcard,1-0,Arizona Diamondbacks,ARI,Colorado Rockies,COL
+11,2017.0,NL,Division2,3-2,Chicago Cubs,CHC,Washington Nationals,WSN
+12,2017.0,NL,Division1,3-0,Los Angeles Dodgers,LAD,Arizona Diamondbacks,ARI
+13,2017.0,AL,Wildcard,1-0,New York Yankees,NYY,Minnesota Twins,MIN
+14,2017.0,AL,Division1,3-2,New York Yankees,NYY,Cleveland Indians,CLE
+15,2017.0,NL,Championship,4-1,Los Angeles Dodgers,LAD,Chicago Cubs,CHC
+16,2017.0,AL,Championship,4-3,Houston Astros,HOU,New York Yankees,NYY
+17,2017.0,None,WorldSeries,4-3,Houston Astros,HOU,Los Angeles Dodgers,LAD
+18,2016.0,NL,Division1,3-1,Chicago Cubs,CHC,San Francisco Giants,SFG
+19,2016.0,NL,Wildcard,1-0,San Francisco Giants,SFG,New York Mets,NYM
+20,2016.0,AL,Wildcard,1-0,Toronto Blue Jays,TOR,Baltimore Orioles,BAL
+21,2016.0,NL,Division2,3-2,Los Angeles Dodgers,LAD,Washington Nationals,WSN
+22,2016.0,AL,Championship,4-1,Cleveland Indians,CLE,Toronto Blue Jays,TOR
+23,2016.0,AL,Division2,3-0,Cleveland Indians,CLE,Boston Red Sox,BOS
+24,2016.0,NL,Championship,4-2,Chicago Cubs,CHC,Los Angeles Dodgers,LAD
+25,2016.0,None,WorldSeries,4-3,Chicago Cubs,CHC,Cleveland Indians,CLE
+26,2016.0,AL,Division1,3-0,Toronto Blue Jays,TOR,Texas Rangers,TEX
+27,2015.0,None,WorldSeries,4-1,Kansas City Royals,KCR,New York Mets,NYM
+28,2015.0,AL,Championship,4-2,Kansas City Royals,KCR,Toronto Blue Jays,TOR
+29,2015.0,NL,Championship,4-0,New York Mets,NYM,Chicago Cubs,CHC
+30,2015.0,AL,Division1,3-2,Kansas City Royals,KCR,Houston Astros,HOU
+31,2015.0,AL,Division2,3-2,Toronto Blue Jays,TOR,Texas Rangers,TEX
+32,2015.0,NL,Division1,3-1,Chicago Cubs,CHC,St. Louis Cardinals,STL
+33,2015.0,NL,Division2,3-2,New York Mets,NYM,Los Angeles Dodgers,LAD
+34,2015.0,AL,Wildcard,1-0,Houston Astros,HOU,New York Yankees,NYY
+35,2015.0,NL,Wildcard,1-0,Chicago Cubs,CHC,Pittsburgh Pirates,PIT
+36,2014.0,NL,Division1,3-1,San Francisco Giants,SFG,Washington Nationals,WSN
+37,2014.0,AL,Wildcard,1-0,Kansas City Royals,KCR,Oakland Athletics,OAK
+38,2014.0,NL,Division2,3-1,St. Louis Cardinals,STL,Los Angeles Dodgers,LAD
+39,2014.0,NL,Wildcard,1-0,San Francisco Giants,SFG,Pittsburgh Pirates,PIT
+40,2014.0,AL,Division2,3-0,Baltimore Orioles,BAL,Detroit Tigers,DET
+41,2014.0,NL,Championship,4-1,San Francisco Giants,SFG,St. Louis Cardinals,STL
+42,2014.0,AL,Championship,4-0,Kansas City Royals,KCR,Baltimore Orioles,BAL
+43,2014.0,None,WorldSeries,4-3,San Francisco Giants,SFG,Kansas City Royals,KCR
+44,2014.0,AL,Division1,3-0,Kansas City Royals,KCR,Los Angeles Angels,LAA
+45,2013.0,AL,Division2,3-2,Detroit Tigers,DET,Oakland Athletics,OAK
+46,2013.0,AL,Wildcard,1-0,Tampa Bay Rays,TBR,Cleveland Indians,CLE
+47,2013.0,NL,Division2,3-1,Los Angeles Dodgers,LAD,Atlanta Braves,ATL
+48,2013.0,NL,Division1,3-2,St. Louis Cardinals,STL,Pittsburgh Pirates,PIT
+49,2013.0,NL,Wildcard,1-0,Pittsburgh Pirates,PIT,Cincinnati Reds,CIN
+50,2013.0,AL,Division1,3-1,Boston Red Sox,BOS,Tampa Bay Rays,TBR
+51,2013.0,NL,Championship,4-2,St. Louis Cardinals,STL,Los Angeles Dodgers,LAD
+52,2013.0,AL,Championship,4-2,Boston Red Sox,BOS,Detroit Tigers,DET
+53,2013.0,None,WorldSeries,4-2,Boston Red Sox,BOS,St. Louis Cardinals,STL
+54,2012.0,None,WorldSeries,4-0,San Francisco Giants,SFG,Detroit Tigers,DET
+55,2012.0,AL,Championship,4-0,Detroit Tigers,DET,New York Yankees,NYY
+56,2012.0,NL,Championship,4-3,San Francisco Giants,SFG,St. Louis Cardinals,STL
+57,2012.0,AL,Division1,3-2,New York Yankees,NYY,Baltimore Orioles,BAL
+58,2012.0,AL,Division2,3-2,Detroit Tigers,DET,Oakland Athletics,OAK
+59,2012.0,NL,Division1,3-2,St. Louis Cardinals,STL,Washington Nationals,WSN
+60,2012.0,NL,Division2,3-2,San Francisco Giants,SFG,Cincinnati Reds,CIN
+61,2012.0,AL,Wildcard,1-0,Baltimore Orioles,BAL,Texas Rangers,TEX
+62,2012.0,NL,Wildcard,1-0,St. Louis Cardinals,STL,Atlanta Braves,ATL

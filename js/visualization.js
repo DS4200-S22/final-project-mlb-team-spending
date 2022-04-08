@@ -12,7 +12,7 @@ const svg1 = d3.select("#vis-container")
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
 
-// Initialize brush for Line Graph 1 and points. We will need these to be global. 
+// initialize the brush for the success score line graph
 let brush1; 
 
 // append svg object to house OD Salary Line Graph
@@ -22,7 +22,7 @@ const svg2 = d3.select("#vis-container")
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
 
-// Initialize brush for Line Graph 2 and points. We will need these to be global. 
+// initialize the brush for the OD salary line graph
 let brush2; 
 
 // append svg object to house AL bracket
@@ -173,10 +173,10 @@ circles = svg1.selectAll("circle")
                  .on("mousemove", mousemove1)
                  .on("mouseleave", mouseleave1);
 
-//Define a brush1
-const brush1 = d3.brush();
+// define brush 1
+brush1 = d3.brush();
 
-//Add brush1 to svg1
+// add brush 1 to svg
 svg1.append("g")
     .attr("class", "brush")
     .call(brush1.extent( [ [0,0], [width,height] ] )
@@ -358,10 +358,10 @@ circles2 = svg2.selectAll("circle")
                    .on("mousemove", mousemove2)
                    .on("mouseleave", mouseleave2);
 
-  //Define a brush2 
-  const brush2 = d3.brush();
+  // define brush 2
+  brush2 = d3.brush();
 
-  //Add brush2 to svg2
+  // add brush 2 to svg
   svg2.append("g").attr("class", "brush")
       .call(brush2.extent( [ [0,0], [width,height] ] )
                   .on("start brush", updateChart2));
@@ -447,8 +447,7 @@ salary_button.addEventListener('click', () => {
       // update whether or not the elements are active
       avgline.active = active;
 }) ;
-  
-                 
+              
 // function to update the chart
   function update2(selectedGroup) {
   
@@ -485,15 +484,12 @@ salary_button.addEventListener('click', () => {
           .style("fill", (d) => { return color2(selectedGroup); })
           .text(selectedGroup) ;
     }
-
-  
-
   }
 
   
-//Brushing Code---------------------------------------------------------------------------------------------
+// brushing and linking code ------------------------------------------------------------------------------------
 
-  // Call to removes existing brushes
+  // remove existing brushes from the page
   function clear() {
     svg1.append('g')
         .on("start brush", updateChart1)
@@ -503,14 +499,12 @@ salary_button.addEventListener('click', () => {
         .call(brush2.move, null);
 }
 
-// Call when Scatterplot1 is brushed
+// call when success score line graph is brushed
 function updateChart1(brushEvent) {
 
   let extent = brushEvent.selection;
 
   circles.classed("border", (d) => {
-    console.log('brush 1 x: ' + x1(d.Season))
-    console.log('brush 1 y: ' + y1(d[yKey1]))
     return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
 
   });
@@ -520,15 +514,12 @@ function updateChart1(brushEvent) {
   });
 
   clear();
+};
 
-}
-
-// Call when Scatterplot2 is brushed
+// call when OD salary line graph is brushed
 function updateChart2(brushEvent) {
 
-  //TODO: Find coordinates of brushed region
   let extent = brushEvent.selection;
-  //TODO: Give bold outline to all points within the brush region in Scatterplot2 & collected names of brushed species
   
   circles2.classed("border", (d) => {
     return isBrushed(extent, x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary)); 
@@ -536,17 +527,12 @@ function updateChart2(brushEvent) {
 
    circles.classed("border", (d) => {
     return isBrushed(extent,  x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary));
-
   });
 
     clear();
+};
 
-
-
-
-}
-
-  //Finds dots within the brushed region
+  // finds the dots in the brushed region
   function isBrushed(brush_coords, cx, cy) {
     if (brush_coords === null) return;
 
@@ -554,9 +540,8 @@ function updateChart2(brushEvent) {
       x1 = brush_coords[1][0],
       y0 = brush_coords[0][1],
       y1 = brush_coords[1][1];
-    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1; // This return TRUE or FALSE depending on if the points is in the selected area
-  }
-
+    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+  };
 
   // run the update function for both graphs when a new team is selected from dropdown
   d3.select("#selectButton").on("change", function(event,d) {
@@ -577,6 +562,39 @@ function updateChart2(brushEvent) {
 
 // bracket visualization
 d3.csv("data/postseason_data.csv").then((data) => {
+
+  // dictionary for team names and abbreviations
+  let team_abbreviations = {
+    'Arizona Diamondbacks' : 'ARI',
+    'Atlanta Braves' : 'ATL',
+    'Baltimore Orioles' : 'BAL',
+    'Boston Red Sox' : 'BOS',
+    'Chicago Cubs' : 'CHC',
+    'Chicago White Sox' : 'CHW',
+    'Cincinnati Reds' : 'CIN',
+    'Cleveland Indians' : 'CLE',
+    'Colorado Rockies' : 'COL',
+    'Detroit Tigers' : 'DET',
+    'Houston Astros' : 'HOU',
+    'Kansas City Royals' : 'KCR',
+    'Los Angeles Angels' : 'LAA',
+    'Los Angeles Dodgers' : 'LAD',
+    'Miami Marlins' : 'MIA',
+    'Milwaukee Brewers' : 'MIL',
+    'Minnesota Twins' : 'MIN',
+    'New York Mets' : 'NYM',
+    'New York Yankees' : 'NYY',
+    'Oakland Athletics' : 'OAK',
+    'Philadelphia Phillies' : 'PHI',
+    'Pittsburgh Pirates' : 'PIT',
+    'San Diego Padres' : 'SDP',
+    'Seattle Mariners' : 'SEA',
+    'San Francisco Giants' : 'SFG',
+    'St. Louis Cardinals' : 'STL',
+    'Tampa Bay Rays' : 'TBR',
+    'Texas Rangers' : 'TEX',
+    'Toronto Blue Jays' : 'TOR',
+    'Washington Nationals' : 'WSN' };
 
  { // given a year, assign the AL bracket
   function assignALBracket(year) {
@@ -608,7 +626,6 @@ d3.csv("data/postseason_data.csv").then((data) => {
           // losing d2 team
               d2_loser = division2[0].Losing_Team ;
                 
-
     // build the bracket with this data
     let bracket = 
       {"name": c_winner,
@@ -653,54 +670,51 @@ function drawTreeAL(treeData) {
   let i = 0, duration = 750, root;
  
   // declares a tree layout and assigns the size
-  let treemap = d3.tree().size([height, width]); // CHANGE WIDTH TO FIT BOTH BRACKETS ?
+  let treemap = d3.tree().size([height, width]);
    
-  // Assigns parent, children, height, depth
+  // assigns parent, children, height, depth
   root = d3.hierarchy(treeData, function(d) { return d.children; });
   root.x0 = height / 2;
   root.y0 = 0;
 
   update3(root);
   
-   
+  // update the AL bracket
   function update3(source) {
    
-   // Assigns the x and y position for the nodes
+   // assigns the x and y position for the nodes
    let treeData = treemap(root);
    
-   // Compute the new tree layout.
+   // compute the new tree layout
    let nodes = treeData.descendants(),
        links = treeData.descendants().slice(1);
    
-   // Normalize for fixed-depth.
-   nodes.forEach(function(d){ d.y = d.depth * 180}); // the distance between parent and child
+   // normalize for fixed-depth
+   nodes.forEach(function(d){ d.y = d.depth * 180});
    
-   // ****************** Nodes section ***************************
-   // Update the nodes...
+   // AL nodes section -------------------------------------------------------------------------------
+   
+   // update the nodes
    let node = svg3.selectAll('g.node')
        .data(nodes, function(d) {return d.id || (d.id = ++i); });
    
-   // Enter any new modes at the parent's previous position.
+   // enter any new modes at the parent's previous position
    let nodeEnter = node.enter().append('g')
        .attr('class', 'node')
        .attr("transform", function(d) {
-          return "translate(" + (width*0.95 - source.y0) + "," + source.x0 + ")"; // CHANGED FOR AL BRACKET
-     })
+          return "translate(" + (width*0.95 - source.y0) + "," + source.x0 + ")"; })
      .on('click', click);
    
-   // Add Circle for the nodes
+   // add a circle for the nodes
    nodeEnter.append('circle')
        .attr('class', 'node')
-       .attr('r', 1e-6)
-       .style("fill", function(d) {
-           return d._children ? "lightsteelblue" : "#fff";
-       });
+       .attr('r', 1e-6);
    
-   // Add labels for the nodes
+   // add labels for the nodes
    nodeEnter.append('text')
        .attr("dy", ".35em")
-       .attr("x", function(d) { return d.children || d._children ? 40 : -10 ; })
-       .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
+       .attr("x", function(d) { return d.children || d._children ? 40 : -40 ; })
+       .attr("y", function(d) { return d.children || d._children ? -45 : -45; })
        .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
        .text(function(d) {
          return d.data.name; });
@@ -708,31 +722,42 @@ function drawTreeAL(treeData) {
    // UPDATE
    let nodeUpdate = nodeEnter;
    
-   // Transition to the proper position for the node
+   // transition to the proper position for the node
    nodeUpdate.transition()
      .duration(duration)
      .attr("transform", function(d) {
          return "translate(" + (width*0.95 - d.y) + "," + d.x + ")";  // CHANGED FOR AL GRAPH
       });
-   
-   // Update the node attributes and style
-   nodeUpdate.select('circle.node')
-     .attr('r', 10)
-     .style("fill", function(d) {
-         return d._children ? "lightsteelblue" : "#fff";
-     })
-     .attr('cursor', 'pointer');
-   
+
+      // read in the general data to determine OD salary of the nodes for the heatmap
+      d3.csv("data/final_mlb_data.csv").then((data2) => {
+          // add color scale for gradient scale
+          const gradient = d3.scaleLinear()
+                             .range(["white", "#003887"])
+                             .domain([0, 224021260]) ; 
+
+        // update the node attributes and style
+        nodeUpdate.select('circle.node')
+                  .attr('r', 30)
+                  .style("fill", (d) => {
+                    // filter the data to get the OD Salary
+                    gradient_filter = data2.filter((d2) => {
+                      return (d2.Season == yearAL && d2.Team == team_abbreviations[d.data.name]) });
+                    gradient_salary = gradient_filter[0].OD_Salary
+                    
+                    return gradient(gradient_salary); })
+                  .attr('cursor', 'pointer');
+      });
+
   
    
-   // ****************** links section **************************
+   // AL links section --------------------------------------------------------------------------------
    
-   
-   // Update the links...
+   // update the links
    let link = svg3.selectAll('path.link')
                   .data(links, function(d) { return d.id; });
    
-   // Enter any new links at the parent's previous position.
+   // enter any new links at the parent's previous position
    let linkEnter = link.enter().insert('path', "g")
        .attr("class", "link")
        .attr('d', function(d){
@@ -743,13 +768,13 @@ function drawTreeAL(treeData) {
    // UPDATE
    let linkUpdate = linkEnter;
    
-   // Transition back to the parent element position
+   // transition back to the parent element position
    linkUpdate.transition()
        .duration(duration)
        .attr('d', function(d){ return diagonal(d, d.parent) });
    
   
-   // Creates a bracket path from parent to the child nodes
+   // creates a bracket path from parent to the child nodes
    function diagonal(s, d) {
   
      path = (`M ${(width*0.95 - s.y)} ${s.x}
@@ -760,7 +785,7 @@ function drawTreeAL(treeData) {
      return path
    };
   
-   // Toggle children on click.
+   // toggle children on click
    function click(event, d) {
      if (d.children) {
          d._children = d.children;
@@ -773,6 +798,8 @@ function drawTreeAL(treeData) {
    }
   }
 }
+
+// NL bracket ----------------------------------------------------------------------------------------
 
 // given a year, assign the NL bracket
 function assignNLBracket(year) {
@@ -828,7 +855,8 @@ function assignNLBracket(year) {
   return bracketNL ;  };
 
 // initialize bracket with first year
-let treeDataNL = assignNLBracket(2018);
+let yearAL = 2018 ; 
+let treeDataNL = assignNLBracket(yearAL);
 drawTreeNL(treeDataNL)
 
 function drawTreeNL(treeDataNL) {
@@ -846,23 +874,23 @@ update4(root);
  
 function update4(source) {
  
- // Assigns the x and y position for the nodes
+ // assigns the x and y position for the nodes
  let treeDataNL = treemap(root);
  
- // Compute the new tree layout.
+ // compute the new tree layout
  let nodes = treeDataNL.descendants(),
      links = treeDataNL.descendants().slice(1);
  
- // Normalize for fixed-depth.
+ // normalize for fixed-depth
  nodes.forEach(function(d){ d.y = d.depth * 180});
  
- // ****************** Nodes section ***************************
+ // NL nodes section ---------------------------------------------------------------------------------------
  
- // Update the nodes...
+ // update the nodes
  let node = svg4.selectAll('g.node')
      .data(nodes, function(d) {return d.id || (d.id = ++i); });
  
- // Enter any new modes at the parent's previous position.
+ // enter any new modes at the parent's previous position
  let nodeEnter = node.enter().append('g')
      .attr('class', 'node')
      .attr("transform", function(d) {
@@ -870,19 +898,16 @@ function update4(source) {
    })
    .on('click', click);
  
- // Add Circle for the nodes
+ // add circle for the nodes
  nodeEnter.append('circle')
      .attr('class', 'node')
-     .attr('r', 1e-6)
-     .style("fill", function(d) {
-         return d._children ? "lightsteelblue" : "#fff";
-     });
+     .attr('r', 1e-6);
  
- // Add labels for the nodes
+ // add labels for the nodes
  nodeEnter.append('text')
      .attr("dy", ".35em")
-     .attr("x", function(d) { return d.children || d._children ? 60 : -10 ; })
-     .attr("y", function(d) { return d.children || d._children ? -20 : 20; })
+     .attr("x", function(d) { return d.children || d._children ? 60 : -35 ; })
+     .attr("y", function(d) { return d.children || d._children ? -45 : -45; }) 
      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
      .text(function(d) {
        return d.data.name; });
@@ -890,32 +915,41 @@ function update4(source) {
  // UPDATE
  let nodeUpdate = nodeEnter;
  
- // Transition to the proper position for the node
+ // transition to the proper position for the node
  nodeUpdate.transition()
    .duration(duration)
    .attr("transform", function(d) {
        return "translate(" + (60 + d.y) + "," + d.x + ")";
     });
+
+
+ // read in the general data to determine the OD salary of the nodes for the heatmap
+  d3.csv("data/final_mlb_data.csv").then((data2) => {
+    // add color scale for the gradient scale
+    const gradient = d3.scaleLinear()
+                             .range(["white", "#003887"])
+                             .domain([0, 224021260]) ; 
+
+    // update the node attributes and style
+    nodeUpdate.select('circle.node')
+              .attr('r', 30)
+              .style('fill', (d) => {
+                // filter the data to get the OD Salary
+                gradient_filter = data2.filter((d2) => {
+                  return (d2.Season == yearAL && d2.Team == team_abbreviations[d.data.name]) });
+                gradient_salary = gradient_filter[0].OD_Salary
+                
+                return gradient(gradient_salary); })
+                .attr('cursor', 'pointer');
+  });
  
- // Update the node attributes and style
- nodeUpdate.select('circle.node')
-   .attr('r', 10)
-   .style("fill", function(d) {
-       return d._children ? "lightsteelblue" : "#fff";
-   })
-   .attr('cursor', 'pointer');
+ // NL links section ---------------------------------------------------------------------------------
  
- 
- 
- 
- // ****************** links section **************************
- 
- 
- // Update the links...
+ // update the links
  let link = svg4.selectAll('path.link')
                 .data(links, function(d) { return d.id; });
  
- // Enter any new links at the parent's previous position.
+ // enter any new links at the parent's previous position
  let linkEnter = link.enter().insert('path', "g")
      .attr("class", "link")
      .attr('d', function(d){
@@ -926,12 +960,12 @@ function update4(source) {
  // UPDATE
  let linkUpdate = linkEnter;
  
- // Transition back to the parent element position
+ // transition back to the parent element position
  linkUpdate.transition()
      .duration(duration)
      .attr('d', function(d){ return diagonal(d, d.parent) });
  
- // Creates a bracket path from parent to the child nodes
+ // creates a bracket path from parent to the child nodes
  function diagonal(s, d) {
 
    path = (`M ${(60 + s.y)} ${s.x}
@@ -942,7 +976,7 @@ function update4(source) {
    return path
  };
 
- // Toggle children on click.
+ // toggle children on click.
  function click(event, d) {
    if (d.children) {
        d._children = d.children;
@@ -953,23 +987,25 @@ function update4(source) {
      }
    update4(d);
  }
-}
-}
+};
+};
 
-// button functionality
+// button functionality for the bracket graph
+
 // function to update the chart
 function update(selectedYear) {
 
-  // create new tree with selected year
+  // create new AL tree with selected year
   treeData = assignALBracket(selectedYear) ; 
-  // create new tree with selected year
+  yearAL = selectedYear ; 
+  // create new NL tree with selected year
   treeDataNL = assignNLBracket(selectedYear) ; 
 
   // draw new tree
   drawTreeAL(treeData) ; 
   // draw new tree
   drawTreeNL(treeDataNL) ;
-}
+};
 
 // run the update function for both graphs when a new team is selected from dropdown
 d3.select("#selectButton2").on("change", function(event,d) {
@@ -985,8 +1021,7 @@ d3.select("#selectButton2").on("change", function(event,d) {
   
   // run both update functions with the user's selection
   update(selectedOption) ; 
-})
-
+});
 
 }
 });

@@ -41,7 +41,7 @@ h1, h2, h3 {
 
 /* bracket circle nodes */
   .node circle {
-	fill: rgb(0, 0, 0);
+	/*fill: rgb(212, 33, 232);*/
 	stroke: black;
 	stroke-width: 3px;
   }
