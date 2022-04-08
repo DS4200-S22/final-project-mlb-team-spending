@@ -37,7 +37,7 @@ const svg4 = d3.select("#vis-container2")
                 .append("svg")
                 .attr("width", width - margin.left - margin.right)
                 .attr("height", height - margin.top - margin.bottom)
-                .attr("viewBox", [0, 0, width, height]);   
+                .attr("viewBox", [0, 0, width, height]);  
 
 // upload data
 d3.csv("data/final_mlb_data.csv").then((data) => {
@@ -596,6 +596,11 @@ d3.csv("data/postseason_data.csv").then((data) => {
     'Toronto Blue Jays' : 'TOR',
     'Washington Nationals' : 'WSN' };
 
+  // add color scale for the gradient scale
+  const gradient = d3.scaleLinear()
+        .range(["white", "#003887"])
+        .domain([0, 224021260]) ; 
+
  { // given a year, assign the AL bracket
   function assignALBracket(year) {
     // filter by the year the user has selected
@@ -731,10 +736,6 @@ function drawTreeAL(treeData) {
 
       // read in the general data to determine OD salary of the nodes for the heatmap
       d3.csv("data/final_mlb_data.csv").then((data2) => {
-          // add color scale for gradient scale
-          const gradient = d3.scaleLinear()
-                             .range(["white", "#003887"])
-                             .domain([0, 224021260]) ; 
 
         // update the node attributes and style
         nodeUpdate.select('circle.node')
@@ -925,10 +926,6 @@ function update4(source) {
 
  // read in the general data to determine the OD salary of the nodes for the heatmap
   d3.csv("data/final_mlb_data.csv").then((data2) => {
-    // add color scale for the gradient scale
-    const gradient = d3.scaleLinear()
-                             .range(["white", "#003887"])
-                             .domain([0, 224021260]) ; 
 
     // update the node attributes and style
     nodeUpdate.select('circle.node')
@@ -1022,6 +1019,7 @@ d3.select("#selectButton2").on("change", function(event,d) {
   // run both update functions with the user's selection
   update(selectedOption) ; 
 });
+
 
 }
 });
