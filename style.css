@@ -21,12 +21,12 @@ h1, h2, h3 {
   height: 100%;
 }
 
+/* Border styling for brushing and linking */
 .border {
 	stroke: black;
 	stroke-width: 3px;
 	opacity: 1;
   }
-  
 
 /* Tooltip class styling goes here */
 .tooltip {
