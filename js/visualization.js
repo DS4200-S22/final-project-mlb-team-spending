@@ -39,6 +39,39 @@ const svg4 = d3.select("#vis-container2")
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);  
 
+// dictionary for team names and abbreviations
+let team_abbreviations = {
+  'Atlanta Braves' : 'ATL',
+  'Baltimore Orioles' : 'BAL',
+  'Boston Red Sox' : 'BOS',
+  'Chicago Cubs' : 'CHC',
+  'Chicago White Sox' : 'CHW',
+  'Cincinnati Reds' : 'CIN',
+  'Cleveland Indians' : 'CLE',
+  'Detroit Tigers' : 'DET',
+  'Houston Astros' : 'HOU',
+  'Kansas City Royals' : 'KCR',
+  'Los Angeles Angels' : 'LAA',
+  'Los Angeles Dodgers' : 'LAD',
+  'Milwaukee Brewers' : 'MIL',
+  'Minnesota Twins' : 'MIN',
+  'New York Mets' : 'NYM',
+  'New York Yankees' : 'NYY',
+  'Oakland Athletics' : 'OAK',
+  'Philadelphia Phillies' : 'PHI',
+  'Pittsburgh Pirates' : 'PIT',
+  'San Diego Padres' : 'SDP',
+  'Seattle Mariners' : 'SEA',
+  'San Francisco Giants' : 'SFG',
+  'St. Louis Cardinals' : 'STL',
+  'Texas Rangers' : 'TEX',
+  'Toronto Blue Jays' : 'TOR',
+  'Washington Nationals' : 'WSN',
+  'Colorado Rockies' : 'COL',
+  'Miami Marlins' : 'MIA', 
+  'Arizona Diamondbacks' : 'ARI', 
+  'Tampa Bay Rays' : 'TBR'};
+
 // upload data
 d3.csv("data/final_mlb_data.csv").then((data) => {
 
@@ -129,11 +162,16 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
 
   // list of group names
   let res = Array.from(sumstat.keys());
+  console.log(res);
+
+  // list of full names
+  let fullnames = Array.from(Object.keys(team_abbreviations));
+  console.log(fullnames);
 
   // add the options to the button
   d3.select("#selectButton")
     .selectAll('myOptions')
-    .data(res)
+    .data(fullnames) // change to fullname for select button
     .enter()
     .append('option')
     .text((d) => { return d; }) 
@@ -193,6 +231,8 @@ const label = svg1.append("text")
 
   // function to update the chart
 function update(selectedGroup) {
+
+  selectedGroup = team_abbreviations[selectedGroup];
   
   // create new data with the selection
   const dataFilter = data.filter((d) => {
@@ -446,45 +486,46 @@ salary_button.addEventListener('click', () => {
       // update whether or not the elements are active
       avgline.active = active;
 });
-              
-// function to update the chart
-  function update2(selectedGroup) {
-  
-    // create new data with the selection
-    const dataFilter = data.filter((d) => {
-      return d.Team == selectedGroup; } );
-  
-      // updated line data
-      line2
-          .datum(dataFilter)
-          .attr("d", d3.line()
-                        .x((d) => { return x2(new Date(d.Season, 0, 1)); })
-                        .y((d) => { return y2(d.OD_Salary); }))
-          .attr("stroke", (d) => { return color2(selectedGroup); });
-  
-      // updated circles data
-      circles2 = svg2.selectAll("circle")
-                    .data(dataFilter)
-                    .enter()
-                    .append("circle")
-                    .attr("cx", (d) => { return x2(new Date(d.Season, 0, 1)); })
-                    .attr("cy", (d) => { return y2(d.OD_Salary); })
-                    .attr("r", 5)
-                    .style("fill", (d) => { return color2(selectedGroup); })
-                    .on("mouseover", mouseover2) 
-                    .on("mousemove", mousemove2)
-                    .on("mouseleave", mouseleave2);
-      // TODO add in transitions for line, circle, label ?
-  
-      // updated line label data
-      od_2018 = dataFilter[dataFilter.length - 1].OD_Salary ; 
-      label2
-          .attr("transform", "translate(" + (x2(new Date(2018, 0, 1)) + 10) + "," + y2(od_2018) + ")")
-          .style("fill", (d) => { return color2(selectedGroup); })
-          .text(selectedGroup) ;
-    };
-  };
 
+// function to update the chart
+function update2(selectedGroup) {
+
+  selectedGroup = team_abbreviations[selectedGroup];
+
+  // create new data with the selection
+  const dataFilter = data.filter((d) => {
+    return d.Team == selectedGroup; } );
+
+    // updated line data
+    line2
+        .datum(dataFilter)
+        .attr("d", d3.line()
+                      .x((d) => { return x2(new Date(d.Season, 0, 1)); })
+                      .y((d) => { return y2(d.OD_Salary); }))
+        .attr("stroke", (d) => { return color2(selectedGroup); });
+
+    // updated circles data
+    circles2 = svg2.selectAll("circle")
+                  .data(dataFilter)
+                  .enter()
+                  .append("circle")
+                  .attr("cx", (d) => { return x2(new Date(d.Season, 0, 1)); })
+                  .attr("cy", (d) => { return y2(d.OD_Salary); })
+                  .attr("r", 5)
+                  .style("fill", (d) => { return color2(selectedGroup); })
+                  .on("mouseover", mouseover2) 
+                  .on("mousemove", mousemove2)
+                  .on("mouseleave", mouseleave2);
+    // TODO add in transitions for line, circle, label ?
+
+    // updated line label data
+    od_2018 = dataFilter[dataFilter.length - 1].OD_Salary ; 
+    label2
+        .attr("transform", "translate(" + (x2(new Date(2018, 0, 1)) + 10) + "," + y2(od_2018) + ")")
+        .style("fill", (d) => { return color2(selectedGroup); })
+        .text(selectedGroup) ;
+  };
+};
   
 // brushing and linking code ------------------------------------------------------------------------------------
 
@@ -556,38 +597,12 @@ function updateChart2(brushEvent) {
 // bracket visualization
 d3.csv("data/postseason_data.csv").then((data) => {
 
-  // dictionary for team names and abbreviations
-  let team_abbreviations = {
-    'Arizona Diamondbacks' : 'ARI',
-    'Atlanta Braves' : 'ATL',
-    'Baltimore Orioles' : 'BAL',
-    'Boston Red Sox' : 'BOS',
-    'Chicago Cubs' : 'CHC',
-    'Chicago White Sox' : 'CHW',
-    'Cincinnati Reds' : 'CIN',
-    'Cleveland Indians' : 'CLE',
-    'Colorado Rockies' : 'COL',
-    'Detroit Tigers' : 'DET',
-    'Houston Astros' : 'HOU',
-    'Kansas City Royals' : 'KCR',
-    'Los Angeles Angels' : 'LAA',
-    'Los Angeles Dodgers' : 'LAD',
-    'Miami Marlins' : 'MIA',
-    'Milwaukee Brewers' : 'MIL',
-    'Minnesota Twins' : 'MIN',
-    'New York Mets' : 'NYM',
-    'New York Yankees' : 'NYY',
-    'Oakland Athletics' : 'OAK',
-    'Philadelphia Phillies' : 'PHI',
-    'Pittsburgh Pirates' : 'PIT',
-    'San Diego Padres' : 'SDP',
-    'Seattle Mariners' : 'SEA',
-    'San Francisco Giants' : 'SFG',
-    'St. Louis Cardinals' : 'STL',
-    'Tampa Bay Rays' : 'TBR',
-    'Texas Rangers' : 'TEX',
-    'Toronto Blue Jays' : 'TOR',
-    'Washington Nationals' : 'WSN' };
+  // add the div for tooltip
+  const tooltip3 = d3.select("body")
+                        .append("div")
+                        .attr("id", "tooltip3")
+                        .style("opacity", 0)
+                        .attr("class", "tooltip");
 
   // add color scale for the gradient scale
   const gradient = d3.scaleLinear()
@@ -736,6 +751,24 @@ function drawTreeAL(treeData) {
       // read in the general data to determine OD salary of the nodes for the heatmap
       d3.csv("data/final_mlb_data.csv").then((data2) => {
 
+          // add values to tooltip on mouseover
+          const mouseover3 = function(event, d) {
+                odspend = data2.filter((d2) => {return (d2.Season == yearAL && d2.Team == team_abbreviations[d.data.name])})[0].OD_Salary ;
+                tooltip3.html("Team: " + d.data.name + "<br> Spending: $" + d3.format(",.2f")(+odspend) + "<br")
+                        .style('opacity', 1);
+          };
+  
+          // position tooltip to follow mouse
+          const mousemove3 = function(event, d) {
+                tooltip3.style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY + yTooltipOffset) + "px");
+           };
+  
+          // return tooltip to transparent when mouse leaves
+          const mouseleave3 = function(event, d) {
+                tooltip3.style("opacity", 0);
+          };
+
         // update the node attributes and style
         nodeUpdate.select('circle.node')
                   .attr('r', 30)
@@ -747,11 +780,12 @@ function drawTreeAL(treeData) {
                       return (d2.Season == yearAL && d2.Team == team_abbreviations[d.data.name]) });
                     gradient_salary = gradient_filter[0].OD_Salary
                     return gradient(gradient_salary); })
+                  .on("mouseover", mouseover3) 
+                  .on("mousemove", mousemove3)
+                  .on("mouseleave", mouseleave3)
                   .attr('cursor', 'pointer');
       });
 
-  
-   
    // AL links section --------------------------------------------------------------------------------
    
    // update the links
@@ -927,6 +961,24 @@ function update4(source) {
  // read in the general data to determine the OD salary of the nodes for the heatmap
   d3.csv("data/final_mlb_data.csv").then((data2) => {
 
+          // add values to tooltip on mouseover
+          const mouseover3 = function(event, d) {
+            odspend = data2.filter((d2) => {return (d2.Season == yearAL && d2.Team == team_abbreviations[d.data.name])})[0].OD_Salary ;
+            tooltip3.html("Team: " + d.data.name + "<br> Spending: $" + d3.format(",.2f")(+odspend) + "<br")
+                    .style('opacity', 1);
+          };
+  
+          // position tooltip to follow mouse
+          const mousemove3 = function(event, d) {
+                tooltip3.style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY + yTooltipOffset) + "px");
+           };
+  
+          // return tooltip to transparent when mouse leaves
+          const mouseleave3 = function(event, d) {
+                tooltip3.style("opacity", 0);
+          };
+
     // update the node attributes and style
     nodeUpdate.select('circle.node')
               .attr('r', 30)
@@ -937,8 +989,10 @@ function update4(source) {
                 gradient_filter = data2.filter((d2) => {
                   return (d2.Season == yearAL && d2.Team == team_abbreviations[d.data.name]) });
                 gradient_salary = gradient_filter[0].OD_Salary
-                
                 return gradient(gradient_salary); })
+                .on("mouseover", mouseover3) 
+                .on("mousemove", mousemove3)
+                .on("mouseleave", mouseleave3)
                 .attr('cursor', 'pointer');
   });
  
@@ -992,7 +1046,7 @@ function update4(source) {
 // button functionality for the bracket graph
 
 // function to update the chart
-function update(selectedYear) {
+function update5(selectedYear) {
 
   // create new AL tree with selected year
   treeData = assignALBracket(selectedYear) ; 
@@ -1019,7 +1073,7 @@ d3.select("#selectButton2").on("change", function(event,d) {
   svg4.selectAll('path.link').remove();
   
   // run both update functions with the user's selection
-  update(selectedOption) ; 
+  update5(selectedOption) ; 
 });
 
 
