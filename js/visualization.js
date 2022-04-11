@@ -228,10 +228,8 @@ function update(selectedGroup) {
         .attr("transform", "translate(" + (x1(new Date(2018, 0, 1)) + 10) + "," + y1(success_2018) + ")")
         .style("fill", (d) => { return color(selectedGroup); })
         .text(selectedGroup) ;
-    }
-
-     
-     }
+    };   
+  };
 
   // spending over seasons line graph
   {
@@ -297,7 +295,7 @@ function update(selectedGroup) {
 // function to format the salary in dollar form
 function currency(current_int) {
   return "$" + d3.format(",.2f")(current_int);
-}
+};
 
 // add values to tooltip on mouseover
 const mouseover2 = function(event, d) {
@@ -389,7 +387,8 @@ function get_average(year_str) {
       // add total salary up
       totalsalary = totalsalary + (+yearfilter[i].OD_Salary) ;
     }
-    return +(totalsalary / yearfilter.length) ; }; 
+    return +(totalsalary / yearfilter.length) ; 
+  }; 
 
 
 // create a dataset of years and averages
@@ -409,7 +408,7 @@ for (let i = 0; i < all_years.length; i++) { // for every year...
 
   // clear year_average
   year_average = {} ; 
-} ; 
+}; 
 
 // set the average line
 const avg_line = svg2.append('g')
@@ -430,7 +429,7 @@ const avg_label = svg2.append("text")
               .attr("text-anchor", "start")
               .style("fill", "black")
               .text("avg.")
-              .attr("id", "avgline_label");;
+              .attr("id", "avgline_label");
               
 let salary_button = document.querySelector('#salaryButton');
 
@@ -446,7 +445,7 @@ salary_button.addEventListener('click', () => {
       
       // update whether or not the elements are active
       avgline.active = active;
-}) ;
+});
               
 // function to update the chart
   function update2(selectedGroup) {
@@ -483,8 +482,8 @@ salary_button.addEventListener('click', () => {
           .attr("transform", "translate(" + (x2(new Date(2018, 0, 1)) + 10) + "," + y2(od_2018) + ")")
           .style("fill", (d) => { return color2(selectedGroup); })
           .text(selectedGroup) ;
-    }
-  }
+    };
+  };
 
   
 // brushing and linking code ------------------------------------------------------------------------------------
@@ -497,7 +496,7 @@ salary_button.addEventListener('click', () => {
     svg2.append('g')
         .on("start brush", updateChart2)
         .call(brush2.move, null);
-}
+};
 
 // call when success score line graph is brushed
 function updateChart1(brushEvent) {
@@ -512,8 +511,6 @@ function updateChart1(brushEvent) {
   circles2.classed("border", (d) => {
     return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
   });
-
-  clear();
 };
 
 // call when OD salary line graph is brushed
@@ -528,8 +525,6 @@ function updateChart2(brushEvent) {
    circles.classed("border", (d) => {
     return isBrushed(extent,  x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary));
   });
-
-    clear();
 };
 
   // finds the dots in the brushed region
@@ -549,14 +544,13 @@ function updateChart2(brushEvent) {
     const selectedOption2 = d3.select(this).property("value")
 
     // clear all existing circles to add new circles
-    circles.remove()
-    circles2.remove()
+    circles.remove();
+    circles2.remove();
     
     // run both update functions with the user's selection
     update(selectedOption2)
     update2(selectedOption2)
-  })
-
+  });
 });
 
 
@@ -651,7 +645,7 @@ d3.csv("data/postseason_data.csv").then((data) => {
            }]
       } ;
 
-    return bracket ;  };
+    return bracket;  };
 
 
 
@@ -669,7 +663,7 @@ d3.select("#selectButton2")
 
 // initialize bracket with first year
 let treeData = assignALBracket(2018);
-drawTreeAL(treeData)
+drawTreeAL(treeData);
 
 function drawTreeAL(treeData) {
   let i = 0, duration = 750, root;
@@ -796,9 +790,9 @@ function drawTreeAL(treeData) {
          d._children = null;
        }
      update3(d);
-   }
-  }
-}
+   };
+  };
+};
 
 // NL bracket ----------------------------------------------------------------------------------------
 
@@ -811,7 +805,7 @@ function assignNLBracket(year) {
     leagueFilterNL = yearFilter.filter((d) => {return d.League == "NL";});
 
   // get championship winner
-    championship = leagueFilterNL.filter((d) => {return d.Series_Played == 'Championship'})
+    championship = leagueFilterNL.filter((d) => {return d.Series_Played == 'Championship'});
         c_winner = championship[0].Winning_Team ; 
 
   // get the wildcard teams
@@ -851,14 +845,14 @@ function assignNLBracket(year) {
                         ]
                }] 
          }]
-    } ;
+    };
 
   return bracketNL ;  };
 
 // initialize bracket with first year
 let yearAL = 2018 ; 
 let treeDataNL = assignNLBracket(yearAL);
-drawTreeNL(treeDataNL)
+drawTreeNL(treeDataNL);
 
 function drawTreeNL(treeDataNL) {
 let i = 0, duration = 750, root;
@@ -983,7 +977,7 @@ function update4(source) {
        d._children = null;
      }
    update4(d);
- }
+ };
 };
 };
 
@@ -1021,7 +1015,7 @@ d3.select("#selectButton2").on("change", function(event,d) {
 });
 
 
-}
+};
 });
 
 
