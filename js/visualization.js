@@ -505,7 +505,6 @@ function updateChart1(brushEvent) {
 
   circles.classed("border", (d) => {
     return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
-
   });
   
   circles2.classed("border", (d) => {
@@ -592,9 +591,16 @@ d3.csv("data/postseason_data.csv").then((data) => {
 
   // add color scale for the gradient scale
   const gradient = d3.scaleLinear()
-        .range(["white", "#003887"])
-        .domain([0, 224021260]) ; 
+        .range(["white", "#002370"])
+        .domain([18825200, 224021260]) ; 
 
+// get the world series winner
+function getWSWinner(year) {
+  // filter by year and worldseries as the series played;
+    ws_winner = data.filter((d) => {return d.Season == +year && d.Series_Played == "WorldSeries";})[0].Winning_Team;
+    return ws_winner
+  };
+  
  { // given a year, assign the AL bracket
   function assignALBracket(year) {
     // filter by the year the user has selected
@@ -647,8 +653,6 @@ d3.csv("data/postseason_data.csv").then((data) => {
 
     return bracket;  };
 
-
-
 // setting up the button
 let res = [2018, 2017, 2016, 2015, 2014, 2013, 2012] ; 
 
@@ -664,6 +668,7 @@ d3.select("#selectButton2")
 // initialize bracket with first year
 let treeData = assignALBracket(2018);
 drawTreeAL(treeData);
+// initialize WS winner with 2018
 
 function drawTreeAL(treeData) {
   let i = 0, duration = 750, root;
@@ -734,12 +739,13 @@ function drawTreeAL(treeData) {
         // update the node attributes and style
         nodeUpdate.select('circle.node')
                   .attr('r', 30)
+                  .style('stroke', (d) => d.data.name == getWSWinner(yearAL) && !d.parent ? '#FFD700' : 'black')
+                  .style('stroke-width', (d) => d.data.name == getWSWinner(yearAL) && !d.parent ? '5px' : '3px')
                   .style("fill", (d) => {
                     // filter the data to get the OD Salary
                     gradient_filter = data2.filter((d2) => {
                       return (d2.Season == yearAL && d2.Team == team_abbreviations[d.data.name]) });
                     gradient_salary = gradient_filter[0].OD_Salary
-                    
                     return gradient(gradient_salary); })
                   .attr('cursor', 'pointer');
       });
@@ -924,6 +930,8 @@ function update4(source) {
     // update the node attributes and style
     nodeUpdate.select('circle.node')
               .attr('r', 30)
+              .style('stroke', (d) => d.data.name == getWSWinner(yearAL) && !d.parent ? '#FFD700' : 'black')
+              .style('stroke-width', (d) => d.data.name == getWSWinner(yearAL) && !d.parent ? '5px' : '3px')
               .style('fill', (d) => {
                 // filter the data to get the OD Salary
                 gradient_filter = data2.filter((d2) => {
