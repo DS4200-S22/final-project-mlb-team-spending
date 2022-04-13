@@ -42,9 +42,12 @@ const svg4 = d3.select("#vis-container2")
 // legend for bracket
 const svg5 = d3.select("#vis-container2")
                 .append("svg")
-                .attr("width", 1800)
+                .attr("width", width - margin.left - margin.right)
+                .attr("height", height - margin.top - margin.bottom)
+                .attr("viewBox", [0, 0, width, height]);  
+                /*.attr("width", 1800)
                 .attr("height", 200)
-                .attr("viewBox", [0, 0, width, height/2]);
+                .attr("viewBox", [0, 0, width, height/2]);*/
 
 //scale for bracket colors
 const bracketColor = d3.scaleLinear()
@@ -116,7 +119,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   let x1, y1, x2, y2;
   let xKey1, yKey1, xKey2, yKey2;
   let circles, circles2;
-  
+
   // success score over seasons line graph 
   {
     xKey1 = 'Season';
@@ -170,40 +173,14 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
                     .attr("text-anchor", "end")
                     .text("Percent Wins"));
 
-  // add the div for tooltip
-  const tooltip1 = d3.select("body")
-                        .append("div")
-                        .attr("id", "tooltip1")
-                        .style("opacity", 0)
-                        .attr("class", "tooltip");
-  
-  // add values to tooltip on mouseover
-  const mouseover1 = function(event, d) {
-    tooltip1.html("Year: " + d.Season + "<br> Percent Wins: " + d.Success_Score + "%" + "<br")
-            .style("opacity", 1);
-  };
-
-  // position tooltip to follow mouse
-  const mousemove1 = function(event, d) {
-    tooltip1.style("left", (event.pageX) + "px")
-            .style("top", (event.pageY + yTooltipOffset) + "px");
-  };
-
-  // return tooltip to transparent when mouse leaves
-  const mouseleave1 = function(event, d) {
-    tooltip1.style("opacity", 0);
-  };
-
   // group by the team name
   let sumstat = d3.group(data, d => d.Team);
 
   // list of group names
   let res = Array.from(sumstat.keys());
-  console.log(res);
 
   // list of full names
   let fullnames = Array.from(Object.keys(team_abbreviations));
-  console.log(fullnames);
 
   // add the options to the button
   d3.select("#selectButton")
@@ -243,10 +220,10 @@ circles = svg1.selectAll("circle")
                  .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
                  .attr("cy", (d) => { return y1(d.Success_Score); })
                  .attr("r", 5)
-                 .style("fill", (d) => { return color("valueA"); })
-                 .on("mouseover", mouseover1) 
-                 .on("mousemove", mousemove1)
-                 .on("mouseleave", mouseleave1);
+                 .style("fill", (d) => { return color("valueA"); });
+                 //.on("mouseover", mouseover1) 
+                 //.on("mousemove", mousemove1)
+                 //.on("mouseleave", mouseleave1);
 
 // define brush 1
 brush1 = d3.brush();
@@ -255,7 +232,8 @@ brush1 = d3.brush();
 svg1.append("g")
     .attr("class", "brush")
     .call(brush1.extent( [ [0,0], [width,height] ] )
-                .on("start brush", updateChart1));
+                .on("start brush", updateChart1)
+                .on("end", brushChart1));
 
 // initialize line label with first team
 let success_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].Success_Score ;
@@ -293,11 +271,7 @@ function update(selectedGroup) {
                   .attr("cx", (d) => { return x1(new Date(d.Season, 0, 1)); })
                   .attr("cy", (d) => { return y1(d.Success_Score); })
                   .attr("r", 5)
-                  .style("fill", (d) => { return color(selectedGroup); })
-                  .on("mouseover", mouseover1) 
-                  .on("mousemove", mousemove1)
-                  .on("mouseleave", mouseleave1);
-    // TODO add in transitions for line, circle, label ?
+                  .style("fill", (d) => { return color(selectedGroup); });
 
     // updated line label data
     success_2018 = dataFilter[dataFilter.length - 1].Success_Score ; 
@@ -361,34 +335,9 @@ function update(selectedGroup) {
                         .attr("text-anchor", "end")
                         .text(yKey2));
 
-
-  // add the div for tooltip
-  const tooltip2 = d3.select("body")
-                        .append("div")
-                        .attr("id", "tooltip2")
-                        .style("opacity", 0)
-                        .attr("class", "tooltip");
-
 // function to format the salary in dollar form
 function currency(current_int) {
   return "$" + d3.format(",.2f")(current_int);
-};
-
-// add values to tooltip on mouseover
-const mouseover2 = function(event, d) {
-  tooltip2.html("Year: " + d.Season + "<br> OD Salary: " + currency(+d.OD_Salary) + "<br> Average Salary: " + currency(get_average(d.Season)) + "<br")
-          .style("opacity", 1);
-};
-
-// position tooltip to follow mouse
-const mousemove2 = function(event, d) {
-  tooltip2.style("left", (event.pageX) + "px")
-          .style("top", (event.pageY + yTooltipOffset) + "px");
-};
-
-// return tooltip to transparent when mouse leaves
-const mouseleave2 = function(event, d) {
-  tooltip2.style("opacity", 0);
 };
 
 // group by the team name
@@ -428,10 +377,7 @@ circles2 = svg2.selectAll("circle")
                    .attr("cx", (d) => { return x2(new Date(d.Season, 0, 1)); })
                    .attr("cy", (d) => { return y2(d.OD_Salary); })
                    .attr("r", 5)
-                   .style("fill", (d) => { return color2("valueA"); })
-                   .on("mouseover", mouseover2) 
-                   .on("mousemove", mousemove2)
-                   .on("mouseleave", mouseleave2);
+                   .style("fill", (d) => { return color2("valueA"); });
 
   // define brush 2
   brush2 = d3.brush();
@@ -439,8 +385,8 @@ circles2 = svg2.selectAll("circle")
   // add brush 2 to svg
   svg2.append("g").attr("class", "brush")
       .call(brush2.extent( [ [0,0], [width,height] ] )
-                  .on("start brush", updateChart2));
-
+                  .on("start brush", updateChart2)
+                  .on("end", brushChart2));
 
 // initialize line label with first team
 let od_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].OD_Salary ;
@@ -466,7 +412,6 @@ function get_average(year_str) {
     }
     return +(totalsalary / yearfilter.length) ; 
   }; 
-
 
 // create a dataset of years and averages
 let all_year_average = [] ;
@@ -549,11 +494,7 @@ function update2(selectedGroup) {
                   .attr("cx", (d) => { return x2(new Date(d.Season, 0, 1)); })
                   .attr("cy", (d) => { return y2(d.OD_Salary); })
                   .attr("r", 5)
-                  .style("fill", (d) => { return color2(selectedGroup); })
-                  .on("mouseover", mouseover2) 
-                  .on("mousemove", mousemove2)
-                  .on("mouseleave", mouseleave2);
-    // TODO add in transitions for line, circle, label ?
+                  .style("fill", (d) => { return color2(selectedGroup); });
 
     // updated line label data
     od_2018 = dataFilter[dataFilter.length - 1].OD_Salary ; 
@@ -566,6 +507,35 @@ function update2(selectedGroup) {
   
 // brushing and linking code ------------------------------------------------------------------------------------
 
+// add the div for tooltip
+  const tooltip1 = d3.select("body")
+                     .append("div")
+                     .attr("id", "tooltip1")
+                     .style("opacity", 0)
+                     .attr("class", "tooltip");
+
+  // add the div for tooltip
+  const tooltip2 = d3.select("body")
+                        .append("div")
+                        .attr("id", "tooltip2")
+                        .style("opacity", 0)
+                        .attr("class", "tooltip");
+
+  // add the div for tooltip
+  const tooltip3 = d3.select("body")
+    .append("div")
+    .attr("id", "tooltip3")
+    .style("opacity", 0)
+    .attr("class", "tooltip");
+
+
+  // add the div for tooltip
+  const tooltip4 = d3.select("body")
+  .append("div")
+  .attr("id", "tooltip4")
+  .style("opacity", 0)
+  .attr("class", "tooltip");
+
   // remove existing brushes from the page
   function clear() {
     svg1.append('g')
@@ -576,14 +546,238 @@ function update2(selectedGroup) {
         .call(brush2.move, null);
 };
 
+//let selected_values1 = new Set();
+let selected_values1 = [];
+let selected_values2 = [];
+
+function updateChart1(brushEvent, d) {
+
+  let extent = brushEvent.selection;
+
+  // if circle is brushed, add border
+  circles.classed("border", (d) => {
+    return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
+  });
+    
+  // if circle is brushed, add border
+  circles2.classed("border", (d) => {
+    return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
+  });
+};
+
+// add the tooltip to brushed circles
+function brushChart1(brushEvent) {
+  let extent = brushEvent.selection;
+
+  // if circle is brushed, add to Set (for tooltip)
+  circles.classed("id", (d) => { 
+    if (isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score)) && !selected_values1.includes(d.Season)) {
+      selected_values1.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;Percent Wins: " + d.Success_Score + "%" + "<br>"); };
+    });
+
+  // add corresponding circles on OD Salary graph to Set for tooltip
+  circles2.classed("id", (d) => { 
+    if (isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score)) && !selected_values2.includes(d.Season)) {
+      selected_values2.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;OD Salary: $" + d3.format(",.2f")(+d.OD_Salary) + "<br>"); };
+    });
+
+  // initialize empty html string
+  html_string = "";
+  html_string2 = "";
+
+  // build up the html string for the tooltip
+  for (let i = 0; i < selected_values1.length; i++) {
+
+    // for every value in selected values add them "aside"
+    html_string += selected_values1[i] + "<aside>" ; 
+  };
+
+  for (let j=0; j<selected_values2.length; j++){
+    html_string2 += selected_values2[j] + "<aside>" ;
+  };
+
+  // update the tooltip with the values
+  if (html_string == "") {
+      tooltip1.style("opacity", 0);
+    } else {
+      tooltip1.html(html_string)
+              .style("opacity", 1)
+              .style("left", 450 + "px")
+              .style("top", 1050 + "px");
+    };
+
+  if (html_string2 == "") {
+    tooltip2.style("opacity", 0);
+  } else {
+    tooltip2.html(html_string2)
+            .style("opacity", 1)
+            .style("left", 825 + "px")
+            .style("top", 800 + "px")
+  };
+
+  
+  selected_values1 = [];
+  selected_values2 = [];
+};
+
+// call when OD salary line graph is brushed
+function updateChart2(brushEvent) {
+
+  let extent = brushEvent.selection;
+  
+  circles2.classed("border", (d) => {
+    return isBrushed(extent, x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary)); 
+   });
+
+   circles.classed("border", (d) => {
+    return isBrushed(extent,  x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary));
+  });
+};
+
+// function to add the tooltip for brushed circles
+function brushChart2(brushEvent) {
+  let extent = brushEvent.selection;
+
+  circles2.classed("id", (d) => {
+    if (isBrushed(extent, x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary)) && !selected_values1.includes(d.Season)) {
+      selected_values1.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;OD Salary $: " + d3.format(",.2f")(+d.OD_Salary) + "<br>"); };
+  });
+
+  circles.classed("id", (d) => { 
+    if (isBrushed(extent, x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary)) && !selected_values2.includes(d.Season)) {
+      selected_values2.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;Percent Wins: " + d.Success_Score + "% <br>"); }
+    });
+
+  // initialize empty html string
+  html_string = "";
+  html_string2 = "";
+
+  // build up the html string for the tooltip
+  for (let i = 0; i < selected_values1.length; i++) {
+
+    // for every value in selected values add them "aside"
+    html_string += selected_values1[i] + "<aside>" ; 
+  };
+
+  for (let j=0; j<selected_values2.length; j++){
+    html_string2 += selected_values2[j] + "<aside>" ;
+  };
+
+  // update the tooltip with the values
+  if (html_string == "") {
+      tooltip2.style("opacity", 0);
+    } else {
+      tooltip2.html(html_string)
+              .style("opacity", 1)
+              .style("left", 450 + "px")
+              .style("top", 1050 + "px");
+    };
+
+  if (html_string2 == "") {
+    tooltip1.style("opacity", 0);
+  } else {
+    tooltip1.html(html_string2)
+            .style("opacity", 1)
+            .style("left", 825 + "px")
+            .style("top", 800 + "px")
+  };
+
+  selected_values1 = [];
+  selected_values2 = [];
+
+  /*
+  let extent = brushEvent.selection;
+
+  // if circle is brushed, add to Set (for tooltip)
+  circles.classed("id", (d) => { 
+    if (isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score)) && !selected_values1.includes(d.Season)) {
+      selected_values1.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;Percent Wins: " + d.Success_Score + "%" + "<br>"); }
+    });
+
+  // add corresponding circles on OD Salary graph to Set for tooltip
+  circles2.classed("id", (d) => { 
+    if (isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score)) && !selected_values2.includes(d.Season)) {
+      selected_values2.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;OD Salary: $" + d3.format(",.2f")(+d.OD_Salary) + "<br>"); }
+    });
+
+  // initialize empty html string
+  html_string = "";
+  html_string2 = "";
+
+  // build up the html string for the tooltip
+  for (let i = 0; i < selected_values1.length; i++) {
+
+    // for every value in selected values add them "aside"
+    html_string += selected_values1[i] + "<aside>" ; 
+  };
+
+  for (let j=0; j<selected_values2.length; j++){
+    html_string2 += selected_values2[j] + "<aside>" ;
+  };
+
+  // update the tooltip with the values
+  if (html_string == "") {
+      tooltip1.style("opacity", 0);
+    } else {
+      tooltip1.html(html_string)
+              .style("opacity", 1)
+              .style("left", 450 + "px")
+              .style("top", 1050 + "px");
+    };
+
+  if (html_string2 == "") {
+    tooltip2.style("opacity", 0);
+  } else {
+    tooltip2.html(html_string2)
+            .style("opacity", 1)
+            .style("left", 825 + "px")
+            .style("top", 800 + "px")
+  };
+
+  
+  selected_values1 = [];
+  selected_values2 = [];
+  */
+}
+
+  // finds the dots in the brushed region
+  function isBrushed(brush_coords, cx, cy) {
+    if (brush_coords === null) return;
+
+    let x0 = brush_coords[0][0],
+      x1 = brush_coords[1][0],
+      y0 = brush_coords[0][1],
+      y1 = brush_coords[1][1];
+    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+  };
+
+  // run the update function for both graphs when a new team is selected from dropdown
+  d3.select("#selectButton").on("change", function(event,d) {
+    // determine the user's selected option
+    const selectedOption2 = d3.select(this).property("value")
+
+    // clear all existing circles to add new circles
+    circles.remove();
+    circles2.remove();
+    
+    // run both update functions with the user's selection
+    update(selectedOption2)
+    update2(selectedOption2)
+  });
+
+
+
+
+
+
+/*
 // call when success score line graph is brushed
 function updateChart1(brushEvent) {
 
   let extent = brushEvent.selection;
 
   circles.classed("border", (d) => {
-    return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
-  });
+    return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score)); });
   
   circles2.classed("border", (d) => {
     return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
@@ -628,6 +822,8 @@ function updateChart2(brushEvent) {
     update(selectedOption2)
     update2(selectedOption2)
   });
+*/
+
 });
 
 
