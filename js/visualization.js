@@ -39,6 +39,43 @@ const svg4 = d3.select("#vis-container2")
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);  
 
+// legend for bracket
+const svg5 = d3.select("#vis-container2")
+                .append("svg")
+                .attr("width", 1800)
+                .attr("height", 200)
+                .attr("viewBox", [0, 0, width, height/2]);
+
+//scale for bracket colors
+const bracketColor = d3.scaleLinear()
+    .domain([18825200, 224021260])
+    .range(['white','#002370']);
+
+const defs = svg5.append('defs');
+
+const linearGradient = defs.append('linearGradient')
+                  .attr('id', 'linear-gradient');
+
+linearGradient.attr('x1', "0%")
+              .attr('y1', "0%")
+              .attr('x2', "100%")
+              .attr('y2', "0%")
+linearGradient.append("stop")
+    .attr('offset', "0%")
+    .attr("stop-color", "white");
+linearGradient.append('stop')
+    .attr('offset', "100%")
+    .attr('stop-color', '#002370');
+//adding rectangle
+svg5.append("rect")
+   .attr('x', 0)
+   .attr('y', 0)
+   .attr('width', width - margin.right - margin.left)
+   .attr('height', 40)
+   .style('fill', "url(#linear-gradient)");
+
+
+
 // dictionary for team names and abbreviations
 let team_abbreviations = {
   'Atlanta Braves' : 'ATL',
@@ -604,11 +641,6 @@ d3.csv("data/postseason_data.csv").then((data) => {
                         .style("opacity", 0)
                         .attr("class", "tooltip");
 
-  // add color scale for the gradient scale
-  const gradient = d3.scaleLinear()
-        .range(["white", "#002370"])
-        .domain([18825200, 224021260]) ; 
-
 // get the world series winner
 function getWSWinner(year) {
   // filter by year and worldseries as the series played;
@@ -779,7 +811,7 @@ function drawTreeAL(treeData) {
                     gradient_filter = data2.filter((d2) => {
                       return (d2.Season == yearAL && d2.Team == team_abbreviations[d.data.name]) });
                     gradient_salary = gradient_filter[0].OD_Salary
-                    return gradient(gradient_salary); })
+                    return bracketColor(gradient_salary); })
                   .on("mouseover", mouseover3) 
                   .on("mousemove", mousemove3)
                   .on("mouseleave", mouseleave3)
@@ -989,7 +1021,7 @@ function update4(source) {
                 gradient_filter = data2.filter((d2) => {
                   return (d2.Season == yearAL && d2.Team == team_abbreviations[d.data.name]) });
                 gradient_salary = gradient_filter[0].OD_Salary
-                return gradient(gradient_salary); })
+                return bracketColor(gradient_salary); })
                 .on("mouseover", mouseover3) 
                 .on("mousemove", mousemove3)
                 .on("mouseleave", mouseleave3)
@@ -1058,6 +1090,14 @@ function update5(selectedYear) {
   drawTreeAL(treeData) ; 
   // draw new tree
   drawTreeNL(treeDataNL) ;
+
+  //axis scale for bracket legend
+  axisScale = d3.scaleLinear()
+      .domain(gradient.domain())
+      .range([margin.left, width - margin.right])
+      .call(d3.axisBottom(axisScale)
+        .ticks(width / 80));
+  
 };
 
 // run the update function for both graphs when a new team is selected from dropdown
