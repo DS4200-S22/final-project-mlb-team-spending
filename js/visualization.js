@@ -51,31 +51,61 @@ const bracketColor = d3.scaleLinear()
     .domain([18825200, 224021260])
     .range(['white','#002370']);
 
+// append a defs (for definition) element
 const defs = svg5.append('defs');
 
+// append gradient element to the defs
 const linearGradient = defs.append('linearGradient')
-                  .attr('id', 'linear-gradient');
+                           .attr('id', 'linear-gradient');
 
+// horizontal gradient
 linearGradient.attr('x1', "0%")
               .attr('y1', "0%")
               .attr('x2', "100%")
               .attr('y2', "0%")
 
-linearGradient.append("stop")
-    .attr('offset', "0%")
-    .attr("stop-color", "white");
+// append multiple color stops by using D3's data/enter step
+linearGradient.selectAll("stop")
+      .data([
+        {offset: "0%", color: "#FFFFFF"},
+        {offset: "25%", color: "#BFC8DB"},
+        {offset: "50%", color: "#8091B8"},
+        {offset: "75%", color: "#405B94"},
+        {offset: "100%", color: "#002370"}
+      ])
+    .enter()
+    .append("stop")
+		.attr("offset", (d) => { return d.offset; })
+		.attr("stop-color", (d) => { return d.color; });
 
-linearGradient.append('stop')
-    .attr('offset', "100%")
-    .attr('stop-color', '#002370');
-
-// adding rectangle
+// adding rectangle to the svg
 svg5.append("rect")
-   .attr('x', 0)
+   .attr('x', 50)
    .attr('y', 0)
    .attr('width', width - margin.right - margin.left)
    .attr('height', 40)
    .style('fill', "url(#linear-gradient)");
+  
+// append title to svg
+	svg5.append("text")
+		  .attr("class", "legendTitle")
+		  .attr("x", 50)
+		  .attr("y", -10)
+		  .style("text-anchor", "left")
+		  .text("Team Spending on Opening Day ($)");
+
+// create the tick marks for the legend/scale
+let xLegend = d3.scaleLinear()
+                .domain([18825200, 224021260])
+                .range([0, (width - margin.right - margin.left)]);
+          
+let axisLeg = d3.axisBottom(xLegend);
+
+// add the legend to the rectangle
+svg5.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(50, 40)")
+    .call(axisLeg);
 
 // dictionary for team names and abbreviations
 let team_abbreviations = {
