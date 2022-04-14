@@ -1,18 +1,18 @@
 
 // set margins and dimensions 
 const margin = { top: 50, right: 50, bottom: 50, left: 200 };
-const width = 900; //- margin.left - margin.right;
-const height = 650; //- margin.top - margin.bottom;
+const width = 900; 
+const height = 650; 
 const yTooltipOffset = 15; 
 
-// append svg object to house Success Score Line Graph
+// append svg object to house Percent Wins Line Graph
 const svg1 = d3.select("#vis-container")
                 .append("svg")
                 .attr("width", width - margin.left - margin.right)
                 .attr("height", height - margin.top - margin.bottom)
                 .attr("viewBox", [0, 0, width, height]);
 
-// initialize the brush for the success score line graph
+// initialize the brush for the percent wins line graph
 let brush1; 
 
 // append svg object to house OD Salary Line Graph
@@ -44,12 +44,9 @@ const svg5 = d3.select("#vis-container2")
                 .append("svg")
                 .attr("width", width - margin.left - margin.right)
                 .attr("height", height - margin.top - margin.bottom)
-                .attr("viewBox", [0, 0, width, height]);  
-                /*.attr("width", 1800)
-                .attr("height", 200)
-                .attr("viewBox", [0, 0, width, height/2]);*/
+                .attr("viewBox", [0, 0, width, height]);
 
-//scale for bracket colors
+// scale for bracket colors
 const bracketColor = d3.scaleLinear()
     .domain([18825200, 224021260])
     .range(['white','#002370']);
@@ -63,21 +60,22 @@ linearGradient.attr('x1', "0%")
               .attr('y1', "0%")
               .attr('x2', "100%")
               .attr('y2', "0%")
+
 linearGradient.append("stop")
     .attr('offset', "0%")
     .attr("stop-color", "white");
+
 linearGradient.append('stop')
     .attr('offset', "100%")
     .attr('stop-color', '#002370');
-//adding rectangle
+
+// adding rectangle
 svg5.append("rect")
    .attr('x', 0)
    .attr('y', 0)
    .attr('width', width - margin.right - margin.left)
    .attr('height', 40)
    .style('fill', "url(#linear-gradient)");
-
-
 
 // dictionary for team names and abbreviations
 let team_abbreviations = {
@@ -150,7 +148,6 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
                    .attr("fill", "black")
                    .attr("text-anchor", "end")
                    .text(xKey1)
-                   // TODO: make sure graph has x-axis label
                    );
   
   // find max success score
@@ -185,7 +182,7 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
   // add the options to the button
   d3.select("#selectButton")
     .selectAll('myOptions')
-    .data(fullnames) // change to fullname for select button
+    .data(fullnames) 
     .enter()
     .append('option')
     .text((d) => { return d; }) 
@@ -221,18 +218,13 @@ circles = svg1.selectAll("circle")
                  .attr("cy", (d) => { return y1(d.Success_Score); })
                  .attr("r", 5)
                  .style("fill", (d) => { return color("valueA"); });
-                 //.on("mouseover", mouseover1) 
-                 //.on("mousemove", mousemove1)
-                 //.on("mouseleave", mouseleave1);
 
 // define brush 1
-brush1 = d3.brush();
-
-// add brush 1 to svg
-svg1.append("g")
-    .attr("class", "brush")
-    .call(brush1.extent( [ [0,0], [width,height] ] )
-                .on("start brush", updateChart1)
+brush1 = d3.brush().extent([[0,0], [width, height]]);
+  
+// add brush1
+svg1.call(brush1.on("start", clear)
+                .on("brush", updateChart1)
                 .on("end", brushChart1));
 
 // initialize line label with first team
@@ -247,6 +239,7 @@ const label = svg1.append("text")
   // function to update the chart
 function update(selectedGroup) {
 
+  // get the abbreviation of the selected group
   selectedGroup = team_abbreviations[selectedGroup];
   
   // create new data with the selection
@@ -256,8 +249,6 @@ function update(selectedGroup) {
     // updated line data
     line
         .datum(dataFilter)
-        //.transition()
-        //.duration(1000)
         .attr("d", d3.line()
                       .x((d) => { return x1(new Date(d.Season, 0, 1)); })
                       .y((d) => { return y1(d.Success_Score); }))
@@ -312,7 +303,6 @@ function update(selectedGroup) {
                    .attr("fill", "black")
                    .attr("text-anchor", "end")
                    .text(xKey2)
-                   // TODO: make sure graph has x-axis label
                    );
 
     // find max OD salary
@@ -323,7 +313,7 @@ function update(selectedGroup) {
               .domain([0, maxY2])
               .range([height - margin.bottom, margin.top]);
 
-    // add y axis 
+  // add y axis 
   svg2.append("g")
           .attr("transform", `translate(${margin.left}, 0)`) 
           .call(d3.axisLeft(y2)) 
@@ -335,16 +325,11 @@ function update(selectedGroup) {
                         .attr("text-anchor", "end")
                         .text(yKey2));
 
-// function to format the salary in dollar form
-function currency(current_int) {
-  return "$" + d3.format(",.2f")(current_int);
-};
-
 // group by the team name
 let sumstat2 = d3.group(data, d => d.Team);
 
 // list of group names
-let res2= Array.from(sumstat2.keys());
+let res2 = Array.from(sumstat2.keys());
 
 // setting the color for each team (hex codes from the teams)
 const color2 = d3.scaleOrdinal()
@@ -378,15 +363,14 @@ circles2 = svg2.selectAll("circle")
                    .attr("cy", (d) => { return y2(d.OD_Salary); })
                    .attr("r", 5)
                    .style("fill", (d) => { return color2("valueA"); });
+      
+// define brush 2
+brush2 = d3.brush().extent([[0,0], [width, height]]);
 
-  // define brush 2
-  brush2 = d3.brush();
-
-  // add brush 2 to svg
-  svg2.append("g").attr("class", "brush")
-      .call(brush2.extent( [ [0,0], [width,height] ] )
-                  .on("start brush", updateChart2)
-                  .on("end", brushChart2));
+// add brush to svg 2
+svg2.call(brush2.on("start", clear)
+                .on("brush", updateChart2)
+                .on("end", brushChart2));
 
 // initialize line label with first team
 let od_2018 = data.filter((d) => {return d.Team == "ATL"})[data.filter((d) => {return d.Team == "ATL"}).length - 1].OD_Salary ;
@@ -402,6 +386,7 @@ const label2 = svg2.append("text")
 let year_groups = d3.group(data, d => d.Season);
 let all_years = Array.from(year_groups.keys());
 
+// get the average OD salary for a year
 function get_average(year_str) {
     let yearfilter = year_groups.get(year_str);
     totalsalary = 0;
@@ -417,7 +402,7 @@ function get_average(year_str) {
 let all_year_average = [] ;
 let year_average = {} ;
 
-for (let i = 0; i < all_years.length; i++) { // for every year...
+for (let i = 0; i < all_years.length; i++) {
   // select that year
   year = all_years[i];
 
@@ -453,6 +438,7 @@ const avg_label = svg2.append("text")
               .text("avg.")
               .attr("id", "avgline_label");
               
+// add a button to toggle average salary line
 let salary_button = document.querySelector('#salaryButton');
 
 // add event listener to toggle the average salary line
@@ -472,6 +458,7 @@ salary_button.addEventListener('click', () => {
 // function to update the chart
 function update2(selectedGroup) {
 
+  // get the abbreviation of the selected group
   selectedGroup = team_abbreviations[selectedGroup];
 
   // create new data with the selection
@@ -521,37 +508,18 @@ function update2(selectedGroup) {
                         .style("opacity", 0)
                         .attr("class", "tooltip");
 
-  // add the div for tooltip
-  const tooltip3 = d3.select("body")
-    .append("div")
-    .attr("id", "tooltip3")
-    .style("opacity", 0)
-    .attr("class", "tooltip");
-
-
-  // add the div for tooltip
-  const tooltip4 = d3.select("body")
-  .append("div")
-  .attr("id", "tooltip4")
-  .style("opacity", 0)
-  .attr("class", "tooltip");
-
-  // remove existing brushes from the page
-  function clear() {
-    svg1.append('g')
-        .on("start brush", updateChart1)
-        .call(brush1.move, null);
-    svg2.append('g')
-        .on("start brush", updateChart2)
-        .call(brush2.move, null);
+ // remove existing brushes 
+ function clear() {
+  svg1.call(brush1.move, null);
+  svg2.call(brush2.move, null)
 };
 
-//let selected_values1 = new Set();
+// define empty arrays for selected circles
 let selected_values1 = [];
 let selected_values2 = [];
 
+// add borders to the brushed circles and respective circles on other graph
 function updateChart1(brushEvent, d) {
-
   let extent = brushEvent.selection;
 
   // if circle is brushed, add border
@@ -587,13 +555,11 @@ function brushChart1(brushEvent) {
 
   // build up the html string for the tooltip
   for (let i = 0; i < selected_values1.length; i++) {
-
-    // for every value in selected values add them "aside"
-    html_string += selected_values1[i] + "<aside>" ; 
+    html_string += selected_values1[i] ; 
   };
 
   for (let j=0; j<selected_values2.length; j++){
-    html_string2 += selected_values2[j] + "<aside>" ;
+    html_string2 += selected_values2[j] ;
   };
 
   // update the tooltip with the values
@@ -602,8 +568,8 @@ function brushChart1(brushEvent) {
     } else {
       tooltip1.html(html_string)
               .style("opacity", 1)
-              .style("left", 450 + "px")
-              .style("top", 1050 + "px");
+              .style("left", width/2 + "px")
+              .style("top", height*1.6 + "px");
     };
 
   if (html_string2 == "") {
@@ -611,18 +577,17 @@ function brushChart1(brushEvent) {
   } else {
     tooltip2.html(html_string2)
             .style("opacity", 1)
-            .style("left", 825 + "px")
-            .style("top", 800 + "px")
+            .style("left", width*0.925 + "px")
+            .style("top", height*1.2 + "px")
   };
 
-  
+  // clear the selected values
   selected_values1 = [];
   selected_values2 = [];
 };
 
 // call when OD salary line graph is brushed
 function updateChart2(brushEvent) {
-
   let extent = brushEvent.selection;
   
   circles2.classed("border", (d) => {
@@ -654,13 +619,11 @@ function brushChart2(brushEvent) {
 
   // build up the html string for the tooltip
   for (let i = 0; i < selected_values1.length; i++) {
-
-    // for every value in selected values add them "aside"
-    html_string += selected_values1[i] + "<aside>" ; 
+    html_string += selected_values1[i] ; 
   };
 
   for (let j=0; j<selected_values2.length; j++){
-    html_string2 += selected_values2[j] + "<aside>" ;
+    html_string2 += selected_values2[j] ;
   };
 
   // update the tooltip with the values
@@ -669,8 +632,8 @@ function brushChart2(brushEvent) {
     } else {
       tooltip2.html(html_string)
               .style("opacity", 1)
-              .style("left", 450 + "px")
-              .style("top", 1050 + "px");
+              .style("left", "on".pageX + "px")
+              .style("top", "on".pageY + yTooltipOffset + "px");
     };
 
   if (html_string2 == "") {
@@ -678,151 +641,48 @@ function brushChart2(brushEvent) {
   } else {
     tooltip1.html(html_string2)
             .style("opacity", 1)
-            .style("left", 825 + "px")
-            .style("top", 800 + "px")
+            .style("left", "on".pageX + "px")
+            .style("top", pageY + yTooltipOffset + "px");
   };
 
+  // clear selected values
   selected_values1 = [];
   selected_values2 = [];
+};
 
-  /*
-  let extent = brushEvent.selection;
+  // finds the dots in the brushed region
+  function isBrushed(brush_coords, cx, cy) {
+    if (brush_coords === null) return;
 
-  // if circle is brushed, add to Set (for tooltip)
-  circles.classed("id", (d) => { 
-    if (isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score)) && !selected_values1.includes(d.Season)) {
-      selected_values1.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;Percent Wins: " + d.Success_Score + "%" + "<br>"); }
-    });
-
-  // add corresponding circles on OD Salary graph to Set for tooltip
-  circles2.classed("id", (d) => { 
-    if (isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score)) && !selected_values2.includes(d.Season)) {
-      selected_values2.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;OD Salary: $" + d3.format(",.2f")(+d.OD_Salary) + "<br>"); }
-    });
-
-  // initialize empty html string
-  html_string = "";
-  html_string2 = "";
-
-  // build up the html string for the tooltip
-  for (let i = 0; i < selected_values1.length; i++) {
-
-    // for every value in selected values add them "aside"
-    html_string += selected_values1[i] + "<aside>" ; 
+    let x0 = brush_coords[0][0],
+      x1 = brush_coords[1][0],
+      y0 = brush_coords[0][1],
+      y1 = brush_coords[1][1];
+    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
   };
 
-  for (let j=0; j<selected_values2.length; j++){
-    html_string2 += selected_values2[j] + "<aside>" ;
-  };
+  // run the update function for both graphs when a new team is selected from dropdown
+  d3.select("#selectButton").on("change", function(event,d) {
+    // determine the user's selected option
+    const selectedOption2 = d3.select(this).property("value")
 
-  // update the tooltip with the values
-  if (html_string == "") {
-      tooltip1.style("opacity", 0);
-    } else {
-      tooltip1.html(html_string)
-              .style("opacity", 1)
-              .style("left", 450 + "px")
-              .style("top", 1050 + "px");
-    };
+    // clear all existing circles to add new circles
+    circles.remove();
+    circles2.remove();
 
-  if (html_string2 == "") {
+    // clear the brush on both graphs
+    svg1.call(d3.brush().clear);
+    svg2.call(d3.brush().clear);
+
+    // clear the tooltip on both graphs
+    tooltip1.style("opacity", 0);
     tooltip2.style("opacity", 0);
-  } else {
-    tooltip2.html(html_string2)
-            .style("opacity", 1)
-            .style("left", 825 + "px")
-            .style("top", 800 + "px")
-  };
-
-  
-  selected_values1 = [];
-  selected_values2 = [];
-  */
-}
-
-  // finds the dots in the brushed region
-  function isBrushed(brush_coords, cx, cy) {
-    if (brush_coords === null) return;
-
-    let x0 = brush_coords[0][0],
-      x1 = brush_coords[1][0],
-      y0 = brush_coords[0][1],
-      y1 = brush_coords[1][1];
-    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
-  };
-
-  // run the update function for both graphs when a new team is selected from dropdown
-  d3.select("#selectButton").on("change", function(event,d) {
-    // determine the user's selected option
-    const selectedOption2 = d3.select(this).property("value")
-
-    // clear all existing circles to add new circles
-    circles.remove();
-    circles2.remove();
     
     // run both update functions with the user's selection
     update(selectedOption2)
     update2(selectedOption2)
+
   });
-
-
-
-
-
-
-/*
-// call when success score line graph is brushed
-function updateChart1(brushEvent) {
-
-  let extent = brushEvent.selection;
-
-  circles.classed("border", (d) => {
-    return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score)); });
-  
-  circles2.classed("border", (d) => {
-    return isBrushed(extent, x1(new Date(d.Season, 0, 1)), y1(d.Success_Score));
-  });
-};
-
-// call when OD salary line graph is brushed
-function updateChart2(brushEvent) {
-
-  let extent = brushEvent.selection;
-  
-  circles2.classed("border", (d) => {
-    return isBrushed(extent, x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary)); 
-   });
-
-   circles.classed("border", (d) => {
-    return isBrushed(extent,  x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary));
-  });
-};
-
-  // finds the dots in the brushed region
-  function isBrushed(brush_coords, cx, cy) {
-    if (brush_coords === null) return;
-
-    let x0 = brush_coords[0][0],
-      x1 = brush_coords[1][0],
-      y0 = brush_coords[0][1],
-      y1 = brush_coords[1][1];
-    return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
-  };
-
-  // run the update function for both graphs when a new team is selected from dropdown
-  d3.select("#selectButton").on("change", function(event,d) {
-    // determine the user's selected option
-    const selectedOption2 = d3.select(this).property("value")
-
-    // clear all existing circles to add new circles
-    circles.remove();
-    circles2.remove();
-    
-    // run both update functions with the user's selection
-    update(selectedOption2)
-    update2(selectedOption2)
-  });
-*/
 
 });
 
@@ -1094,7 +954,6 @@ function assignNLBracket(year) {
         // losing d2 team
             d2_loser = division2[0].Losing_Team ;
               
-
   // build the bracket with this data
   let bracketNL = 
     {"name": c_winner,
@@ -1184,7 +1043,6 @@ function update4(source) {
    .attr("transform", function(d) {
        return "translate(" + (60 + d.y) + "," + d.x + ")";
     });
-
 
  // read in the general data to determine the OD salary of the nodes for the heatmap
   d3.csv("data/final_mlb_data.csv").then((data2) => {
@@ -1287,7 +1145,7 @@ function update5(selectedYear) {
   // draw new tree
   drawTreeNL(treeDataNL) ;
 
-  //axis scale for bracket legend
+  // axis scale for bracket legend
   axisScale = d3.scaleLinear()
       .domain(gradient.domain())
       .range([margin.left, width - margin.right])
