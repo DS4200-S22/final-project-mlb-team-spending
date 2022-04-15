@@ -680,8 +680,8 @@ function brushChart2(brushEvent) {
   } else {
     tooltip2.html(html_string)
             .style("opacity", 1)
-            .style("left", width/2 + "px")
-            .style("top", height*1.6 + "px");
+            .style("left", width*0.925 + "px")
+            .style("top", height*1.2 + "px");
   };
 
 if (html_string2 == "") {
@@ -689,8 +689,9 @@ if (html_string2 == "") {
 } else {
   tooltip1.html(html_string2)
           .style("opacity", 1)
-          .style("left", width*0.925 + "px")
-          .style("top", height*1.2 + "px")
+          .style("left", width/2 + "px")
+          .style("top", height*1.6 + "px");
+
 };
 
   // clear selected values
