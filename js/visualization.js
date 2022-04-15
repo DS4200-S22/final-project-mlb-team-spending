@@ -150,6 +150,15 @@ d3.csv("data/final_mlb_data.csv").then((data) => {
 
   // success score over seasons line graph 
   {
+    // add the chart title
+    svg1.append("text")
+		  .attr("class", "legendTitle")
+		  .attr("x", 275)
+		  .attr("y", -10)
+		  .text("Team Percent Wins Over Seasons")
+      .style("font-size", 30)
+      .style("fill", "black");
+
     xKey1 = 'Season';
     yKey1 = 'Success_Score';
 
@@ -305,6 +314,15 @@ function update(selectedGroup) {
 
   // spending over seasons line graph
   {
+    // add the chart title
+    svg2.append("text")
+    .attr("class", "legendTitle")
+    .attr("x", 275)
+    .attr("y", -10)
+    .text("Team Salary on Opening Day Over Seasons")
+    .style("font-size", 30)
+    .style("fill", "black");
+
     xKey2 = 'Season';
     yKey2 = 'OD_Salary';
 
@@ -658,22 +676,22 @@ function brushChart2(brushEvent) {
 
   // update the tooltip with the values
   if (html_string == "") {
-      tooltip2.style("opacity", 0);
-    } else {
-      tooltip2.html(html_string)
-              .style("opacity", 1)
-              .style("left", "on".pageX + "px")
-              .style("top", "on".pageY + yTooltipOffset + "px");
-    };
-
-  if (html_string2 == "") {
-    tooltip1.style("opacity", 0);
+    tooltip2.style("opacity", 0);
   } else {
-    tooltip1.html(html_string2)
+    tooltip2.html(html_string)
             .style("opacity", 1)
-            .style("left", "on".pageX + "px")
-            .style("top", pageY + yTooltipOffset + "px");
+            .style("left", width/2 + "px")
+            .style("top", height*1.6 + "px");
   };
+
+if (html_string2 == "") {
+  tooltip1.style("opacity", 0);
+} else {
+  tooltip1.html(html_string2)
+          .style("opacity", 1)
+          .style("left", width*0.925 + "px")
+          .style("top", height*1.2 + "px")
+};
 
   // clear selected values
   selected_values1 = [];
@@ -719,6 +737,55 @@ function brushChart2(brushEvent) {
 
 // bracket visualization
 d3.csv("data/postseason_data.csv").then((data) => {
+
+// append svg object to house OD Salary Line Graph
+const svg6 = d3.select("#vis-container2")
+               .append("svg")
+               .attr("width", width - margin.left - margin.right)
+               .attr("height", height - margin.top - margin.bottom)
+               .attr("viewBox", [0, 0, width, height]);
+
+  // add title for postseason bracket
+  svg6.append("text")
+    .attr("class", "legendTitle")
+    .attr("x", 30)
+    .attr("y", -10)
+    .text("Postseason Bracket")
+    .style("font-size", 30)
+    .style("fill", "black");
+
+  // add explanation text about the bracket and data
+  svg6.append("text")
+    .attr("class", "legendTitle")
+    .attr("x", 30)
+    .attr("y", 40)
+    .text("Represents the elimination tournament held after the conclusion of the")
+    .style("font-size", 20)
+    .style("fill", "black");
+
+  svg6.append("text")
+    .attr("class", "legendTitle")
+    .attr("x", 30)
+    .attr("y", 70)
+    .text("Major League Baseball regular season. The World Series concludes the Postseason.")
+    .style("font-size", 20)
+    .style("fill", "black");
+
+  svg6.append("text")
+    .attr("class", "legendTitle")
+    .attr("x", 30)
+    .attr("y", 100)
+    .text("The winner of the World Series is indicated by the yellow border surrounding the team.")
+    .style("font-size", 20)
+    .style("fill", "black");
+
+  svg6.append("text")
+    .attr("class", "legendTitle")
+    .attr("x", 30)
+    .attr("y", 130)
+    .text("The colors of each of the teams represents how much the team has spent that year.")
+    .style("font-size", 20)
+    .style("fill", "black");
 
   // add the div for tooltip
   const tooltip3 = d3.select("body")
