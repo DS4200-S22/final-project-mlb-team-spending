@@ -92,7 +92,7 @@ svg5.append("rect")
 		  .attr("x", 50)
 		  .attr("y", -10)
 		  .style("text-anchor", "left")
-		  .text("Team Spending on Opening Day ($)");
+		  .text("Team Spending on Salary on Opening Day ($)");
 
 // create the tick marks for the legend/scale
 let xLegend = d3.scaleLinear()
@@ -319,7 +319,7 @@ function update(selectedGroup) {
     .attr("class", "legendTitle")
     .attr("x", 275)
     .attr("y", -10)
-    .text("Team Salary on Opening Day Over Seasons")
+    .text("Team Spending on Salary on Opening Day Over Seasons")
     .style("font-size", 30)
     .style("fill", "black");
 
