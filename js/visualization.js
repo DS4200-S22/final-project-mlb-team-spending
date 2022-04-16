@@ -317,7 +317,7 @@ function update(selectedGroup) {
     // add the chart title
     svg2.append("text")
     .attr("class", "legendTitle")
-    .attr("x", 275)
+    .attr("x", 190)
     .attr("y", -10)
     .text("Team Spending on Salary on Opening Day Over Seasons")
     .style("font-size", 30)
