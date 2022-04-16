@@ -653,7 +653,7 @@ function brushChart2(brushEvent) {
 
   circles2.classed("id", (d) => {
     if (isBrushed(extent, x2(new Date(d.Season, 0, 1)), y2(d.OD_Salary)) && !selected_values1.includes(d.Season)) {
-      selected_values1.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;OD Salary $: " + d3.format(",.2f")(+d.OD_Salary) + "<br>"); };
+      selected_values1.push("Year: " + d.Season + "&nbsp;&nbsp;&nbsp;&nbsp;OD Salary: $" + d3.format(",.2f")(+d.OD_Salary) + "<br>"); };
   });
 
   circles.classed("id", (d) => { 
