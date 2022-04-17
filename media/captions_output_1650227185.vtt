@@ -1,0 +1,128 @@
+WEBVTT
+
+00:00:00.001 --> 00:00:02.770 align:middle line:84%
+Our project is analyzing the correlation between
+
+00:00:02.770 --> 00:00:04.929 align:middle line:84%
+baseball team spending on salary
+
+00:00:04.929 --> 00:00:06.841 align:middle line:84%
+and team success.
+
+00:00:06.841 --> 00:00:09.138 align:middle line:84%
+Our three visualizations show
+
+00:00:09.138 --> 00:00:11.629 align:middle line:84%
+an individual team's percent wins
+
+00:00:11.629 --> 00:00:15.166 align:middle line:84%
+over the 1988 to 2018 seasons,
+
+00:00:15.166 --> 00:00:17.660 align:middle line:84%
+an individual team's spending on salary
+
+00:00:17.660 --> 00:00:20.518 align:middle line:84%
+over the 1988 to 2018 seasons,
+
+00:00:20.518 --> 00:00:21.834 align:middle line:84%
+
+00:00:21.834 --> 00:00:25.163 align:middle line:84%
+and the postseason bracket for each season.
+
+00:00:25.163 --> 00:00:27.823 align:middle line:84%
+Showing team spending on salary
+
+00:00:27.823 --> 00:00:30.654 align:middle line:84%
+on a color gradient scale.
+
+00:00:30.654 --> 00:00:32.725 align:middle line:84%
+
+00:00:32.725 --> 00:00:36.033 align:middle line:84%
+The first two visualizations are meant to answer the question:
+
+00:00:36.033 --> 00:00:39.009 align:middle line:84%
+"Does spending more money on team salary correlate to
+
+00:00:39.009 --> 00:00:40.616 align:middle line:84%
+better team performance?"
+
+00:00:40.616 --> 00:00:41.259 align:middle line:84%
+
+00:00:41.259 --> 00:00:44.895 align:middle line:84%
+The dropdown menu allows you to select the team you would like to look at.
+
+00:00:44.895 --> 00:00:45.902 align:middle line:84%
+
+00:00:45.902 --> 00:00:47.744 align:middle line:84%
+You can brush on one graph,
+
+00:00:47.744 --> 00:00:50.982 align:middle line:84%
+and it will highlight the corresponding points on the other graph.
+
+00:00:50.982 --> 00:00:53.631 align:middle line:84%
+Brushing over the points will also initialize
+
+00:00:53.631 --> 00:00:56.540 align:middle line:84%
+a tooltip to appear on both graphs,
+
+00:00:56.540 --> 00:00:58.497 align:middle line:84%
+displaying the brushed values.
+
+00:00:58.497 --> 00:01:02.203 align:middle line:84%
+Both graphs have brushing and linking capabilities.
+
+00:01:02.203 --> 00:01:06.368 align:middle line:84%
+To gain a better understanding of where team spending lies
+
+00:01:06.368 --> 00:01:08.602 align:middle line:84%
+in relation to other teams' spending,
+
+00:01:08.602 --> 00:01:12.679 align:middle line:84%
+an average salary line can be toggled on and off.
+
+00:01:12.679 --> 00:01:14.886 align:middle line:84%
+
+00:01:14.886 --> 00:01:18.911 align:middle line:84%
+The third visualization is a bracket that represents
+
+00:01:18.911 --> 00:01:22.327 align:middle line:84%
+the elimination tournament held after the conclusion
+
+00:01:22.327 --> 00:01:25.069 align:middle line:84%
+of the Major League Baseball regular season,
+
+00:01:25.069 --> 00:01:27.267 align:middle line:84%
+also known as the Postseason.
+
+00:01:27.267 --> 00:01:31.961 align:middle line:84%
+The World Series is the championship tournament at the end of the Postseason.
+
+00:01:31.961 --> 00:01:34.167 align:middle line:84%
+The winner of the World Series is indicated
+
+00:01:34.167 --> 00:01:37.019 align:middle line:84%
+by the yellow border surrounding the team.
+
+00:01:37.019 --> 00:01:40.429 align:middle line:84%
+The colors inside the circles on the bracket represent
+
+00:01:40.429 --> 00:01:42.893 align:middle line:84%
+how much the team has spent that year.
+
+00:01:42.893 --> 00:01:44.773 align:middle line:84%
+The scale at the bottom shows
+
+00:01:44.773 --> 00:01:48.330 align:middle line:84%
+the color gradient in relation to the scale of team spending.
+
+00:01:48.330 --> 00:01:51.136 align:middle line:84%
+The dropdown menu allows you to select
+
+00:01:51.136 --> 00:01:55.215 align:middle line:84%
+the Postseason year from 2012 to 2018.
+
+00:01:55.215 --> 00:01:58.016 align:middle line:84%
+The tooltip shows the team name,
+
+00:01:58.016 --> 00:02:03.015 align:middle line:84%
+and their exact spending for that year.
